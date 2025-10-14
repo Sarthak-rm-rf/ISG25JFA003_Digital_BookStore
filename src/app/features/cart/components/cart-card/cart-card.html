@@ -1,0 +1,90 @@
+<div class="shopping-cart w-[750px] mx-auto mt-20 bg-white shadow-md rounded-xl flex flex-col p-0">
+  <!-- Title -->
+  <div
+    class="title h-[60px] border-b border-[#E1E8EE] px-[30px] py-5 text-[#5E6977] text-[20px] font-medium bg-transparent"
+  >
+    Shopping Bag
+  </div>
+
+  <!-- Products List -->
+  @for(product of products; track product.name){
+
+  <div
+    class="item flex items-center px-[30px] h-[120px] border-b border-[#E1E8EE] bg-transparent last:border-b-0"
+  >
+    <div class="buttons flex flex-col items-center justify-center w-10 mr-5">
+      <span
+        class="delete-btn w-6 h-6 mb-2 bg-[url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png')] bg-no-repeat bg-center bg-[length:20px_20px] cursor-pointer opacity-50 transition-opacity duration-200 hover:opacity-100"
+        title="Remove"
+      ></span>
+      <span
+        class="like-btn w-6 h-6 bg-[url('https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png')] bg-no-repeat bg-[length:24px_24px] cursor-pointer opacity-50 transition-opacity duration-200"
+        [class.is-active]="product.liked"
+        (click)="toggleLike(product)"
+      ></span>
+    </div>
+
+    <div class="image w-[100px] h-20 mr-[30px] flex items-center justify-center">
+      <img
+        [src]="product.image"
+        alt="Book Cover"
+        class="max-w-[80px] max-h-[80px] rounded object-cover"
+      />
+    </div>
+
+    <div class="description flex-1 pt-0 mr-[30px] w-[180px] flex flex-col justify-center">
+      <span class="block text-[15px] text-[#43484D] font-medium leading-tight mb-0.5">{{
+        product.name
+      }}</span>
+      <span class="block text-[14px] text-[#86939E] font-normal mb-0.5">{{ product.author }}</span>
+      <span class="block text-[13px] text-[#86939E] font-normal">{{ product.rating }}</span>
+    </div>
+
+    <div class="quantity flex items-center mr-[30px]">
+      <button
+        class="plus-btn w-8 h-8 bg-[#E1E8EE] rounded border-none cursor-pointer text-[18px] text-[#43484D] flex items-center justify-center transition-colors duration-200 hover:bg-[#d0d7de]"
+        type="button"
+        name="button"
+        (click)="increaseQuantity(product)"
+      >
+        +
+      </button>
+      <input
+        type="text"
+        name="name"
+        [value]="product.quantity"
+        readonly
+        class="appearance-none border-none text-center w-8 text-[16px] text-[#43484D] font-normal bg-transparent mx-2"
+      />
+      <button
+        class="minus-btn w-8 h-8 bg-[#E1E8EE] rounded border-none cursor-pointer text-[18px] text-[#43484D] flex items-center justify-center transition-colors duration-200 hover:bg-[#d0d7de]"
+        type="button"
+        name="button"
+        (click)="decreaseQuantity(product)"
+      >
+        -
+      </button>
+    </div>
+
+    <div class="total-price w-[83px] text-center text-[16px] text-[#43484D] font-medium">
+      ₹{{ product.price }}
+    </div>
+  </div>
+  }
+
+  <div class="px-6 pb-6 pt-2">
+    <button
+      type="button"
+      class="w-full flex justify-center items-center text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-3 text-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mb-2 h-12"
+      [disabled]="isLoading"
+      (click)="placeOrder()"
+    >
+      <ng-container *ngIf="!isLoading; else loading"> Place Order </ng-container>
+      <ng-template #loading>
+        <span
+          class="animate-spin inline-block w-6 h-6 border-4 border-white border-t-transparent rounded-full"
+        ></span>
+      </ng-template>
+    </button>
+  </div>
+</div>
