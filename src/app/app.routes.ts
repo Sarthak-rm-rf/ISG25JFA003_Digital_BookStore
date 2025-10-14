@@ -1,8 +1,9 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { CartPage } from './features/cart/cart-page/cart-page';;
 import { HomeComponent } from './features/home/home.component';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent },
-    { path: '**', redirectTo: '' }
+    {path: 'cart', component: CartPage},
+    {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)}
 ];
