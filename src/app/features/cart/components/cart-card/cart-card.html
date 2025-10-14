@@ -7,18 +7,19 @@
   </div>
 
   <!-- Products List -->
-  @for(product of products; track product.name){
+  @for(product of products; track product.name; let i = $index){
 
   <div
     class="item flex items-center px-[30px] h-[120px] border-b border-[#E1E8EE] bg-transparent last:border-b-0"
   >
     <div class="buttons flex flex-col items-center justify-center w-10 mr-5">
       <span
+        (click)="deleteProduct(i)"
         class="delete-btn w-6 h-6 mb-2 bg-[url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png')] bg-no-repeat bg-center bg-[length:20px_20px] cursor-pointer opacity-50 transition-opacity duration-200 hover:opacity-100"
         title="Remove"
       ></span>
       <span
-        class="like-btn w-6 h-6 bg-[url('https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png')] bg-no-repeat bg-[length:24px_24px] cursor-pointer opacity-50 transition-opacity duration-200"
+        class="like-btn w-6 h-6 bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-sKTGdCOe3_VjItJzRswIRkl615yGy3ObTg&s')] bg-no-repeat bg-[length:24px_24px] cursor-pointer opacity-50 transition-opacity duration-200"
         [class.is-active]="product.liked"
         (click)="toggleLike(product)"
       ></span>

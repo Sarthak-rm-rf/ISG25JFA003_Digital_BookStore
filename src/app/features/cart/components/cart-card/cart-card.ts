@@ -110,4 +110,8 @@ placeOrder() {
       product.quantity = 100;
     }
   }
+
+  deleteProduct(index: number) {
+    this.products.splice(index, 1);
+  }
 }
