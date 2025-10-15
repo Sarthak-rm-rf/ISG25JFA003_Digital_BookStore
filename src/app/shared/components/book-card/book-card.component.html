@@ -1,4 +1,4 @@
-<div class="book-card">
+<div class="book-card" [routerLink]="['/book', book.bookId]">
     <div class="book-image-container">
         <img [src]="book.imageUrl || 'assets/images/default-book.jpg'" [alt]="book.title" class="book-image">
     </div>
