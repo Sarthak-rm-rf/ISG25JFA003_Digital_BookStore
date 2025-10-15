@@ -1,0 +1,151 @@
+<!-- Modal Overlay: Closes the modal when the dark background is clicked -->
+<div class="modal-overlay" (click)="closeModal.emit()">
+  <!-- Modal Content: stopPropagation prevents clicks inside the modal from closing it -->
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2 class="modal-title">Add a New Address</h2>
+
+    <form (ngSubmit)="saveNewAddress()" #addressForm="ngForm" class="address-form">
+      <!-- Row 1: Full Name & Phone Number -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            [(ngModel)]="newAddress.fullName"
+            required
+            #fullName="ngModel"
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            [(ngModel)]="newAddress.phone"
+            required
+            pattern="[6-9][0-9]{9}"
+            #phone="ngModel"
+          />
+          <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error-text">
+            Please enter a valid 10-digit phone number.
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Address Line 1 -->
+      <div class="form-group">
+        <label for="addressLine1">Address Line 1</label>
+        <input
+          type="text"
+          id="addressLine1"
+          name="addressLine1"
+          [(ngModel)]="newAddress.addressLine1"
+          required
+          #addressLine1="ngModel"
+        />
+      </div>
+
+      <!-- Row 3: Address Line 2 -->
+      <div class="form-group">
+        <label for="addressLine2">Address Line 2 (Optional)</label>
+        <input
+          type="text"
+          id="addressLine2"
+          name="addressLine2"
+          [(ngModel)]="newAddress.addressLine2"
+        />
+      </div>
+
+      <!-- Row 4: Postal Code -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="postalCode">Postal Code</label>
+          <input
+            type="text"
+            id="postalCode"
+            name="postalCode"
+            [(ngModel)]="newAddress.postalCode"
+            required
+            #postalCode="ngModel"
+          />
+        </div>
+        <div class="form-group">
+          <!-- Empty div for layout balance -->
+        </div>
+      </div>
+
+      <!-- Row 5: Country (Searchable Dropdown) -->
+      <div class="form-group dropdown-container">
+        <label for="country">Country</label>
+        <input
+          type="text"
+          id="country"
+          name="country"
+          [(ngModel)]="newAddress.country"
+          (ngModelChange)="filterCountries($event)"
+          (focus)="dropdowns.country = true; filterCountries(newAddress.country)"
+          required
+          autocomplete="off"
+        />
+        <ul class="dropdown-list" *ngIf="dropdowns.country && filteredCountries.length > 0">
+          <li *ngFor="let country of filteredCountries" (click)="selectCountry(country)">
+            {{ country }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Row 6: State & City (Searchable Dropdowns) -->
+      <div class="form-row">
+        <div class="form-group dropdown-container">
+          <label for="state">State</label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            [(ngModel)]="newAddress.state"
+            (ngModelChange)="filterStates($event)"
+            (focus)="dropdowns.state = true; filterStates(newAddress.state)"
+            [disabled]="!newAddress.country"
+            required
+            autocomplete="off"
+          />
+          <ul class="dropdown-list" *ngIf="dropdowns.state && filteredStates.length > 0">
+            <li *ngFor="let state of filteredStates" (click)="selectState(state.name)">
+              {{ state.name }}
+            </li>
+          </ul>
+        </div>
+        <div class="form-group dropdown-container">
+          <label for="city">City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            [(ngModel)]="newAddress.city"
+            (ngModelChange)="filterCities($event)"
+            (focus)="dropdowns.city = true; filterCities(newAddress.city)"
+            [disabled]="!newAddress.state"
+            required
+            autocomplete="off"
+          />
+          <ul class="dropdown-list" *ngIf="dropdowns.city && filteredCities.length > 0">
+            <li *ngFor="let city of filteredCities" (click)="selectCity(city)">
+              {{ city }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Modal Actions: Cancel and Save Buttons -->
+      <div class="modal-actions">
+        <button type="button" (click)="closeModal.emit()" class="cancel-btn">Cancel</button>
+        <button type="submit" [disabled]="!addressForm.form.valid" class="save-btn">
+          Save Address
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

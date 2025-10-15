@@ -1,16 +1,37 @@
-import { NgIf } from '@angular/common';
-import { Component, NgZone } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CartItemsComponent } from "../cart-items/cart-items";
+import { OrderSummaryComponent } from "../order-summary/order-summary";
+import { SavedAddressesComponent } from "../saved-addresses/saved-addresses";
+import { AddAddress } from "../add-address/add-address";
+import { CartService } from 'src/app/core/services/cart.service';
+import { BookService } from 'src/app/core/services/book.service';
+import { ProgressBar } from "@shared/components/progress-bar/progress-bar";
+
+// Import the new child components
 
 @Component({
   selector: 'cart-card',
-  imports: [NgIf],
+  standalone: true,
+  imports: [
+    CommonModule,
+    CartItemsComponent,
+    OrderSummaryComponent,
+    SavedAddressesComponent,
+    AddAddress,
+    ProgressBar
+],
   templateUrl: './cart-card.html',
   styleUrl: './cart-card.css'
 })
-export class CartCard {
+export class CartCard implements OnInit {
+  ngOnInit(): void {
+    this.loadCart();
+  }
 
-  constructor(private zone: NgZone) {}
-
+  // --- Main State Management ---
+  // cart = this.getCart();
+  // cartItems = this.cart.subscribe(cart => cart.cartItems) || [];
   products = [
     {
       image: 'https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg',
@@ -41,77 +62,45 @@ export class CartCard {
     }
   ];
 
-isLoading = false;
-orderConfirmed = false;
-orderDetails: any = {};
 
-getCartTotalPaise(): number {
-  let total = 0;
-  for (const product of this.products) {
-    total += product.price * product.quantity;
+
+  addresses = [
+    { id: 1, fullName: 'Rohan Sharma', phone: '9876543210', addressLine1: '101, Marine Drive Apartments', addressLine2: 'Opposite Wankhede Stadium', postalCode: '400020', city: 'Mumbai', state: 'Maharashtra', country: 'India' },
+    { id: 2, fullName: 'Priya Patel', phone: '9123456780', addressLine1: 'B-2, Hauz Khas Village', addressLine2: '', postalCode: '110016', city: 'New Delhi', state: 'Delhi', country: 'India' },
+  ];
+
+  selectedAddress: any = this.addresses.length > 0 ? this.addresses[0] : null;
+  isAddressModalVisible = false;
+  cartService = inject(CartService);
+  bookService = inject(BookService);
+
+  // --- Event Handlers from Child Components ---
+
+  handleProductUpdate(updatedProducts: any[]) {
+    this.products = updatedProducts;
   }
-  return Math.round(total * 100); // Convert rupees to paise
-}
 
-placeOrder() {
-  this.isLoading = true;
-  setTimeout(() => {
-    this.isLoading = false;
-    const amount = this.getCartTotalPaise();
-    const self = this;
-    const options = {
-      key: 'rzp_test_1DP5mmOlF5G5ag', // Demo key
-      amount: amount, // Amount in paise
-      currency: 'INR',
-      name: 'Bookstore Demo',
-      description: 'Test Transaction',
-      image: 'https://cdn-icons-png.flaticon.com/512/891/891419.png',
-      handler: function (response: any) {
-        self.zone.run(() => {
-          self.products = [];
-          self.orderConfirmed = true;
-          self.orderDetails = {
-            paymentId: response.razorpay_payment_id,
-            amount: amount / 100,
-            date: new Date().toLocaleString()
-          };
-        });
+  handleAddressSelected(address: any) {
+    this.selectedAddress = address;
+  }
+
+  handleSaveAddress(newAddress: any) {
+    const newId = this.addresses.length > 0 ? Math.max(...this.addresses.map(a => a.id)) + 1 : 1;
+    const addressToAdd = { id: newId, ...newAddress };
+    
+    this.addresses.push(addressToAdd);
+    this.selectedAddress = addressToAdd; // Auto-select the new address
+    this.isAddressModalVisible = false;
+  }
+
+  loadCart(){
+    return this.cartService.getCart().subscribe({
+      next: (cart) => {
+        console.log(cart);
       },
-      prefill: {
-        name: 'Demo User',
-        email: 'demo.user@example.com',
-        contact: '9999999999'
-      },
-      theme: {
-        color: '#d76538ff'
+      error: (error) => {
+        console.error('Error loading cart:', error);
       }
-    };
-    const rzp = new (window as any).Razorpay(options);
-    rzp.open();
-  }, 2000);
-}
-
-  toggleLike(product: any) {
-    product.liked = !product.liked;
-  }
-
-  decreaseQuantity(product: any) {
-    if (product.quantity > 1) {
-      product.quantity--;
-    } else {
-      product.quantity = 0;
-    }
-  }
-
-  increaseQuantity(product: any) {
-    if (product.quantity < 100) {
-      product.quantity++;
-    } else {
-      product.quantity = 100;
-    }
-  }
-
-  deleteProduct(index: number) {
-    this.products.splice(index, 1);
+    });
   }
 }

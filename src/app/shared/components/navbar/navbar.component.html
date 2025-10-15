@@ -3,17 +3,24 @@
     <div class="logo">
       <h1>DBMS</h1>
     </div>
+
     <nav class="nav-links">
-      <a href="/" class="active">Home</a>
-      <a href="#">Our Story</a>
-      <a href="#">Catalog</a>
-      <a href="#">Browse</a>
-      <a href="#">Contact</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Home</a>
+      <a routerLink="/our-story" routerLinkActive="active">Our Story</a>
+      <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
+      <a routerLink="/browse" routerLinkActive="active">Browse</a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
     </nav>
-    <!-- <z-switch [(ngModel)]="isDarkMode" (onChange)="toggleTheme()" class="ml-4"></z-switch> -->
-    <div class="auth-buttons">
-      <button class="login-button">Login</button>
-      <button class="signup-button">Sign Up</button>
+
+    <div class="navbar-actions">
+      <!-- ✨ FIX: Using (ngModelChange) for robust event handling -->
+      <z-switch [ngModel]="isDarkMode" (ngModelChange)="toggleTheme($event)" class="theme-switch"></z-switch>
+      <div class="auth-buttons">
+        <button class="login-button">Login</button>
+        <button class="signup-button">Sign Up</button>
+      </div>
     </div>
+    
   </div>
 </header>
+

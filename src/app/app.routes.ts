@@ -9,5 +9,10 @@ export const routes: Routes = [
     {path: 'cart', component: CartPage},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent },
-    {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)}
+   {path: 'order-confirmed', component: OrderConfirmCardPage},
+    {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)},
+  {
+        path: 'user-profile',
+        loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)
+    }
 ];
