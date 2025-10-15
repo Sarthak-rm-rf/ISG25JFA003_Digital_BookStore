@@ -5,5 +5,9 @@ import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     {path: 'cart', component: CartPage},
-    {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)}
+    {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)},
+    {
+        path: 'user-profile',
+        loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)
+    }
 ];
