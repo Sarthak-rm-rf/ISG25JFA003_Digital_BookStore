@@ -1,6 +1,7 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, effect, Input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-summary',
@@ -17,10 +18,17 @@ export class OrderSummaryComponent {
   discount: number = 0;
   couponApplied: boolean = false;
   isLoading: boolean = false; // For place order button
-  orderConfirmed = false;
+  orderConfirmed = signal(false);
   orderDetails: any = {};
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone, router: Router) {
+    effect(() => {
+      if(this.orderConfirmed()){
+        setTimeout(() => router.navigate(['/order-confirmed']), 1000);
+      }
+    })
+  }
+
 
   subtotal(): number {
     return this.products.reduce((acc, p) => acc + p.price * p.quantity, 0);
@@ -65,7 +73,7 @@ export class OrderSummaryComponent {
         handler: function (response: any) {
           self.zone.run(() => {
             self.products = [];
-            self.orderConfirmed = true;
+            self.orderConfirmed.set(true);
             self.orderDetails = {
               paymentId: response.razorpay_payment_id,
               amount: amount / 100,
