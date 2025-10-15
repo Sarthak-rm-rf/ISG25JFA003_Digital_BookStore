@@ -1,0 +1,46 @@
+<div class="summary-container" *ngIf="products.length > 0">
+  <!-- Place Order Button -->
+  <button
+    type="button"
+    class="place-order-btn"
+    [disabled]="isLoading || !selectedAddress"
+    (click)="placeOrder()"
+  >
+    <ng-container *ngIf="!isLoading; else loading"> Place Order </ng-container>
+    <ng-template #loading>
+      <span class="spinner"></span>
+    </ng-template>
+  </button>
+
+  <!-- Order Summary -->
+  <div class="order-summary">
+    <h4 class="summary-title">Order Summary</h4>
+    <div class="summary-row">
+      <span>Subtotal</span>
+      <span>₹{{ subtotal().toFixed(2) }}</span>
+    </div>
+    <div class="summary-row discount">
+      <span>Discount</span>
+      <span>- ₹{{ discount.toFixed(2) }}</span>
+    </div>
+    <div class="coupon-row">
+      <input
+        type="text"
+        placeholder="Enter Coupon Code"
+        [(ngModel)]="couponCode"
+        [disabled]="couponApplied"
+      />
+      <button (click)="applyCoupon()" [disabled]="couponApplied || !couponCode">
+        {{ couponApplied ? 'Applied' : 'Apply' }}
+      </button>
+    </div>
+    <div class="summary-row">
+      <span>GST (18%)</span>
+      <span>+ ₹{{ gstAmount().toFixed(2) }}</span>
+    </div>
+    <div class="summary-total">
+      <span>Total Amount</span>
+      <span>₹{{ totalAmount().toFixed(2) }}</span>
+    </div>
+  </div>
+</div>
