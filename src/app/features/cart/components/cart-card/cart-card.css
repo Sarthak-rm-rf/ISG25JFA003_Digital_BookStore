@@ -1,5 +1,18 @@
-/* Example: in your home.component.css
-.main-content-container {
-  background-color: var(--background);
-  color: var(--foreground);
-} */
+/* This file contains the main layout styles */
+.left-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-column {
+  background-color: #fdfdfd;
+}
+
+/* Include progress tracker styles from the previous step here */
+.progress-tracker-container {
+  padding: 24px 30px;
+  border-bottom: 1px solid #E1E8EE;
+  background-color: #fcfcfc;
+}
+
+/* ... other progress bar styles */

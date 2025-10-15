@@ -1,0 +1,47 @@
+<div class="confirmation-container">
+  <div class="confirmation-card">
+    <div class="header">
+      <svg class="checkmark-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+      </svg>
+      <h1>Order Confirmed!</h1>
+    </div>
+
+    <p class="sub-heading">
+      Thanks for shopping with us. Your order ID is <strong>{{ orderId }}</strong
+      >.
+    </p>
+
+    <hr class="divider" />
+
+    <div class="delivery-card">
+      <div class="delivery-header">
+        <h2>Delivery</h2>
+        <p>You'll receive an email with tracking information when your items ship.</p>
+      </div>
+
+      <div class="delivery-body">
+        <div class="address-section">
+          <h3>Delivery address</h3>
+          <p>{{ deliveryAddress.name }}</p>
+          <p>{{ deliveryAddress.street }}</p>
+          <p>{{ deliveryAddress.city }}, {{ deliveryAddress.zip }}</p>
+        </div>
+
+        <div class="items-section">
+          <h3>Arrives by {{ deliveryDate | date : 'E, MMM d' }}</h3>
+          <div *ngFor="let item of orderedItems" class="item-details">
+            <img [src]="item.imageUrl" alt="{{ item.name }}" class="item-image" />
+            <div class="item-info">
+              <span>{{ item.name }}</span>
+              <span>Qty: {{ item.quantity }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="shop-more-btn" (click)="navigateToHome()">Shop More</button>
+  </div>
+</div>

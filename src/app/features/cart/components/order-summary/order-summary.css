@@ -1,0 +1,18 @@
+.summary-container { padding: 0 24px 24px; }
+.place-order-btn { width: 100%; display: flex; justify-content: center; align-items: center; color: white; background-color: #FF9119; font-weight: 500; border-radius: 8px; font-size: 14px; padding: 12px 20px; text-align: center; height: 48px; border: none; cursor: pointer; transition: background-color 0.2s; }
+.place-order-btn:hover:not(:disabled) { background-color: #e08014; }
+.place-order-btn:disabled { background-color: #ffc991; cursor: not-allowed; }
+.spinner { animation: spin 1s linear infinite; display: inline-block; width: 24px; height: 24px; border: 4px solid white; border-top-color: transparent; border-radius: 50%; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.order-summary { border-top: 1px solid #E1E8EE; margin-top: 24px; padding-top: 24px; }
+.summary-title { font-size: 16px; font-weight: 600; color: #43484D; margin-bottom: 12px; }
+.summary-row, .summary-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 15px; color: #5E6977; }
+.summary-row.discount { color: #28a745; }
+.coupon-row { display: flex; gap: 8px; margin: 16px 0; }
+.coupon-row input { flex-grow: 1; border: 1px solid #dcdcdc; border-radius: 6px; padding: 0 12px; font-size: 14px; }
+.coupon-row input:focus { outline: none; border-color: #FF9119; }
+.coupon-row input:disabled { background-color: #f5f5f5; }
+.coupon-row button { padding: 10px 18px; border: none; border-radius: 6px; background-color: #e9eff5; color: #5E6977; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+.coupon-row button:hover:not(:disabled) { background-color: #dce5ed; }
+.coupon-row button:disabled { background-color: #d4eddf; color: #155724; cursor: not-allowed; }
+.summary-total { border-top: 1px solid #E1E8EE; padding-top: 16px; margin-top: 16px; font-size: 18px; font-weight: 600; color: #43484D; }
