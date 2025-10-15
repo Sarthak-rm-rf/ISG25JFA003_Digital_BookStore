@@ -1,4 +1,5 @@
-<div class="shopping-cart w-[750px] mx-auto mt-20 bg-white shadow-md rounded-xl flex flex-col p-0">
+<!-- Main Container -->
+<div class="shopping-cart w-[1050px] mx-auto mt-20 bg-white shadow-md rounded-xl flex flex-col p-0">
   <!-- Title -->
   <div
     class="title h-[60px] border-b border-[#E1E8EE] px-[30px] py-5 text-[#5E6977] text-[20px] font-medium bg-transparent"
@@ -6,86 +7,341 @@
     Shopping Bag
   </div>
 
-  <!-- Products List -->
-  @for(product of products; track product.name; let i = $index){
-
-  <div
-    class="item flex items-center px-[30px] h-[120px] border-b border-[#E1E8EE] bg-transparent last:border-b-0"
-  >
-    <div class="buttons flex flex-col items-center justify-center w-10 mr-5">
-      <span
-        (click)="deleteProduct(i)"
-        class="delete-btn w-6 h-6 mb-2 bg-[url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png')] bg-no-repeat bg-center bg-[length:20px_20px] cursor-pointer opacity-50 transition-opacity duration-200 hover:opacity-100"
-        title="Remove"
-      ></span>
-      <span
-        class="like-btn w-6 h-6 bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-sKTGdCOe3_VjItJzRswIRkl615yGy3ObTg&s')] bg-no-repeat bg-[length:24px_24px] cursor-pointer opacity-50 transition-opacity duration-200"
-        [class.is-active]="product.liked"
-        (click)="toggleLike(product)"
-      ></span>
-    </div>
-
-    <div class="image w-[100px] h-20 mr-[30px] flex items-center justify-center">
-      <img
-        [src]="product.image"
-        alt="Book Cover"
-        class="max-w-[80px] max-h-[80px] rounded object-cover"
-      />
-    </div>
-
-    <div class="description flex-1 pt-0 mr-[30px] w-[180px] flex flex-col justify-center">
-      <span class="block text-[15px] text-[#43484D] font-medium leading-tight mb-0.5">{{
-        product.name
-      }}</span>
-      <span class="block text-[14px] text-[#86939E] font-normal mb-0.5">{{ product.author }}</span>
-      <span class="block text-[13px] text-[#86939E] font-normal">{{ product.rating }}</span>
-    </div>
-
-    <div class="quantity flex items-center mr-[30px]">
-      <button
-        class="plus-btn w-8 h-8 bg-[#E1E8EE] rounded border-none cursor-pointer text-[18px] text-[#43484D] flex items-center justify-center transition-colors duration-200 hover:bg-[#d0d7de]"
-        type="button"
-        name="button"
-        (click)="increaseQuantity(product)"
-      >
-        +
-      </button>
-      <input
-        type="text"
-        name="name"
-        [value]="product.quantity"
-        readonly
-        class="appearance-none border-none text-center w-8 text-[16px] text-[#43484D] font-normal bg-transparent mx-2"
-      />
-      <button
-        class="minus-btn w-8 h-8 bg-[#E1E8EE] rounded border-none cursor-pointer text-[18px] text-[#43484D] flex items-center justify-center transition-colors duration-200 hover:bg-[#d0d7de]"
-        type="button"
-        name="button"
-        (click)="decreaseQuantity(product)"
-      >
-        -
-      </button>
-    </div>
-
-    <div class="total-price w-[83px] text-center text-[16px] text-[#43484D] font-medium">
-      ₹{{ product.price }}
+  <!-- START: Progress Tracker -->
+  <div class="progress-tracker-container">
+    <div class="progress-tracker">
+      <div class="step completed">
+        <div class="step-icon">
+          <svg
+            xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        </div>
+        <span class="step-label">Registration</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active">
+        <div class="step-icon">2</div>
+        <span class="step-label">Shopping Cart</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-icon">3</div>
+        <span class="step-label">Payment</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-icon">4</div>
+        <span class="step-label">Tracking</span>
+      </div>
     </div>
   </div>
-  }
+  <!-- END: Progress Tracker -->
 
-  <div class="px-6 pb-6 pt-2">
-    <button
-      type="button"
-      class="w-full flex justify-center items-center text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-3 text-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mb-2 h-12"
-      [disabled]="isLoading"
-      (click)="placeOrder()"
-    >
-      <ng-container *ngIf="!isLoading; else loading"> Place Order </ng-container>
-      <ng-template #loading>
-        <span
-          class="animate-spin inline-block w-6 h-6 border-4 border-white border-t-transparent rounded-full"
-        ></span>
-      </ng-template>
-    </button>
+  <!-- Main Content Area (Cart + Address) -->
+  <div class="main-content flex flex-row">
+    <!-- Left Column: Cart Items -->
+    <div class="cart-items-container w-2/3 border-r border-[#E1E8EE]">
+      <!-- Products List -->
+      @for(product of products; track product.name; let i = $index){
+      <div
+        class="item flex items-center px-[30px] h-[120px] border-b border-[#E1E8EE] bg-transparent last:border-b-0"
+      >
+        <div class="image w-[100px] h-20 mr-[30px] flex items-center justify-center">
+          <img
+            [src]="product.image"
+            alt="Book Cover"
+            class="max-w-[80px] max-h-[80px] rounded object-cover"
+          />
+        </div>
+        <div class="description flex-1 pt-0 mr-[30px] w-[180px] flex flex-col justify-center">
+          <span class="block text-[15px] text-[#43484D] font-medium leading-tight mb-0.5">{{
+            product.name
+          }}</span>
+          <span class="block text-[14px] text-[#86939E] font-normal mb-0.5">{{
+            product.author
+          }}</span>
+          <span class="block text-[13px] text-[#86939E] font-normal">{{ product.rating }}</span>
+        </div>
+        <div class="quantity flex items-center mr-[30px]">
+          <button
+            class="plus-btn w-8 h-8 bg-[#E1E8EE] rounded border-none cursor-pointer text-[18px] text-[#43484D] flex items-center justify-center transition-colors duration-200 hover:bg-[#d0d7de]"
+            type="button"
+            (click)="increaseQuantity(product)"
+          >
+            +
+          </button>
+          <input
+            type="text"
+            [value]="product.quantity"
+            readonly
+            class="appearance-none border-none text-center w-8 text-[16px] text-[#43484D] font-normal bg-transparent mx-2"
+          />
+          <button
+            class="minus-btn w-8 h-8 bg-[#E1E8EE] rounded border-none cursor-pointer text-[18px] text-[#43484D] flex items-center justify-center transition-colors duration-200 hover:bg-[#d0d7de]"
+            type="button"
+            (click)="decreaseQuantity(product)"
+          >
+            -
+          </button>
+        </div>
+        <div class="total-price w-[83px] text-center text-[16px] text-[#43484D] font-medium">
+          ₹{{ product.price * product.quantity }}
+        </div>
+        <div class="buttons flex flex-col items-center justify-center w-10 ml-5">
+          <span
+            (click)="deleteProduct(i)"
+            class="delete-btn w-6 h-6 mb-2 bg-[url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png')] bg-no-repeat bg-center bg-[length:20px_20px] cursor-pointer opacity-50 transition-opacity duration-200 hover:opacity-100"
+            title="Remove"
+          ></span>
+          <span
+            class="like-btn w-6 h-6 bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-sKTGdCOe3_VjItJzRswIRkl615yGy3ObTg&s')]"
+            [class.is-active]="product.liked"
+            (click)="toggleLike(product)"
+          ></span>
+        </div>
+      </div>
+      } @empty {
+      <div class="p-8 text-center text-gray-500">Your cart is empty.</div>
+      }
+
+      <!-- Actions & Summary Container -->
+      @if(products.length > 0){
+      <div class="px-6 pb-6 pt-4">
+        <!-- Order Summary -->
+        <div class="order-summary mt-6">
+          <h4 class="text-md font-semibold text-[#43484D] mb-3">Order Summary</h4>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>₹{{ subtotal() }}</span>
+          </div>
+          <div class="summary-row text-green-600">
+            <span>Discount</span>
+            <span>- ₹{{ discount.toFixed(2) }}</span>
+          </div>
+          <div class="coupon-row">
+            <input
+              type="text"
+              placeholder="Enter Coupon Code"
+              [(ngModel)]="couponCode"
+              [disabled]="couponApplied"
+            />
+            <button (click)="applyCoupon()" [disabled]="couponApplied || !couponCode">
+              {{ couponApplied ? 'Applied' : 'Apply' }}
+            </button>
+          </div>
+          <div class="summary-row">
+            <span>GST (18%)</span>
+            <span>+ ₹{{ gstAmount().toFixed(2) }}</span>
+          </div>
+          <div class="summary-total">
+            <span>Total Amount</span>
+            <span>₹{{ totalAmount().toFixed(2) }}</span>
+          </div>
+        </div>
+        <!-- Place Order Button -->
+        <button
+          type="button"
+          class="w-full flex justify-center items-center text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-3 text-center h-12 disabled:bg-orange-300 disabled:cursor-not-allowed"
+          [disabled]="isLoading || !selectedAddress"
+          (click)="placeOrder()"
+        >
+          <ng-container *ngIf="!isLoading; else loading"> Place Order </ng-container>
+          <ng-template #loading>
+            <span
+              class="animate-spin inline-block w-6 h-6 border-4 border-white border-t-transparent rounded-full"
+            ></span>
+          </ng-template>
+        </button>
+      </div>
+      }
+    </div>
+
+    <!-- Right Column: Address Selection -->
+    <div class="address-container w-1/3 p-6">
+      <h3 class="text-lg font-medium text-[#43484D] mb-4">Select Delivery Address</h3>
+      <div class="address-list">
+        @for(address of addresses; track address.id){
+        <label class="address-item">
+          <input
+            type="radio"
+            name="address"
+            [value]="address"
+            [(ngModel)]="selectedAddress"
+            class="form-radio"
+          />
+          <div class="address-details">
+            <span class="address-name">{{ address.fullName }}</span>
+            <span class="address-line"
+              >{{ address.addressLine1 }}, {{ address.city }}, {{ address.state }} -
+              {{ address.postalCode }}</span
+            >
+            <span class="address-line">Phone: {{ address.phone }}</span>
+          </div>
+        </label>
+        }
+      </div>
+      <button type="button" class="add-new-btn" (click)="openAddressModal()">
+        + Add New Address
+      </button>
+    </div>
   </div>
 </div>
+
+<!-- Add New Address Modal -->
+@if (isAddressModalVisible) {
+<div class="modal-overlay" (click)="closeAddressModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2 class="text-xl font-semibold mb-6">Add a New Address</h2>
+    <form (ngSubmit)="saveNewAddress()" #addressForm="ngForm" class="address-form">
+      <!-- Full Name & Phone -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            [(ngModel)]="newAddress.fullName"
+            #fullName="ngModel"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            [(ngModel)]="newAddress.phone"
+            #phone="ngModel"
+            required
+            pattern="[0-9]{10}"
+          />
+        </div>
+      </div>
+
+      <!-- Address Lines -->
+      <div class="form-group">
+        <label for="addressLine1">Address Line 1</label>
+        <input
+          type="text"
+          id="addressLine1"
+          name="addressLine1"
+          [(ngModel)]="newAddress.addressLine1"
+          #addressLine1="ngModel"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="addressLine2">Address Line 2 (Optional)</label>
+        <input
+          type="text"
+          id="addressLine2"
+          name="addressLine2"
+          [(ngModel)]="newAddress.addressLine2"
+        />
+      </div>
+
+      <!-- Postal Code -->
+      <div class="form-group">
+        <label for="postalCode">Postal Code</label>
+        <input
+          type="text"
+          id="postalCode"
+          name="postalCode"
+          [(ngModel)]="newAddress.postalCode"
+          #postalCode="ngModel"
+          required
+        />
+      </div>
+
+      <!-- Country -->
+      <div class="form-group dropdown-container">
+        <label for="country">Country</label>
+        <input
+          type="text"
+          id="country"
+          name="country"
+          [(ngModel)]="newAddress.country"
+          (ngModelChange)="filterCountries($event)"
+          (focus)="dropdowns.country = true"
+          placeholder="Search for a country"
+          required
+        />
+        @if(dropdowns.country && filteredCountries.length > 0){
+        <ul class="dropdown-list">
+          @for(country of filteredCountries; track country){
+          <li (click)="selectCountry(country)">{{ country }}</li>
+          }
+        </ul>
+        }
+      </div>
+
+      <!-- State & City -->
+      <div class="form-row">
+        <!-- State -->
+        <div class="form-group dropdown-container" [class.disabled]="!newAddress.country">
+          <label for="state">State</label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            [(ngModel)]="newAddress.state"
+            (ngModelChange)="filterStates($event)"
+            (focus)="dropdowns.state = true"
+            placeholder="Search for a state"
+            [disabled]="!newAddress.country"
+            required
+          />
+          @if(dropdowns.state && filteredStates.length > 0){
+          <ul class="dropdown-list">
+            @for(state of filteredStates; track state.name){
+            <li (click)="selectState(state.name)">{{ state.name }}</li>
+            }
+          </ul>
+          }
+        </div>
+        <!-- City -->
+        <div class="form-group dropdown-container" [class.disabled]="!newAddress.state">
+          <label for="city">City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            [(ngModel)]="newAddress.city"
+            (ngModelChange)="filterCities($event)"
+            (focus)="dropdowns.city = true"
+            placeholder="Search for a city"
+            [disabled]="!newAddress.state"
+            required
+          />
+          @if(dropdowns.city && filteredCities.length > 0){
+          <ul class="dropdown-list">
+            @for(city of filteredCities; track city){
+            <li (click)="selectCity(city)">{{ city }}</li>
+            }
+          </ul>
+          }
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" (click)="closeAddressModal()" class="cancel-btn">Cancel</button>
+        <button type="submit" [disabled]="!addressForm.form.valid" class="save-btn">
+          Save Address
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}

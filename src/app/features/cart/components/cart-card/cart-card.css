@@ -1,0 +1,174 @@
+/* --- Base Cart Styles (Largely Unchanged) --- */
+.address-container { background-color: #fdfdfd; }
+.address-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.address-item { display: flex; align-items: flex-start; padding: 14px; border: 1px solid #E1E8EE; border-radius: 8px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; background-color: #fff; }
+.address-item:has(input:checked) { border-color: #FF9119; box-shadow: 0 0 0 1px #FF9119; background-color: #fffaf5; }
+.address-item .form-radio { margin-top: 5px; margin-right: 12px; accent-color: #FF9119; width: 18px; height: 18px; flex-shrink: 0; }
+.address-details { display: flex; flex-direction: column; }
+.address-name { font-weight: 600; color: #43484D; margin-bottom: 2px; }
+.address-line { font-size: 14px; color: #86939E; line-height: 1.5; }
+.add-new-btn { width: 100%; padding: 12px; border: 1px dashed #d0d7de; border-radius: 8px; background-color: transparent; color: #5E6977; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.2s; }
+.add-new-btn:hover { background-color: #f9fafb; border-color: #FF9119; color: #FF9119; }
+.like-btn.is-active { opacity: 1; background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); }
+
+/* --- New Modal & Form Styles --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background: white; padding: 28px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; }
+.address-form { display: flex; flex-direction: column; gap: 16px; }
+.address-form .form-row { display: flex; gap: 16px; }
+.address-form .form-group { flex: 1; display: flex; flex-direction: column; }
+.address-form label { margin-bottom: 6px; font-size: 14px; font-weight: 500; color: #5E6977; }
+.address-form input { width: 100%; padding: 10px 12px; border: 1px solid #dcdcdc; border-radius: 6px; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; }
+.address-form input:focus { outline: none; border-color: #FF9119; box-shadow: 0 0 0 2px rgba(255, 145, 25, 0.2); }
+.address-form input:disabled { background-color: #f5f5f5; cursor: not-allowed; }
+.form-group.disabled { opacity: 0.5; }
+
+/* --- Searchable Dropdown Styles --- */
+.dropdown-container { position: relative; }
+.dropdown-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e0e0e0; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-height: 150px; overflow-y: auto; z-index: 1010; list-style: none; padding: 4px; margin-top: 4px; }
+.dropdown-list li { padding: 8px 12px; cursor: pointer; border-radius: 4px; font-size: 14px; }
+.dropdown-list li:hover { background-color: #f5f5f5; }
+
+/* --- Modal Actions --- */
+.modal-actions { margin-top: 16px; display: flex; justify-content: flex-end; gap: 12px; }
+.modal-actions button { padding: 10px 20px; border-radius: 6px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+.modal-actions .cancel-btn { background-color: #f0f0f0; color: #5E6977; }
+.modal-actions .cancel-btn:hover { background-color: #e0e0e0; }
+.modal-actions .save-btn { background-color: #FF9119; color: white; }
+.modal-actions .save-btn:hover { background-color: #e08014; }
+.modal-actions .save-btn:disabled { background-color: #ffc991; cursor: not-allowed; }
+
+/* --- Order Summary Styles --- */
+.order-summary {
+  padding-top: 20px;
+}
+.summary-row, .summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #5E6977;
+}
+.coupon-row {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+}
+.coupon-row input {
+    flex-grow: 1;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    padding: 0 12px;
+    font-size: 14px;
+}
+.coupon-row input:focus {
+    outline: none;
+    border-color: #FF9119;
+    box-shadow: 0 0 0 2px rgba(255, 145, 25, 0.2);
+}
+.coupon-row input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+.coupon-row button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e9eff5;
+    color: #5E6977;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+.coupon-row button:hover:not(:disabled) {
+    background-color: #dce5ed;
+}
+.coupon-row button:disabled {
+    background-color: #d4eddf;
+    color: #155724;
+    cursor: not-allowed;
+}
+.summary-total {
+  border-top: 1px solid #E1E8EE;
+  padding-top: 16px;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #43484D;
+}
+
+/* --- Progress Tracker Styles --- */
+.progress-tracker-container {
+  padding: 24px 30px;
+  border-bottom: 1px solid #E1E8EE;
+  background-color: #fcfcfc;
+}
+
+.progress-tracker {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100px; /* Give a fixed width for alignment */
+}
+
+.step-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #86939E;
+  background-color: #e9eff5;
+  border: 2px solid #e9eff5;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.step-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #86939E;
+  transition: all 0.3s ease;
+}
+
+.step-line {
+  flex-grow: 1;
+  height: 3px;
+  background-color: #e9eff5;
+  margin: 18px 0; /* Align with middle of the icon */
+}
+
+/* --- State Styles --- */
+.step.completed .step-icon {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.step.completed .step-label {
+  color: #43484D;
+}
+
+.step.active .step-icon {
+  background-color: #FF9119;
+  border-color: #FF9119;
+  color: white;
+}
+
+.step.active .step-label {
+  color: #FF9119;
+  font-weight: 600;
+}
+
