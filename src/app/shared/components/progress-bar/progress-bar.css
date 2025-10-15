@@ -1,0 +1,72 @@
+/* --- Progress Tracker Styles --- */
+.progress-tracker-container {
+  padding: 24px 30px;
+  border-bottom: 1px solid #E1E8EE;
+  background-color: #fcfcfc;
+}
+
+.progress-tracker {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100px; /* Give a fixed width for alignment */
+}
+
+.step-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #86939E;
+  background-color: #e9eff5;
+  border: 2px solid #e9eff5;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.step-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #86939E;
+  transition: all 0.3s ease;
+}
+
+.step-line {
+  flex-grow: 1;
+  height: 3px;
+  background-color: #e9eff5;
+  margin: 18px 0; /* Align with middle of the icon */
+}
+
+/* --- State Styles --- */
+.step.completed .step-icon {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.step.completed .step-label {
+  color: #43484D;
+}
+
+.step.active .step-icon {
+  background-color: #FF9119;
+  border-color: #FF9119;
+  color: white;
+}
+
+.step.active .step-label {
+  color: #FF9119;
+  font-weight: 600;
+}

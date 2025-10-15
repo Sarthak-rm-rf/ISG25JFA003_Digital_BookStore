@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common';
+import { ProgressBar } from "@shared/components/progress-bar/progress-bar"; // Import CommonModule
 
 @Component({
   selector: 'app-order-confirmation',

@@ -6,6 +6,7 @@ import { SavedAddressesComponent } from "../saved-addresses/saved-addresses";
 import { AddAddress } from "../add-address/add-address";
 import { CartService } from 'src/app/core/services/cart.service';
 import { BookService } from 'src/app/core/services/book.service';
+import { ProgressBar } from "@shared/components/progress-bar/progress-bar";
 
 // Import the new child components
 
@@ -17,7 +18,8 @@ import { BookService } from 'src/app/core/services/book.service';
     CartItemsComponent,
     OrderSummaryComponent,
     SavedAddressesComponent,
-    AddAddress
+    AddAddress,
+    ProgressBar
 ],
   templateUrl: './cart-card.html',
   styleUrl: './cart-card.css'
