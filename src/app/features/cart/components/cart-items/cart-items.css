@@ -15,6 +15,6 @@
 .delete-btn, .like-btn { width: 24px; height: 24px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; }
 .delete-btn:hover, .like-btn:hover { opacity: 1; }
 .delete-btn { margin-bottom: 8px; background: url('https://cdn-icons-png.flaticon.com/512/1214/1214428.png') no-repeat center; background-size: 20px; }
-.like-btn { background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-sKTGdCOe3_VjItJzRswIRkl615yGy3ObTg&s') no-repeat center; background-size: 24px; }
-.like-btn.is-active { opacity: 1; background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); }
+.like-btn { background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrThJ9i0g9hHC1EaFrQjFnpkFpSdoUDk_nrA&s') no-repeat center; background-size: 24px; }
+.like-btn.is-active { opacity: 1; background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png'); background-size: 15px; }
 .empty-cart-message { padding: 32px; text-align: center; color: #86939E; }

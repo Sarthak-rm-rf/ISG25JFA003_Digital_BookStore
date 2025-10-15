@@ -26,25 +26,19 @@ interface CartItemRequest {
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = 'http://localhost:8080/api/v1/cart';
+  private apiUrl = 'http://localhost:8080/api/v1/cart/user';
 
   constructor(private http: HttpClient) { }
 
-  /**
-   * Helper method to create authorization headers.
-   * In a real application, you would typically get the token
-   * from an authentication service after the user logs in.
-   * @returns HttpHeaders with the Authorization token.
-   */
   private getAuthHeaders(): HttpHeaders {
     // Example: retrieving a JWT token from local storage.
     const token = localStorage.getItem('authToken');
     if (!token) {
-      // Handle case where the user is not authenticated
-      console.error('No authentication token found.');
-      return new HttpHeaders({
-        'Content-Type': 'application/json'
-      });
+        // Handle case where the user is not authenticated
+        console.error('No authentication token found.');
+        return new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
     }
     return new HttpHeaders({
       'Content-Type': 'application/json',
@@ -57,6 +51,7 @@ export class CartService {
    * Corresponds to: GET /api/v1/cart/user
    */
   getCart(): Observable<CartResponse> {
+    // console.log(this.getAuthHeaders().get('Authorization'));
     return this.http.get<CartResponse>(`${this.apiUrl}/user`, {
       headers: this.getAuthHeaders()
     });
