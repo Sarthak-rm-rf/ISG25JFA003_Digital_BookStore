@@ -4,12 +4,14 @@ import { HomeComponent } from './features/home/home.component';
 import { NgModule } from '@angular/core';
 import { RegisterComponent } from './features/auth/register/register';
 import { LoginComponent } from './features/auth/login/login';
+import { OrderConfirmCardPage } from './features/order-confirmed/order-confirmed-page/order-confirmed-page';
 
 export const routes: Routes = [
+    { path: 'home', component: HomeComponent },
     {path: 'cart', component: CartPage},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent },
-   {path: 'order-confirmed', component: OrderConfirmCardPage},
+    {path: 'order-confirmed', component: OrderConfirmCardPage},
     {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)},
   {
         path: 'user-profile',
