@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll() {
-    this.isScrolled = window.scrollY > 10;
+    this.isScrolled = window.scrollY > 5;
   }
 
   ngOnInit(): void {

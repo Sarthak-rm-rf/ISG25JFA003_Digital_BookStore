@@ -49,10 +49,23 @@ export class RegisterComponent implements OnInit {
     const { fullName, email, password } = this.registerForm.value;
 
     this.authService.register({ fullName, email, password }).subscribe({
-      next: () => {
+      next: (response) => {
         this.success = true;
+        let userResponse: any = response;
+        // If response is a string, parse it to object
+        if (typeof response === 'string') {
+          try {
+            userResponse = JSON.parse(response);
+          } catch {
+            userResponse = {};
+          }
+        }
         setTimeout(() => {
-          this.router.navigate(['/login']);
+          if (userResponse.role === 'ADMIN') {
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            this.router.navigate(['/home']); // Redirect to home page
+          }
         }, 2000);
       },
       error: (error) => {
