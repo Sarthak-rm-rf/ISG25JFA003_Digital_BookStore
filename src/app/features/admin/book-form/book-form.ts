@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Book, Author, Category, BookApiResponse } from '../../../models/book.model';
+import { Book, Author, Category } from '../../../models/book.model';
 import { BookService, BookRequest } from '../../../core/services/book.service';
 import { AuthorService } from '../../../core/services/author.service';
 import { CategoryService } from '../../../core/services/category.service';
@@ -286,19 +286,25 @@ export class BookFormComponent implements OnInit {
     };
   }
 
-  private toBook(bookResponse: BookApiResponse): Book {
+  private toBook(bookResponse: any): Book {
+    // If response is already our Book model, return it
+    if (bookResponse && bookResponse.author && bookResponse.category) {
+      return bookResponse as Book;
+    }
+
+    // Otherwise map from API response shape
     return {
-      bookId: bookResponse.bookId,
-      title: bookResponse.title,
-      author: { name: bookResponse.authorName },
-      category: { name: bookResponse.categoryName },
-      price: bookResponse.price,
-      description: bookResponse.description || '',
-      isbn: bookResponse.isbn || '',
-      publicationDate: bookResponse.publicationDate || '',
-      publisher: bookResponse.publisher || '',
-      imageUrl: bookResponse.imageUrl,
-      stockQuantity: bookResponse.stockQuantity
-    };
+      bookId: bookResponse?.bookId,
+      title: bookResponse?.title,
+      author: { name: bookResponse?.authorName || '' },
+      category: { name: bookResponse?.categoryName || '' },
+      price: bookResponse?.price || 0,
+      description: bookResponse?.description || '',
+      isbn: bookResponse?.isbn || '',
+      publicationDate: bookResponse?.publicationDate || '',
+      publisher: bookResponse?.publisher || '',
+      imageUrl: bookResponse?.imageUrl,
+      stockQuantity: bookResponse?.stockQuantity
+    } as Book;
   }
 }

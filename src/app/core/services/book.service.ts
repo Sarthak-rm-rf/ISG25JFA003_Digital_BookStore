@@ -1,31 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Book, BookApiResponse } from '../../models/book.model';
 
-<<<<<<< HEAD
-export interface Book {
-  bookId: number;
+export interface BookRequest {
   title: string;
   authorName: string;
   categoryName: string;
-  description?: string;
   price: number;
-  stockQuantity: number;
-  imageUrl: string;
-=======
-export interface BookRequest {
-    title: string;
-    authorName: string;
-    categoryName: string;
-    price: number;
-    description: string;
-    isbn: string;
-    publicationDate: string;
-    publisher: string;
-    stockQuantity: number;
-    imageUrl?: string;
->>>>>>> 212b2cc (admin dashboard)
+  description?: string;
+  isbn?: string;
+  publicationDate?: string;
+  publisher?: string;
+  stockQuantity?: number;
+  imageUrl?: string;
 }
 
 @Injectable({
@@ -36,42 +25,78 @@ export class BookService {
 
   constructor(private http: HttpClient) { }
 
-  getAllBooks(): Observable<BookApiResponse[]> {
-    return this.http.get<BookApiResponse[]>(this.apiUrl);
+  private transformApiResponseToBook(resp: BookApiResponse): Book {
+    return {
+      bookId: resp.bookId ?? undefined,
+      title: resp.title,
+      author: { name: resp.authorName },
+      category: { name: resp.categoryName },
+      price: resp.price,
+      description: resp.description ?? '',
+      isbn: resp.isbn ?? '',
+      publicationDate: resp.publicationDate ?? '',
+      publisher: resp.publisher ?? '',
+      imageUrl: resp.imageUrl,
+      averageRating: resp.averageRating,
+      totalReviews: resp.totalReviews,
+      stockQuantity: resp.stockQuantity
+    } as Book;
   }
 
-  getBookById(id: number): Observable<BookApiResponse> {
-    return this.http.get<BookApiResponse>(`${this.apiUrl}/get/${id}`);
+  getAllBooks(): Observable<Book[]> {
+    return this.http.get<BookApiResponse[]>(this.apiUrl).pipe(
+      map(list => list.map(item => this.transformApiResponseToBook(item)))
+    );
   }
 
-  getBooksByAuthor(authorId: number): Observable<BookApiResponse[]> {
-    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/author/${authorId}`);
+  getBookById(id: number): Observable<Book> {
+    return this.http.get<BookApiResponse>(`${this.apiUrl}/get/${id}`).pipe(
+      map(resp => this.transformApiResponseToBook(resp))
+    );
   }
 
-  getBooksByCategory(categoryId: number): Observable<BookApiResponse[]> {
-    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/category/${categoryId}`);
+  getBooksByAuthor(authorId: number): Observable<Book[]> {
+    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/author/${authorId}`).pipe(
+      map(list => list.map(item => this.transformApiResponseToBook(item)))
+    );
   }
 
-  searchBooksByTitle(title: string): Observable<BookApiResponse[]> {
+  getBooksByCategory(categoryId: number): Observable<Book[]> {
+    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/category/${categoryId}`).pipe(
+      map(list => list.map(item => this.transformApiResponseToBook(item)))
+    );
+  }
+
+  searchBooksByTitle(title: string): Observable<Book[]> {
     return this.http.get<BookApiResponse[]>(`${this.apiUrl}/findByTitle`, {
-        params: { title }
-    });
+      params: { title }
+    }).pipe(
+      map(list => list.map(item => this.transformApiResponseToBook(item)))
+    );
   }
 
-  searchBooksByAuthor(authorName: string): Observable<BookApiResponse[]> {
-    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/findByAuthor`);
+  searchBooksByAuthor(authorName: string): Observable<Book[]> {
+    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/findByAuthor`, { params: { authorName } }).pipe(
+      map(list => list.map(item => this.transformApiResponseToBook(item)))
+    );
   }
 
-  searchBooksByCategory(categoryName: string): Observable<BookApiResponse[]> {
-    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/search/category/${categoryName}`);
+  searchBooksByCategory(categoryName: string): Observable<Book[]> {
+    return this.http.get<BookApiResponse[]>(`${this.apiUrl}/search/category/${categoryName}`).pipe(
+      map(list => list.map(item => this.transformApiResponseToBook(item)))
+    );
   }
 
   addBook(book: BookRequest): Observable<Book> {
-    return this.http.post<Book>(`${this.apiUrl}/addBook`, book);
+    return this.http.post<BookApiResponse>(`${this.apiUrl}/addBook`, book).pipe(
+      map(resp => this.transformApiResponseToBook(resp))
+    );
   }
 
   updateBook(id: number, book: BookRequest): Observable<Book> {
-    return this.http.put<Book>(`${this.apiUrl}/update/${id}`, book);
+    return this.http.put<BookApiResponse>(`${this.apiUrl}/update/${id}`, book).pipe(
+      map(resp => this.transformApiResponseToBook(resp))
+    );
   }
 
   deleteBook(id: number): Observable<void> {

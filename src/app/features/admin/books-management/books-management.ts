@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { Book, BookApiResponse } from '../../../models/book.model';
+import { Book } from '../../../models/book.model';
 import { BookService } from '../../../core/services/book.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
@@ -35,7 +35,8 @@ export class BooksManagementComponent implements OnInit {
     this.errorMessage = '';
     this.bookService.getAllBooks().subscribe({
       next: (data) => {
-        this.books = data.map(this.toBook);
+        // service already transforms API responses to our Book model
+        this.books = data;
         this.loading = false;
       },
       error: (err) => {
@@ -98,7 +99,7 @@ export class BooksManagementComponent implements OnInit {
     this.successMessage = '';
   }
 
-  private toBook(bookResponse: BookApiResponse): Book {
+  private toBook(bookResponse: any): Book {
     return {
       bookId: bookResponse.bookId,
       title: bookResponse.title,

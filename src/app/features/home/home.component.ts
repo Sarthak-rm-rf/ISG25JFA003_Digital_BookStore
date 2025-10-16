@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookService } from '../../core/services/book.service';
-import { Book, BookApiResponse } from '../../models/book.model';
+import { Book } from '../../models/book.model';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     this.error = null;
     this.bookService.getAllBooks().subscribe({
       next: (books) => {
-        this.books = books.map(this.toBook);
+        this.books = books;
         this.loading = false;
       },
       error: (error) => {
@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
       this.loading = true;
       this.bookService.searchBooksByTitle(this.searchQuery).subscribe({
         next: (books) => {
-          this.books = books.map(this.toBook);
+          this.books = books;
           this.loading = false;
         },
         error: (error) => {
@@ -58,21 +58,5 @@ export class HomeComponent implements OnInit {
     } else {
       this.loadBooks();
     }
-  }
-
-  private toBook(bookResponse: BookApiResponse): Book {
-    return {
-      bookId: bookResponse.bookId,
-      title: bookResponse.title,
-      author: { name: bookResponse.authorName },
-      category: { name: bookResponse.categoryName },
-      price: bookResponse.price,
-      description: bookResponse.description || '',
-      isbn: bookResponse.isbn || '',
-      publicationDate: bookResponse.publicationDate || '',
-      publisher: bookResponse.publisher || '',
-      imageUrl: bookResponse.imageUrl,
-      stockQuantity: bookResponse.stockQuantity
-    };
   }
 }

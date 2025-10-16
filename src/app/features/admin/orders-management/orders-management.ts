@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Order, OrderStatus } from '../../../models/order.model';
 import { OrderService } from '../../../core/services/order.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-orders-management',
   standalone: true,
-  imports: [CommonModule, ConfirmationModalComponent, NavbarComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './orders-management.html',
   styleUrls: ['./orders-management.css']
 })
