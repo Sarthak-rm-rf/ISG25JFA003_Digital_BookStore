@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Book } from '../../../core/services/book.service';
+import { Book } from '../../../models/book.model';
 
 @Component({
   selector: 'app-book-card',
