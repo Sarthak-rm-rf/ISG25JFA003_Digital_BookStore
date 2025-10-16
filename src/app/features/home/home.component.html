@@ -1,36 +1,34 @@
 <div class="home-container">
-    <app-navbar></app-navbar>
+  <app-navbar></app-navbar>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>A Library That's Always Open.</h1>
-            <p>You may access the best collection with over +40 genres</p>
-            <div class="search-container">
-                <input 
-                    type="text" 
-                    [(ngModel)]="searchQuery" 
-                    (keyup.enter)="onSearch()"
-                    placeholder="Search Books, Authors or Topics"
-                    class="search-input">
-                <button (click)="onSearch()" class="search-button">Search</button>
-            </div>
-        </div>
-    </section>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>A Library That's Always Open.</h1>
+      <p>You may access the best collection with over +40 genres</p>
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="Search Books, Authors or Topics"
+          class="search-input"
+        />
+        <button (click)="onSearch()" class="search-button">Search</button>
+      </div>
+    </div>
+  </section>
 
-    <section class="books-section">
-        <div class="section-header">
-            <h2>New Releases</h2>
-            <a href="" class="view-all">View All →</a>
-        </div>
+  <section class="books-section">
+    <div class="section-header">
+      <h2>New Releases</h2>
+      <a href="#" class="view-all">View All →</a>
+    </div>
 
-        <div class="loading-spinner" *ngIf="loading">Loading...</div>
-        <div class="error-message" *ngIf="error">{{ error }}</div>
-        
-        <div class="books-grid" *ngIf="!loading && !error">
-            <app-book-card 
-                *ngFor="let book of books" 
-                [book]="book">
-            </app-book-card>
-        </div>
-    </section>
+    <div class="loading-spinner" *ngIf="loading">Loading...</div>
+    <div class="error-message" *ngIf="error">{{ error }}</div>
+
+    <div class="books-grid" *ngIf="!loading && !error">
+      <app-book-card *ngFor="let book of books" [book]="book"> </app-book-card>
+    </div>
+  </section>
 </div>

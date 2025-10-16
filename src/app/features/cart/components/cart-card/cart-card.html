@@ -1,0 +1,43 @@
+<!-- Main Container -->
+<div class="shopping-cart w-[1050px] mx-auto mt-20 bg-white shadow-md rounded-xl flex flex-col p-0">
+  <!-- Title -->
+  <div
+    class="title h-[60px] border-b border-[#E1E8EE] px-[30px] py-5 text-[#5E6977] text-[20px] font-medium bg-transparent"
+  >
+    Shopping Bag
+  </div>
+
+  <!-- Progress Tracker -->
+  <app-progress-bar></app-progress-bar>
+
+  <!-- Main Content Area (Cart + Address) -->
+  <div class="main-content flex flex-row">
+    <!-- Left Column: Cart & Summary -->
+    <div class="left-column w-2/3 border-r border-[#E1E8EE]">
+      <app-cart-items [products]="products" (productsChange)="handleProductUpdate($event)">
+      </app-cart-items>
+
+      <app-order-summary [products]="products" [selectedAddress]="selectedAddress">
+      </app-order-summary>
+    </div>
+
+    <!-- Right Column: Address Selection -->
+    <div class="right-column w-1/3 p-6">
+      <app-saved-addresses
+        [addresses]="addresses"
+        [selectedAddress]="selectedAddress"
+        (addressSelected)="handleAddressSelected($event)"
+        (addNewAddress)="isAddressModalVisible = true"
+      >
+      </app-saved-addresses>
+    </div>
+  </div>
+</div>
+
+<!-- Add New Address Modal (conditionally rendered) -->
+<app-add-address-form
+  *ngIf="isAddressModalVisible"
+  (addressSaved)="handleSaveAddress($event)"
+  (closeModal)="isAddressModalVisible = false"
+>
+</app-add-address-form>

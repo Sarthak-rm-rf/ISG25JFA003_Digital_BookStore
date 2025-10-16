@@ -1,28 +1,33 @@
 .home-container {
     min-height: 100vh;
-    background-color: #f8f9fa;
-    padding-top: 80px; /* Space for fixed navbar */
+    /* padding-top: 80px; */
     width: 100%;
     overflow-x: hidden;
+    /* Uses the main background and text colors from your global theme */
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .hero {
-    background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('/assets/images/hero-bg.jpg');
+    /* The gradient now uses the --card variable for a theme-aware overlay */
+    /* background: linear-gradient(oklch(from var(--card) l c h / 100%), oklch(from var(--card) l c h / 100%)), url('/assets/images/hero-bg.jpg'); */
     background-size: cover;
     background-position: center;
-    padding: 4rem 2rem;
+    padding: clamp(2rem, 8vw, 4rem) 2rem;
     text-align: center;
 }
 
 .hero-content h1 {
-    font-size: 3rem;
-    color: #333;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--foreground);
     margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
 .hero-content p {
-    font-size: 1.2rem;
-    color: #666;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted-foreground);
     margin-bottom: 2rem;
 }
 
@@ -35,29 +40,33 @@
 
 .search-input {
     flex: 1;
+    min-width: 0;
     padding: 0.75rem 1rem;
-    border: 2px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid var(--border);
+    background-color: var(--input);
+    color: var(--foreground);
+    border-radius: var(--radius);
     font-size: 1rem;
 }
 
 .search-button {
-    background: #ff5722;
-    color: white;
+    background: var(--brand-primary);
+    color: var(--brand-primary-foreground);
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 4px;
+    border-radius: var(--radius);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: filter 0.2s;
+    white-space: nowrap;
 }
 
 .search-button:hover {
-    background: #f4511e;
+    filter: brightness(0.9);
 }
 
 .books-section {
     padding: 2rem;
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -69,12 +78,12 @@
 }
 
 .section-header h2 {
-    color: #333;
+    color: var(--foreground);
     margin: 0;
 }
 
 .view-all {
-    color: #ff5722;
+    color: var(--brand-primary);
     text-decoration: none;
     font-weight: 500;
 }
@@ -83,93 +92,18 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2.5rem;
-    padding: 2rem;
-    max-width: 1280px;
-    margin: 0 auto;
-    align-items: stretch;
 }
 
-@media (min-width: 1200px) {
-    .books-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (min-width: 1200px) {
-    .books-grid {
-        grid-template-columns: repeat(4, minmax(280px, 1fr));
-    }
-}
-
-@media (min-width: 1200px) {
-    .books-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-/* Add responsive styles for other sections */
-.hero {
-    padding: 2rem 1rem;
+.loading-spinner {
     text-align: center;
-    background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('/assets/images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
+    padding: 2rem;
+    color: var(--muted-foreground);
 }
 
-.hero-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-}
-
-.hero-content h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
-
-.hero-content p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin-bottom: 2rem;
-}
-
-.search-container {
-    display: flex;
-    gap: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.search-input {
-    flex: 1;
-    min-width: 0;
-    padding: 0.75rem 1rem;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.search-button {
-    padding: 0.75rem 1.5rem;
-    background: #ff5722;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.books-section {
-    padding: 2rem 1rem;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 0 1rem;
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--destructive);
 }
 
 /* Responsive adjustments */
@@ -181,33 +115,7 @@
     .search-button {
         width: 100%;
     }
-
     .books-grid {
-        gap: 1rem;
-        padding: 1rem;
+        gap: 1.5rem;
     }
-}
-
-@media (max-width: 480px) {
-    .hero-content {
-        padding: 1rem;
-    }
-
-    .section-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-}
-
-.loading-spinner {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-}
-
-.error-message {
-    text-align: center;
-    padding: 2rem;
-    color: #f44336;
 }

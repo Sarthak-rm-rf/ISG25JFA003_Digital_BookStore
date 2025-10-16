@@ -1,0 +1,10 @@
+.address-title { font-size: 18px; font-weight: 500; color: #43484D; margin-bottom: 16px; }
+.address-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.address-item { display: flex; align-items: flex-start; padding: 14px; border: 1px solid #E1E8EE; border-radius: 8px; cursor: pointer; transition: all 0.2s; background-color: #fff; }
+.address-item:has(input:checked) { border-color: #FF9119; box-shadow: 0 0 0 1px #FF9119; background-color: #fffaf5; }
+.form-radio { margin-top: 5px; margin-right: 12px; accent-color: #FF9119; width: 18px; height: 18px; flex-shrink: 0; }
+.address-details { display: flex; flex-direction: column; }
+.address-name { font-weight: 600; color: #43484D; margin-bottom: 2px; }
+.address-line { font-size: 14px; color: #86939E; line-height: 1.5; }
+.add-new-btn { width: 100%; padding: 12px; border: 1px dashed #d0d7de; border-radius: 8px; background-color: transparent; color: #5E6977; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.2s; }
+.add-new-btn:hover { background-color: #f9fafb; border-color: #FF9119; color: #FF9119; }

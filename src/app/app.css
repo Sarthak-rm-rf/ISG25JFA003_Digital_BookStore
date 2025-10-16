@@ -1,0 +1,5 @@
+/* Example: in your home.component.css */
+.main-content-container {
+  background-color: var(--background);
+  color: var(--foreground);
+}

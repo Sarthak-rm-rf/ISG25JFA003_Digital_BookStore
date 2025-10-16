@@ -1,0 +1,23 @@
+<h3 class="address-title">Select Delivery Address</h3>
+<div class="address-list">
+  @for(address of addresses; track address.id){
+  <label class="address-item">
+    <input
+      type="radio"
+      name="address"
+      [value]="address"
+      [checked]="selectedAddress?.id === address.id"
+      (change)="onAddressChange(address)"
+      class="form-radio"
+    />
+    <div class="address-details">
+      <span class="address-name">{{ address.fullName }}</span>
+      <span class="address-line"
+        >{{ address.addressLine1 }}, {{ address.city }} - {{ address.postalCode }}</span
+      >
+      <span class="address-line">Phone: {{ address.phone }}</span>
+    </div>
+  </label>
+  }
+</div>
+<button type="button" class="add-new-btn" (click)="addNewAddress.emit()">+ Add New Address</button>
