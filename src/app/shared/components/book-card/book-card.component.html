@@ -1,16 +1,19 @@
 <div class="book-card">
-    <div class="book-image-container">
-        <img [src]="book.imageUrl || 'assets/images/default-book.jpg'" [alt]="book.title" class="book-image">
+  <div class="book-image-container">
+    <img
+      [src]="book.imageUrl || 'assets/images/default-book.jpg'"
+      [alt]="book.title"
+      class="book-image"
+    />
+  </div>
+  <div class="book-info">
+    <h3 class="book-title">{{ book.title }}</h3>
+    <p class="book-author">{{ book.authorName }}</p>
+    <p class="book-category">{{ book.categoryName }}</p>
+    <div class="price-section">
+      <span class="book-price">&#8377;{{ book.price.toFixed(2) }}</span>
+
+      <app-add-to-cart-button></app-add-to-cart-button>
     </div>
-    <div class="book-info">
-        <h3 class="book-title">{{ book.title }}</h3>
-        <p class="book-author">{{ book.authorName }}</p>
-        <p class="book-category">{{ book.categoryName }}</p>
-        <div class="price-section">
-            <span class="book-price">${{ book.price.toFixed(2) }}</span>
-            <span class="stock-label" [class.in-stock]="book.stockQuantity > 0">
-                {{ book.stockQuantity > 0 ? 'In Stock' : 'Out of Stock' }}
-            </span>
-        </div>
-    </div>
+  </div>
 </div>
