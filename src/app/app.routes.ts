@@ -13,6 +13,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     {path: 'order-confirmed', component: OrderConfirmCardPage},
     {path: '',loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule)},
+    { path: 'book/:id', loadComponent: () => import('./features/book-detail/book-detail.component').then(m => m.BookDetailComponent) },
   {
         path: 'user-profile',
         loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)
