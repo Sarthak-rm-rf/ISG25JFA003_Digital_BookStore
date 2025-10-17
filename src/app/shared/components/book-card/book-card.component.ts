@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { Book } from '../../../core/services/book.service';
 import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button';
 import { Store } from '@ngrx/store';
@@ -10,11 +10,7 @@ import { IProduct } from 'src/app/states/app.state';
 @Component({
   selector: 'app-book-card',
   standalone: true,
-<<<<<<< HEAD
-  imports: [CommonModule, AddToCartButton],
-=======
-  imports: [CommonModule, RouterModule],
->>>>>>> main
+  imports: [CommonModule, AddToCartButton, RouterLink],
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.css'],
 })
@@ -31,7 +27,7 @@ export class BookCardComponent {
         id: this.book.bookId,
         author: this.book.authorName,
         title: this.book.title,
-        rating: 4,
+        rating: 4.98,
         quantity: 1,
         imageUrl: this.book.imageUrl,
         price: this.book.price,
