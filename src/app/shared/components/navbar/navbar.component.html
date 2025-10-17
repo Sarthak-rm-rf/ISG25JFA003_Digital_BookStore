@@ -5,19 +5,28 @@
     </div>
 
     <nav class="nav-links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Home</a>
+      <a routerLink="/" (click)="scrollToTop()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Home</a>
       <a routerLink="/our-story" routerLinkActive="active">Our Story</a>
       <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
       <a routerLink="/browse" routerLinkActive="active">Browse</a>
-      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+      <a (click)="scrollToContact()" routerLinkActive="active">Contact</a>
     </nav>
 
     <div class="navbar-actions">
       <!-- ✨ FIX: Using (ngModelChange) for robust event handling -->
       <z-switch [ngModel]="isDarkMode" (ngModelChange)="toggleTheme($event)" class="theme-switch"></z-switch>
-      <div class="auth-buttons">
-        <button class="login-button">Login</button>
-        <button class="signup-button">Sign Up</button>
+      <div class="auth-buttons" *ngIf="!(isAuthenticated$ | async)">
+        <a routerLink="/login" class="login-button">Login</a>
+        <a routerLink="/register" class="signup-button">Sign Up</a>
+      </div>
+      <div class="profile-menu-container" *ngIf="(isAuthenticated$ | async) && (currentUser$ | async) as user">
+        <button (click)="toggleProfileMenu()" class="profile-avatar-button">
+          <img [src]="user.avatarUrl || 'https://i.pravatar.cc/40'" alt="User Avatar" class="profile-avatar">
+        </button>
+        <div class="profile-dropdown" *ngIf="isProfileMenuOpen">
+          <a routerLink="/user-profile" class="dropdown-item">Profile</a>
+          <button (click)="logout()" class="dropdown-item">Logout</button>
+        </div>
       </div>
     </div>
     

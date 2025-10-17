@@ -172,6 +172,50 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* Add these styles to the end of user-profile.css */
+
+.order-item-card {
+  background-color: var(--input);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+}
+
+.order-card-header, .order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.order-card-footer {
+  border-bottom: none;
+  border-top: 1px solid var(--border);
+  padding-bottom: 0;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.order-item-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.item-name-qty {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-qty {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+}
+
 .order-item:last-child, .cart-item:last-child, .address-item:last-child {
   border-bottom: none;
 }
@@ -220,6 +264,191 @@
   margin-left: 0.5rem;
 }
 
+
+/* Existing styles (keep them) */
+
+/* ... your other CSS ... */
+
+/* Add these styles to the end of your user-profile.css file */
+
+/* --- Address Section Specifics --- */
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.add-address-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--brand-primary);
+  color: var(--brand-primary-foreground);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease; /* Added for click effect */
+}
+
+.add-address-btn:hover {
+  background-color: var(--brand-primary-hover); /* Assuming you define this in your vars */
+}
+
+/* ✨ Button Click Effect */
+.add-address-btn:active {
+  background-color: var(--brand-primary-active); /* Define a slightly darker active state */
+  transform: translateY(1px); /* Little downward push */
+}
+
+.address-item {
+  background-color: var(--card); /* Or var(--input) */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.address-item strong {
+  display: block; /* Ensures name/phone is on its own line */
+  margin-bottom: 0.25rem;
+}
+
+/* --- Modal Overlay Styles --- */
+/* ... keep all your other existing CSS ... */
+
+/* --- Modal Overlay Styles (REPLACE THIS ENTIRE BLOCK) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem; /* Add padding for smaller screens */
+}
+
+.modal-content {
+  background-color: var(--background);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Changed from 90% for better control */
+  max-width: 550px;
+  border: 1px solid var(--border);
+  position: relative;
+  
+  /* ✨ FIX: Limit height and enable scrolling */
+  max-height: 85vh; /* Max height is 85% of the viewport height */
+  overflow-y: auto; /* A scrollbar will appear if content overflows */
+  
+  /* Animation */
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  /* Make header stick to the top when scrolling */
+  position: sticky;
+  top: -2rem; /* Negative padding to align perfectly */
+  background-color: var(--background);
+  z-index: 1;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--foreground);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: var(--foreground);
+}
+
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.address-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-form label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.address-form input,
+.address-form select {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--input);
+  color: var(--foreground);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.address-form input:focus,
+.address-form select:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px oklch(from var(--brand-primary) l c h / 20%);
+  outline: none;
+}
+
+.save-btn {
+  padding: 0.9rem 1.5rem;
+  background-color: var(--brand-primary);
+  color: var(--brand-primary-foreground);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.save-btn:hover {
+  filter: brightness(1.1);
+}
+
+.save-btn:active {
+  filter: brightness(0.9);
+  transform: translateY(1px);
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .profile-content {
@@ -227,3 +456,9 @@
   }
 }
 
+.empty-state-message {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
