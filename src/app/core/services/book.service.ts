@@ -7,6 +7,7 @@ export interface Book {
   title: string;
   authorName: string;
   categoryName: string;
+  description?: string;
   price: number;
   stockQuantity: number;
   imageUrl: string;

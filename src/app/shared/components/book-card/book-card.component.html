@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="book-card">
   <div class="book-image-container">
     <img
@@ -17,6 +18,22 @@
         [product]="product"
         (handleAdd)="addItemToCart($event)"
       ></app-add-to-cart-button>
+=======
+<div class="book-card" [routerLink]="['/book', book.bookId]">
+    <div class="book-image-container">
+        <img [src]="book.imageUrl || 'assets/images/default-book.jpg'" [alt]="book.title" class="book-image">
+    </div>
+    <div class="book-info">
+        <h3 class="book-title">{{ book.title }}</h3>
+        <p class="book-author">{{ book.authorName }}</p>
+        <p class="book-category">{{ book.categoryName }}</p>
+        <div class="price-section">
+            <span class="book-price">${{ book.price.toFixed(2) }}</span>
+            <span class="stock-label" [class.in-stock]="book.stockQuantity > 0">
+                {{ book.stockQuantity > 0 ? 'In Stock' : 'Out of Stock' }}
+            </span>
+        </div>
+>>>>>>> main
     </div>
   </div>
 </div>

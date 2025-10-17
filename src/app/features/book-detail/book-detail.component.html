@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+
+<div class="book-detail-page">
+    <div class="book-detail-container" *ngIf="book$ | async as book">
+        <button class="back-button" routerLink="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back to Home
+        </button>
+        <div class="main-content">
+            <div class="book-image">
+                <img [src]="book.imageUrl || 'assets/images/default-book.jpg'" [alt]="book.title">
+            </div>
+            <div class="book-info">
+                <h1 class="book-title">{{ book.title }}</h1>
+                <p class="book-author">by {{ book.authorName }}</p>
+                <p class="book-category">{{ book.categoryName }}</p>
+
+                <div class="purchase-section">
+                    <div class="book-price-section">
+                        <span class="book-price">${{ book.price.toFixed(2) }}</span>
+                        <span class="stock-status" [class.in-stock]="book.stockQuantity > 0">
+                            {{ book.stockQuantity > 0 ? 'In Stock' : 'Out of Stock' }}
+                        </span>
+                    </div>
+
+                    <button class="add-to-cart-btn" [disabled]="book.stockQuantity === 0">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <div class="book-description">
+                    <h2>About this book</h2>
+                    <p>{{ book.description || 'No description available.' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <h2>Customer Reviews</h2>
+
+            <!-- Reviews Carousel -->
+            <div class="reviews-carousel">
+                <ng-container *ngIf="reviews$ | async as reviews">
+                    <div class="carousel-container" *ngIf="reviews.length > 0">
+                        <div class="carousel-track" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
+                            <div class="review-card" *ngFor="let review of reviews">
+                                <div class="review-header">
+                                    <div class="rating">
+                                        <span class="stars">
+                                            <span *ngFor="let star of [1,2,3,4,5]"
+                                                [class.filled]="star <= review.rating">★</span>
+                                        </span>
+                                        <span class="rating-value">{{ review.rating }}/5</span>
+                                    </div>
+                                    <span class="review-date">{{ review.createdAt | date }}</span>
+                                </div>
+                                <p class="reviewer">By {{ review.userName || 'Anonymous' }}</p>
+                                <p class="review-comment">{{ review.comment }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="no-reviews" *ngIf="reviews.length === 0">
+                        No reviews yet for this book.
+                    </div>
+
+                    <div class="carousel-controls" *ngIf="reviews.length > 1">
+                        <button (click)="prevSlide()">&#10094;</button>
+                        <button (click)="nextSlide()">&#10095;</button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>

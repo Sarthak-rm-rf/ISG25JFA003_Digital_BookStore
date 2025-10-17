@@ -1,6 +1,5 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ZardSwitchComponent } from '../switch/switch.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { DarkModeService } from '../../services/darkmode.service';
@@ -23,13 +22,6 @@ const getCurrentUser = () => {
 })
 export class NavbarComponent implements OnInit {
   isScrolled = false;
-  // protected readonly darkmodeService = inject(DarkModeService);
-
-  // constructor(){
-  //   this.darkmodeService.initTheme();
-  // }
-
-  // isDarkMode: boolean = this.darkmodeService.getCurrentTheme() === 'dark';
 
   currentUser = getCurrentUser();
 
@@ -46,7 +38,7 @@ export class NavbarComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll() {
-    this.isScrolled = window.scrollY > 50;
+    this.isScrolled = window.scrollY > 5;
   }
 
   redirect() {
