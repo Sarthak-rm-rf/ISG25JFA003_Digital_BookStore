@@ -5,7 +5,7 @@ import { ProgressBar } from "@shared/components/progress-bar/progress-bar";
 
 @Component({
   selector: 'order-confirmed-page',
-  imports: [OrderConfirmCard, NavbarComponent, ProgressBar],
+  imports: [OrderConfirmCard, NavbarComponent],
   templateUrl: './order-confirmed-page.html',
 })
 export class OrderConfirmCardPage {

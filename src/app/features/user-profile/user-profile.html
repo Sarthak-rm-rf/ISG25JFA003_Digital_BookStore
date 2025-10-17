@@ -47,6 +47,7 @@
             </button>
           </div>
         </div>
+        <p *ngIf="passwordMismatchError" class="error-message">Passwords do not match!</p>
         <button type="submit" class="change-btn">Change Password</button>
       </form>
     </div>

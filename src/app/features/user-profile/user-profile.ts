@@ -68,6 +68,7 @@ export class UserProfile {
   oldPassword = '';
   newPassword = '';
   confirmNewPassword = ''; // ✨ New property for confirmation
+  passwordMismatchError = false;
   
   // ✨ Booleans to toggle password visibility
   showOldPassword = false;
@@ -82,7 +83,7 @@ export class UserProfile {
   changePassword() {
     // ✨ Add validation for matching passwords
     if (this.newPassword !== this.confirmNewPassword) {
-      alert('New passwords do not match!');
+      this.passwordMismatchError = true;
       return;
     }
 
@@ -96,6 +97,7 @@ export class UserProfile {
     this.oldPassword = '';
     this.newPassword = '';
     this.confirmNewPassword = '';
+    this.passwordMismatchError = false;
   }
 
   setActiveSection(section: 'orders' | 'cart' | 'address') {
