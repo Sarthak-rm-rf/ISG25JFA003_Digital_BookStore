@@ -1,49 +1,42 @@
 <app-navbar></app-navbar>
-<div class="profile-container">
-  <!-- Profile Header -->
+
+<div *ngIf="currentUser as user" class="profile-container">
   <header class="profile-header">
-    <img [src]="currentUser.avatarUrl" alt="User Profile Picture" class="profile-avatar">
-    <h1 class="welcome-message">Welcome, {{ currentUser.name }}!</h1>
+    <img [src]="user.avatarUrl || 'https://placehold.co/150'" alt="User Profile Picture" class="profile-avatar">
+    <h1 class="welcome-message">Welcome, {{ user.fullName }}!</h1>
   </header>
 
   <main class="profile-content">
-    <!-- Left Column: Password Change -->
     <div class="profile-card password-card">
       <h2>Change Password</h2>
       <form (ngSubmit)="changePassword()" class="password-form">
-        <!-- Old Password -->
         <div class="form-group">
           <label for="old-password">Old Password</label>
           <div class="password-input-wrapper">
             <input [type]="showOldPassword ? 'text' : 'password'" id="old-password" [(ngModel)]="oldPassword" name="oldPassword" required>
             <button type="button" class="toggle-password" (click)="showOldPassword = !showOldPassword">
-              <!-- Show/Hide Icon -->
               <svg *ngIf="!showOldPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
               <svg *ngIf="showOldPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
             </button>
           </div>
         </div>
-        <!-- New Password -->
         <div class="form-group">
           <label for="new-password">New Password</label>
           <div class="password-input-wrapper">
             <input [type]="showNewPassword ? 'text' : 'password'" id="new-password" [(ngModel)]="newPassword" name="newPassword" required>
             <button type="button" class="toggle-password" (click)="showNewPassword = !showNewPassword">
-              <!-- Show/Hide Icon -->
               <svg *ngIf="!showNewPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
               <svg *ngIf="showNewPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
             </button>
           </div>
         </div>
-        <!-- Confirm New Password -->
         <div class="form-group">
           <label for="confirm-new-password">Confirm New Password</label>
           <div class="password-input-wrapper">
             <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirm-new-password" [(ngModel)]="confirmNewPassword" name="confirmNewPassword" required>
             <button type="button" class="toggle-password" (click)="showConfirmPassword = !showConfirmPassword">
-              <!-- Show/Hide Icon -->
-              <svg *ngIf="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg *ngIf="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+               <svg *ngIf="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+               <svg *ngIf="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
             </button>
           </div>
         </div>
@@ -51,7 +44,6 @@
       </form>
     </div>
 
-    <!-- Right Column: Tabbed Sections -->
     <div class="profile-card info-card">
       <nav class="tabs">
         <button (click)="setActiveSection('orders')" [class.active]="activeSection === 'orders'">My Orders</button>
@@ -60,47 +52,91 @@
       </nav>
 
       <div class="tab-content" [ngSwitch]="activeSection">
-        <!-- Orders Section -->
-        <section *ngSwitchCase="'orders'" class="orders-list">
-          <div *ngFor="let order of currentUser.orders" class="order-item">
+        <section *ngSwitchCase="'orders'">
+            <div *ngIf="user.orders?.length; else noOrders">
+            <div *ngFor="let order of user.orders" class="order-item">
             <div class="order-details">
-              <strong>Order #{{ order.id }}</strong>
-              <span>Date: {{ order.date }}</span>
-            </div>
-            <div class="order-summary">
-              <span>Total: ${{ order.total.toFixed(2) }}</span>
-              <span class="status" [ngClass]="order.status.toLowerCase()">{{ order.status }}</span>
-            </div>
-          </div>
+            <strong>{{ order.itemName }}</strong>
+            <span>Quantity: {{ order.quantity }}</span>
+      </div>
+      <div class="order-summary">
+        <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
+        <strong>Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong>
+      </div>
+    </div>
+  </div>
+        <ng-template #noOrders>
+        <p class="empty-state-message">You have no past orders.</p>
+    </ng-template>
         </section>
 
-        <!-- Cart Section -->
-        <section *ngSwitchCase="'cart'" class="cart-list">
-          <div *ngFor="let item of currentUser.cart" class="cart-item">
-            <img [src]="item.imageUrl" alt="{{ item.name }}" class="item-image">
-            <div class="item-details">
-              <strong>{{ item.name }}</strong>
-              <span>Quantity: {{ item.quantity }}</span>
+        <section *ngSwitchCase="'cart'">
+          <div *ngIf="user.cart?.cartItems?.length; else emptyCart">
+            <div *ngFor="let item of user.cart.cartItems" class="cart-item">
+              <div class="item-details">
+                <strong>{{ item.bookTitle }}</strong>
+                <span>Quantity: {{ item.quantity }}</span>
+              </div>
+              <span class="item-price">${{ (item.subtotal ?? 0).toFixed(2) }}</span>
             </div>
-            <span class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</span>
+            <div class="cart-total">
+              <strong>Total:</strong>
+              <strong>${{ cartTotal.toFixed(2) }}</strong>
+            </div>
           </div>
-          <div class="cart-total">
-            <strong>Total:</strong>
-            <strong>${{ cartTotal.toFixed(2) }}</strong>
-          </div>
+          <ng-template #emptyCart>
+            <p class="empty-state-message">Your shopping cart is empty.</p>
+          </ng-template>
         </section>
 
-        <!-- Address Section -->
-        <section *ngSwitchCase="'address'" class="address-list">
-          <div *ngFor="let address of currentUser.addresses" class="address-item">
-            <div class="address-details">
-              <strong>{{ address.type }} <span *ngIf="address.isDefault" class="default-badge">(Default)</span></strong>
-              <p>{{ address.street }}, {{ address.city }}, {{ address.zip }}</p>
+        <section *ngSwitchCase="'address'">
+          <div class="address-header">
+            <h3>Saved Addresses</h3>
+            <button (click)="openAddressModal()" class="add-address-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Add New
+            </button>
+          </div>
+
+          <div *ngIf="user.addresses?.length; else noAddresses">
+            <div *ngFor="let address of user.addresses" class="address-item">
+                <strong>{{ address.fullName }} ({{ address.phone }})</strong>
+                <p>{{ address.addressLine1 }}{{ address.addressLine2 ? ', ' + address.addressLine2 : '' }}</p>
+                <p>{{ address.city }}, {{ address.state }} {{ address.postalCode }}</p>
+                <p>{{ address.country }}</p>
             </div>
           </div>
+          <ng-template #noAddresses>
+            <p class="empty-state-message">You have no saved addresses. Click "Add New" to get started.</p>
+          </ng-template>
         </section>
       </div>
     </div>
   </main>
 </div>
 
+<div *ngIf="!currentUser" class="loading-spinner">
+  <p>Loading your profile...</p>
+</div>
+
+<div class="modal-overlay" *ngIf="isAddressModalOpen" (click)="closeAddressModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h2>Add New Address</h2>
+      <button class="close-btn" (click)="closeAddressModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </header>
+    <form (ngSubmit)="onAddressSubmit()" class="address-form">
+      <div class="form-group"><label for="modalFullName">Full Name</label><input type="text" id="modalFullName" name="fullName" [(ngModel)]="newAddress.fullName" required></div>
+      <div class="form-group"><label for="modalPhone">Phone Number</label><input type="text" id="modalPhone" name="phone" [(ngModel)]="newAddress.phone" required></div>
+      <div class="form-group"><label for="modalAddressLine1">Address Line 1</label><input type="text" id="modalAddressLine1" name="addressLine1" [(ngModel)]="newAddress.addressLine1" required></div>
+      <div class="form-group"><label for="modalAddressLine2">Address Line 2 (Optional)</label><input type="text" id="modalAddressLine2" name="addressLine2" [(ngModel)]="newAddress.addressLine2"></div>
+      <div class="form-group"><label for="modalCity">City</label><input type="text" id="modalCity" name="city" [(ngModel)]="newAddress.city" required></div>
+      <div class="form-group"><label for="modalState">State</label><input type="text" id="modalState" name="state" [(ngModel)]="newAddress.state" required></div>
+      <div class="form-group"><label for="modalPostalCode">Postal Code</label><input type="text" id="modalPostalCode" name="postalCode" [(ngModel)]="newAddress.postalCode" required></div>
+      <div class="form-group"><label for="modalCountry">Country</label><input type="text" id="modalCountry" name="country" [(ngModel)]="newAddress.country" required></div>
+      <button type="submit" class="save-btn">Save Address</button>
+    </form>
+  </div>
+</div>
