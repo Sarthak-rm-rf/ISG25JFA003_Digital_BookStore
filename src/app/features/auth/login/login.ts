@@ -43,10 +43,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
+        localStorage.setItem('authToken', response.token); 
         if (response.role === 'ADMIN') {
           this.router.navigate(['/admin/dashboard']);
         } else {
-          this.router.navigate(['/home']); // Redirect to home page
+          this.router.navigate(['/']);
         }
       },
       error: (error) => {
