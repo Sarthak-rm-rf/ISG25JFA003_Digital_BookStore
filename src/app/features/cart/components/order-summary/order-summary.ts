@@ -2,16 +2,17 @@ import { Component, effect, Input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IProduct } from 'src/app/states/app.state';
 
 @Component({
   selector: 'app-order-summary',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './order-summary.html',
-  styleUrl: './order-summary.css'
+  styleUrl: './order-summary.css',
 })
-export class OrderSummaryComponent {
-  @Input() products: any[] = [];
+export class OrderSummary {
+  @Input() products!: IProduct[];
   @Input() selectedAddress: any;
 
   couponCode: string = '';
@@ -23,12 +24,11 @@ export class OrderSummaryComponent {
 
   constructor(private zone: NgZone, router: Router) {
     effect(() => {
-      if(this.orderConfirmed()){
+      if (this.orderConfirmed()) {
         setTimeout(() => router.navigate(['/order-confirmed']), 1000);
       }
-    })
+    });
   }
-
 
   subtotal(): number {
     return this.products.reduce((acc, p) => acc + p.price * p.quantity, 0);
@@ -44,7 +44,7 @@ export class OrderSummaryComponent {
 
   applyCoupon() {
     if (this.couponCode.toUpperCase() === 'SALE100' && !this.couponApplied) {
-      this.discount = 100.00;
+      this.discount = 100.0;
       this.couponApplied = true;
     } else {
       alert('Invalid coupon code.');
@@ -58,9 +58,8 @@ export class OrderSummaryComponent {
   placeOrder() {
     this.isLoading = true;
     setTimeout(() => {
-      
       console.log('Placing order with total:', this.totalAmount());
-      setTimeout(() => this.isLoading = false, 1200);
+      setTimeout(() => (this.isLoading = false), 1200);
       const amount = this.getCartTotalPaise();
       const self = this;
       const options = {
@@ -77,18 +76,18 @@ export class OrderSummaryComponent {
             self.orderDetails = {
               paymentId: response.razorpay_payment_id,
               amount: amount / 100,
-              date: new Date().toLocaleString()
+              date: new Date().toLocaleString(),
             };
           });
         },
         prefill: {
           name: 'Demo User',
           email: 'demo.user@example.com',
-          contact: '9999999999'
+          contact: '9999999999',
         },
         theme: {
-          color: '#d76538ff'
-        }
+          color: '#d76538ff',
+        },
       };
       const rzp = new (window as any).Razorpay(options);
       rzp.open();

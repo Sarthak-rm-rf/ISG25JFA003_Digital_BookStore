@@ -6,7 +6,7 @@ import { ProgressBar } from "@shared/components/progress-bar/progress-bar"; // I
 @Component({
   selector: 'app-order-confirmation',
   standalone: true, // Mark component as standalone
-  imports: [CommonModule], // Import CommonModule here
+  imports: [CommonModule, ProgressBar], // Import CommonModule here
   templateUrl: './order-confirm-card.html',
   styleUrls: ['./order-confirm-card.css']
 })

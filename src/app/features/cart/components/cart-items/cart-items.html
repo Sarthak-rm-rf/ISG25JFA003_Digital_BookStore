@@ -1,13 +1,13 @@
 <div class="cart-items-container">
-  @for(product of products; track product.id; let i = $index){
+  @if(products | async; as products){ @for(product of products; track product.id; let i = $index){
   <div class="item">
     <!-- Image -->
     <div class="image">
-      <img [src]="product.image" alt="Book Cover" />
+      <img [src]="product.imageUrl" alt="Book Cover" />
     </div>
     <!-- Description -->
     <div class="description">
-      <span>{{ product.name }}</span>
+      <span>{{ product.title }}</span>
       <span>{{ product.author }}</span>
       <span>{{ product.rating }}</span>
     </div>
@@ -22,10 +22,10 @@
     <!-- Actions -->
     <div class="buttons">
       <span (click)="deleteProduct(i)" class="delete-btn" title="Remove"></span>
-      <span class="like-btn" [class.is-active]="product.liked" (click)="toggleLike(product)"></span>
+      <span class="like-btn" [class.is-active]="" (click)="toggleLike(product)"></span>
     </div>
   </div>
   } @empty {
   <div class="empty-cart-message">Your cart is empty.</div>
-  }
+  } }
 </div>
