@@ -13,7 +13,10 @@
     <div class="price-section">
       <span class="book-price">&#8377;{{ book.price.toFixed(2) }}</span>
 
-      <app-add-to-cart-button></app-add-to-cart-button>
+      <app-add-to-cart-button
+        [product]="product"
+        (handleAdd)="addItemToCart($event)"
+      ></app-add-to-cart-button>
     </div>
   </div>
 </div>

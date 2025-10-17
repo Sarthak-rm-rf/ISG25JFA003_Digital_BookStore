@@ -1,5 +1,5 @@
 <div *ngIf="quantity === 0; else quantityControl">
-  <button class="add-btn" (click)="increment()">Add to Cart</button>
+  <button class="add-btn" (click)="addToCart(product)">Add to Cart</button>
 </div>
 
 <ng-template #quantityControl>
