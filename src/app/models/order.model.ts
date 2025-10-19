@@ -4,7 +4,21 @@ interface OrderItem {
 }
 
 export interface OrderRequest {
-  cartId: number | string;
-  addressId: number | string;
+  cartId: number;
+  addressId: number;
   items: OrderItem[];
+}
+
+interface OrderItemResponse {
+  itemId: number;
+  quantity: number;
+}
+
+export interface OrderResponse {
+  orderId: number;
+  userId: number;
+  addressId: number;
+  items: OrderItemResponse[];
+  totalAmount: number;
+  placedAt: string;
 }

@@ -14,7 +14,7 @@ interface CartItemResponse {
 interface CartResponse {
   cartItems: CartItemResponse[];
   total: number;
-  // You can add other properties like userId or cartId if they exist in your DTO
+  cartId: number;
 }
 
 interface CartItemRequest {

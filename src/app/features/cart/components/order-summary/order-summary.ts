@@ -1,8 +1,12 @@
-import { Component, effect, Input, NgZone, signal } from '@angular/core';
+import { Component, effect, inject, Input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IProduct } from 'src/app/states/app.state';
+import { CartService } from 'src/app/core/services/cart.service';
+import { OrdrerService } from 'src/app/core/services/order.service';
+import { OrderRequest } from 'src/app/models/order.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-order-summary',
@@ -21,6 +25,8 @@ export class OrderSummary {
   isLoading: boolean = false; // For place order button
   orderConfirmed = signal(false);
   orderDetails: any = {};
+  private cartService = inject(CartService);
+  private orderService = inject(OrdrerService);
 
   constructor(private zone: NgZone, router: Router) {
     effect(() => {
@@ -55,8 +61,23 @@ export class OrderSummary {
     return Math.round(this.totalAmount() * 100);
   }
 
-  createOrderRequest() {
-    const currentCartId = this.products;
+  async createOrderRequest(): Promise<OrderRequest> {
+    // 1. Wait for the cart data
+    const cart = await firstValueFrom(this.cartService.getCart());
+
+    // 2. Check for a valid cart
+    if (!cart || !cart.cartId) {
+      throw new Error('Invalid cart or cartId');
+    }
+
+    return {
+      cartId: cart.cartId,
+      addressId: this.selectedAddress.addressId,
+      items: this.products.map((product) => ({
+        itemId: product.id,
+        quantity: product.quantity,
+      })),
+    };
   }
 
   placeOrder() {
@@ -74,8 +95,12 @@ export class OrderSummary {
         description: 'Test Transaction',
         image: 'https://cdn-icons-png.flaticon.com/512/891/891419.png',
         handler: function (response: any) {
-          self.zone.run(() => {
+          self.zone.run(async () => {
             self.products = [];
+            const orderRequest = await self.createOrderRequest();
+            self.orderService.placeOrder(orderRequest).subscribe((item) => {
+              console.log('order placed');
+            });
             self.orderConfirmed.set(true);
             self.orderDetails = {
               paymentId: response.razorpay_payment_id,
