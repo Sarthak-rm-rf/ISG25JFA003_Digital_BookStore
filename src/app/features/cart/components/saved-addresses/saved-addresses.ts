@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './saved-addresses.html',
-  styleUrl: './saved-addresses.css'
+  styleUrl: './saved-addresses.css',
 })
 export class SavedAddressesComponent {
   @Input() addresses: any[] = [];

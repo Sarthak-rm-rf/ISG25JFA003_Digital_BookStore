@@ -1,9 +1,13 @@
-<!-- START: Progress Tracker -->
 <div class="progress-tracker-container">
   <div class="progress-tracker">
-    <div class="step completed">
+    <!-- Registration Step -->
+    <div
+      class="step"
+      [ngClass]="{ completed: isCompleted('registration'), active: isActive('registration') }"
+    >
       <div class="step-icon">
         <svg
+          *ngIf="isCompleted('registration')"
           xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
           width="20"
           height="20"
@@ -16,24 +20,87 @@
         >
           <path d="M20 6 9 17l-5-5" />
         </svg>
+        <ng-container *ngIf="!isCompleted('registration')">1</ng-container>
       </div>
       <span class="step-label">Registration</span>
     </div>
+
     <div class="step-line"></div>
-    <div class="step active">
-      <div class="step-icon">2</div>
+
+    <!-- Shopping Cart Step -->
+    <div class="step" [ngClass]="{ completed: isCompleted('cart'), active: isActive('cart') }">
+      <div class="step-icon">
+        <svg
+          *ngIf="isCompleted('cart')"
+          xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        <ng-container *ngIf="!isCompleted('cart')">2</ng-container>
+      </div>
       <span class="step-label">Shopping Cart</span>
     </div>
+
     <div class="step-line"></div>
-    <div class="step">
-      <div class="step-icon">3</div>
+
+    <!-- Payment Step -->
+    <div
+      class="step"
+      [ngClass]="{ completed: isCompleted('payment'), active: isActive('payment') }"
+    >
+      <div class="step-icon">
+        <svg
+          *ngIf="isCompleted('payment')"
+          xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        <ng-container *ngIf="!isCompleted('payment')">3</ng-container>
+      </div>
       <span class="step-label">Payment</span>
     </div>
+
     <div class="step-line"></div>
-    <div class="step">
-      <div class="step-icon">4</div>
-      <span class="step-label">Tracking</span>
+
+    <!-- Tracking Step -->
+    <div
+      class="step"
+      [ngClass]="{ completed: isCompleted('confirmed'), active: isActive('confirmed') }"
+    >
+      <div class="step-icon">
+        <svg
+          *ngIf="isCompleted('confirmed')"
+          xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        <ng-container *ngIf="!isCompleted('confirmed')">4</ng-container>
+      </div>
+      <span class="step-label">Confirmed</span>
     </div>
   </div>
 </div>
-<!-- END: Progress Tracker -->

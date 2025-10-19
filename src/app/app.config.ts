@@ -1,9 +1,14 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { provideState, provideStore } from '@ngrx/store';
+import { cartReducer } from './states/cart/cart.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideHttpClient(withInterceptors([authInterceptor])) 
-  ]
+    provideState({ name: 'cart', reducer: cartReducer }),
+    provideStore(),
+  ],
 };

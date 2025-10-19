@@ -18,7 +18,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:0.75rem 2rem;
+    padding: 0.75rem 2rem;
     /* border-radius: 0 0 50px 50px; */
     border-radius: 0;
     transition: border-radius 0.5s ease-in-out;
@@ -76,6 +76,7 @@ body {
 .nav-links a:not(.active):hover {
     color: var(--brand-primary);
 }
+
 .nav-links a:not(.active):hover::before {
     opacity: 0.1;
 }
@@ -83,19 +84,31 @@ body {
 .nav-links a.active {
     color: var(--brand-primary-foreground) !important;
 }
+
 .nav-links a.active::before {
     opacity: 1 !important;
 }
 
 
 /* --- Right Side Actions --- */
-.navbar-actions, .auth-buttons, .theme-switch {
+.navbar-actions,
+.auth-buttons,
+.theme-switch {
     display: flex;
     align-items: center;
 }
-.navbar-actions { gap: 1.5rem; }
-.auth-buttons { gap: 1rem; }
-.theme-switch { cursor: pointer; }
+
+.navbar-actions {
+    gap: 1.5rem;
+}
+
+.auth-buttons {
+    gap: 1rem;
+}
+
+.theme-switch {
+    cursor: pointer;
+}
 
 
 .login-button,
@@ -113,14 +126,16 @@ body {
 .login-button {
     background: transparent;
     border: 2px solid var(--brand-primary);
-    color: var(--brand-primary); /* This ensures the text is orange */
+    color: var(--brand-primary);
+    /* This ensures the text is orange */
 }
 
 /* ✨ FIX: Explicitly set the background and text color for the Sign Up button */
 .signup-button {
     background: var(--brand-primary);
     border: none;
-    color: var(--brand-primary-foreground); /* This ensures the text is white */
+    color: var(--brand-primary-foreground);
+    /* This ensures the text is white */
 }
 
 .login-button:hover,
@@ -132,54 +147,3 @@ body {
 .signup-button:hover {
     filter: brightness(1.1);
 }
-
-/* Profile Menu */
-.profile-menu-container {
-    position: relative;
-}
-
-.profile-avatar-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    border-radius: 50%;
-}
-
-.profile-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--brand-primary);
-}
-
-.profile-dropdown {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background-color: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: 0 4px 12px var(--shadow-color);
-    width: 150px;
-    overflow: hidden;
-    z-index: 1001;
-}
-
-.dropdown-item {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: none;
-    border: none;
-    text-align: left;
-    color: var(--foreground);
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.dropdown-item:hover {
-    background-color: var(--accent);
-}
-
