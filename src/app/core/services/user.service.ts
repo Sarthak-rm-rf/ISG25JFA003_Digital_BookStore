@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Address, Cart, Order, User } from '../../features/user-profile/user-profile';
 
@@ -26,6 +26,22 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    // Example: retrieving a JWT token from local storage.
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Handle case where the user is not authenticated
+      console.error('No authentication token found.');
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+    }
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+  }
+
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/users/profile`);
   }
@@ -40,11 +56,15 @@ export class UserService {
   }
 
   getUserAddresses(): Observable<Address[]> {
-    return this.http.get<Address[]>(`${this.baseUrl}/addresses/user`);
+    return this.http.get<Address[]>(`${this.baseUrl}/addresses/user`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   addUserAddress(payload: AddressPayload): Observable<Address> {
-    return this.http.post<Address>(`${this.baseUrl}/addresses`, payload);
+    return this.http.post<Address>(`${this.baseUrl}/addresses`, payload, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   updateUserProfile(payload: UpdateUserPayload): Observable<any> {

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { IProduct } from 'src/app/states/app.state';
+import { decrementProduct, incrementProduct } from 'src/app/states/cart/cart.action';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -19,21 +20,25 @@ export class AddToCartButton {
   handleAdd = new EventEmitter<IProduct>();
   quantityChange = new EventEmitter<number>();
 
+  constructor(private store: Store) {}
+
   addToCart(product: IProduct) {
     this.handleAdd.emit(product);
     this.quantity++;
     this.quantityChange.emit(this.quantity);
   }
 
-  increment() {
+  increment(product: IProduct) {
+    const productId = product.id;
+    this.store.dispatch(incrementProduct({ productId }));
     this.quantity++;
-    this.quantityChange.emit(this.quantity);
   }
 
-  decrement() {
+  decrement(product: IProduct) {
     if (this.quantity > 0) {
+      const productId = product.id;
+      this.store.dispatch(decrementProduct({ productId }));
       this.quantity--;
-      this.quantityChange.emit(this.quantity);
     }
   }
 }
