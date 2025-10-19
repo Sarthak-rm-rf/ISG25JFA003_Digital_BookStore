@@ -97,6 +97,7 @@ export class OrderSummary {
         handler: function (response: any) {
           self.zone.run(async () => {
             localStorage.setItem('order', JSON.stringify(self.products));
+            localStorage.setItem('address', JSON.stringify(self.selectedAddress));
             self.products = [];
             const orderRequest = await self.createOrderRequest();
             self.orderService.placeOrder(orderRequest).subscribe((item) => {

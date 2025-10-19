@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ProgressBar } from '@shared/components/progress-bar/progress-bar'; // Import CommonModule
+import { Address } from 'src/app/models/address.model';
 
 @Component({
   selector: 'app-order-confirmation',
@@ -13,12 +14,8 @@ import { ProgressBar } from '@shared/components/progress-bar/progress-bar'; // I
 export class OrderConfirmCard implements OnInit {
   orderId: string = '';
   deliveryDate: Date = new Date();
-  deliveryAddress = {
-    name: 'John Newman',
-    street: '2125 Chestnut St',
-    city: 'San Francisco',
-    zip: 'CA 94123',
-  };
+  addressData = localStorage.getItem('address');
+  deliveryAddress: Address = this.addressData ? JSON.parse(this.addressData) : {};
   orderData = localStorage.getItem('order');
   orderedItems = this.orderData ? JSON.parse(this.orderData) : [];
   constructor(private router: Router) {}

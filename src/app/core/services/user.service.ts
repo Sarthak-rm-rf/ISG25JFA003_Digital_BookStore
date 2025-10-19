@@ -43,16 +43,27 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/users/profile`);
+    const payLoad = {
+      email: 'sarthakvyadav@gmal.com',
+      fullName: 'Sarthak Yadav',
+      password: 123456,
+    };
+    return this.http.get<User>(`${this.baseUrl}/users/profile`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   // This now expects an array of the new, more complex Order objects
   getUserOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/orders/user`);
+    return this.http.get<Order[]>(`${this.baseUrl}/orders/user`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getUserCart(): Observable<Cart> {
-    return this.http.get<Cart>(`${this.baseUrl}/cart/user`);
+    return this.http.get<Cart>(`${this.baseUrl}/cart/user`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getUserAddresses(): Observable<Address[]> {

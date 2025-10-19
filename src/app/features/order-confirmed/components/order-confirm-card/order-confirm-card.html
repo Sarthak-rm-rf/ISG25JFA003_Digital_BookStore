@@ -25,9 +25,11 @@
       <div class="delivery-body">
         <div class="address-section">
           <h3>Delivery address</h3>
-          <p>{{ deliveryAddress.name }}</p>
-          <p>{{ deliveryAddress.street }}</p>
-          <p>{{ deliveryAddress.city }}, {{ deliveryAddress.zip }}</p>
+          <p>{{ deliveryAddress.fullName }}</p>
+          <p>{{ deliveryAddress.addressLine1 }}</p>
+          <p>{{ deliveryAddress.addressLine2 }}</p>
+          <p>{{ deliveryAddress.city }}, {{ deliveryAddress.postalCode }}</p>
+          <p>Phone No: {{ deliveryAddress.phone }}</p>
         </div>
 
         <div class="items-section">
