@@ -1,44 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ProgressBar } from "@shared/components/progress-bar/progress-bar"; // Import CommonModule
+import { CommonModule, JsonPipe } from '@angular/common';
+import { ProgressBar } from '@shared/components/progress-bar/progress-bar'; // Import CommonModule
 
 @Component({
   selector: 'app-order-confirmation',
   standalone: true, // Mark component as standalone
   imports: [CommonModule, ProgressBar], // Import CommonModule here
   templateUrl: './order-confirm-card.html',
-  styleUrls: ['./order-confirm-card.css']
+  styleUrls: ['./order-confirm-card.css'],
 })
 export class OrderConfirmCard implements OnInit {
-
   orderId: string = '';
   deliveryDate: Date = new Date();
   deliveryAddress = {
     name: 'John Newman',
     street: '2125 Chestnut St',
     city: 'San Francisco',
-    zip: 'CA 94123'
+    zip: 'CA 94123',
   };
-  orderedItems = [
-    {
-      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg',
-      name: 'To Kill a Mockingbird',
-      quantity: 1,
-    },
-    {
-      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg',
-      name: '1984',
-      quantity: 1,
-    },
-    {
-      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81iqZ2HHD-L.jpg',
-      name: 'Harry Potter and the Sorcerer\'s Stone',
-      quantity: 1,
-
-    }
-  ];
-  constructor(private router: Router) { }
+  orderData = localStorage.getItem('order');
+  orderedItems = this.orderData ? JSON.parse(this.orderData) : [];
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Generate a random order ID for demonstration
@@ -51,5 +34,4 @@ export class OrderConfirmCard implements OnInit {
   navigateToHome(): void {
     this.router.navigate(['/']); // Navigate to the homepage
   }
-
 }

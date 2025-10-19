@@ -96,6 +96,7 @@ export class OrderSummary {
         image: 'https://cdn-icons-png.flaticon.com/512/891/891419.png',
         handler: function (response: any) {
           self.zone.run(async () => {
+            localStorage.setItem('order', JSON.stringify(self.products));
             self.products = [];
             const orderRequest = await self.createOrderRequest();
             self.orderService.placeOrder(orderRequest).subscribe((item) => {
