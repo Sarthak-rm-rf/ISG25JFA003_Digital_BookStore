@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectCartProducts } from 'src/app/states/cart/cart.selector';
 import { AppState, IProduct } from 'src/app/states/app.state';
 import { map, Observable } from 'rxjs';
 import { decrementProduct, incrementProduct } from 'src/app/states/cart/cart.action';
+import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
   selector: 'app-cart-items',

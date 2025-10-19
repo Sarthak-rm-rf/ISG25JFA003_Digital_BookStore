@@ -147,3 +147,57 @@ body {
 .signup-button:hover {
     filter: brightness(1.1);
 }
+
+.cart-icon-wrapper {
+    position: relative;
+    /* This lets us position the badge inside it */
+    display: inline-flex;
+    /* Aligns well with your switch and buttons */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* This targets the SVG you just put inside the wrapper */
+.cart-icon-wrapper svg {
+    width: 32px;
+    /* Give the icon a consistent size */
+    height: 32px;
+    fill: currentColor;
+    /* Makes the icon color match the text color */
+}
+
+/* This is the new dynamic badge */
+.cart-badge {
+    position: absolute;
+    top: 0;
+    /* Position at the top-right corner */
+    right: 0;
+
+    /* Colors */
+    background-color: var(--brand-primary);
+    /* Use your brand color */
+    color: var(--brand-primary-foreground);
+    /* Text color for brand */
+
+    /* Sizing and Shape */
+    min-width: 20px;
+    /* Allows it to grow (e.g., for '10') */
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 50%;
+    /* Makes it a circle */
+
+    /* Use your navbar's background for the border to "punch it out" */
+    border: 2px solid var(--card);
+
+    /* Text Styling */
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    /* (20px height - 4px border) */
+    text-align: center;
+
+    /* Prevents the user from selecting the number text */
+    user-select: none;
+}

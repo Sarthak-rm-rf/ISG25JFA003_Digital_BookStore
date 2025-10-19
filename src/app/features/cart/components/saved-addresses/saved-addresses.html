@@ -1,12 +1,12 @@
 <h3 class="address-title">Select Delivery Address</h3>
 <div class="address-list">
-  @for(address of addresses; track address.id){
+  @for(address of addresses; track address.addressId){
   <label class="address-item">
     <input
       type="radio"
       name="address"
       [value]="address"
-      [checked]="selectedAddress?.id === address.id"
+      [checked]="selectedAddress?.addressId === address.addressId"
       (change)="onAddressChange(address)"
       class="form-radio"
     />
