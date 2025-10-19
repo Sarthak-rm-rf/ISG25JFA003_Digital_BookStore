@@ -27,6 +27,11 @@ export class NavbarComponent implements OnInit {
   currentUser = getCurrentUser();
   isDarkMode: boolean = false;
 
+  constructor(private authService: AuthService) {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+    this.currentUser$ = this.authService.currentUser$;
+  }
+
   @HostListener('window:scroll')
   onWindowScroll() {
     this.isScrolled = window.scrollY > 5;
@@ -48,6 +53,21 @@ export class NavbarComponent implements OnInit {
   toggleTheme(isDark: boolean): void {
     this.isDarkMode = isDark;
     this.applyTheme(isDark);
+  }
+
+  toggleProfileMenu(): void {
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  scrollToContact(): void {
+    const footer = document.getElementById('contact-footer');
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   private applyTheme(isDark: boolean): void {

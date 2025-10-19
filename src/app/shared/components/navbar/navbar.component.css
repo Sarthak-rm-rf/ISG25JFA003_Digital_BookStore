@@ -56,6 +56,7 @@ body {
     transition: color 0.3s ease;
     position: relative;
     z-index: 1;
+    cursor: pointer;
 }
 
 .nav-links a::before {
