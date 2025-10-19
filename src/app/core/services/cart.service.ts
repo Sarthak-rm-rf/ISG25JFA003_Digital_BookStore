@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface CartItemResponse {
+export interface CartItemResponse {
   cartItemId: number;
   bookId: number;
   bookTitle: string;
@@ -11,7 +11,7 @@ interface CartItemResponse {
   subtotal: number;
 }
 
-interface CartResponse {
+export interface CartResponse {
   cartItems: CartItemResponse[];
   total: number;
   cartId: number;
