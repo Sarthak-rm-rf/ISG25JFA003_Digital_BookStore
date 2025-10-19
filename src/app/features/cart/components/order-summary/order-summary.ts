@@ -55,6 +55,10 @@ export class OrderSummary {
     return Math.round(this.totalAmount() * 100);
   }
 
+  createOrderRequest() {
+    const currentCartId = this.products;
+  }
+
   placeOrder() {
     this.isLoading = true;
     setTimeout(() => {
@@ -66,7 +70,7 @@ export class OrderSummary {
         key: 'rzp_test_1DP5mmOlF5G5ag', // Demo key
         amount: amount, // Amount in paise
         currency: 'INR',
-        name: 'Bookstore Demo',
+        name: 'ISG25JFA003 Digital Bookstore',
         description: 'Test Transaction',
         image: 'https://cdn-icons-png.flaticon.com/512/891/891419.png',
         handler: function (response: any) {
