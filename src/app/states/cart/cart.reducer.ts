@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { addToCart, decrementProduct, incrementProduct } from './cart.action';
+import { addToCart, clearCart, decrementProduct, incrementProduct } from './cart.action';
 import { Book } from 'src/app/core/services/book.service';
 import { IProduct } from '../app.state';
 
@@ -36,6 +36,12 @@ export const cartReducer = createReducer(
     return {
       ...state,
       products: updatedProduct,
+    };
+  }),
+  on(clearCart, (state) => {
+    return {
+      ...state,
+      products: [],
     };
   })
 );

@@ -13,3 +13,5 @@ export const decrementProduct = createAction(
   '[Cart Component] decrementProduct',
   props<{ productId: number }>()
 );
+
+export const clearCart = createAction('[Cart Component] clearCart');

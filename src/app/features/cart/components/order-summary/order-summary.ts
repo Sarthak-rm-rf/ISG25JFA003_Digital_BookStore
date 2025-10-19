@@ -7,6 +7,8 @@ import { CartService } from 'src/app/core/services/cart.service';
 import { OrdrerService } from 'src/app/core/services/order.service';
 import { OrderRequest } from 'src/app/models/order.model';
 import { firstValueFrom } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { clearCart } from 'src/app/states/cart/cart.action';
 
 @Component({
   selector: 'app-order-summary',
@@ -28,7 +30,7 @@ export class OrderSummary {
   private cartService = inject(CartService);
   private orderService = inject(OrdrerService);
 
-  constructor(private zone: NgZone, router: Router) {
+  constructor(private zone: NgZone, router: Router, private store: Store) {
     effect(() => {
       if (this.orderConfirmed()) {
         setTimeout(() => router.navigate(['/order-confirmed']), 1000);
@@ -104,6 +106,7 @@ export class OrderSummary {
               console.log('order placed');
             });
             self.orderConfirmed.set(true);
+            self.store.dispatch(clearCart());
             self.orderDetails = {
               paymentId: response.razorpay_payment_id,
               amount: amount / 100,
