@@ -51,6 +51,14 @@ export class NavbarComponent implements OnInit {
     this.applyTheme(initialThemeIsDark);
   }
 
+  loginClick() {
+    this.router.navigate(['/login']);
+  }
+
+  signUpClick() {
+    this.router.navigate(['/register']);
+  }
+
   toggleTheme(isDark: boolean): void {
     this.isDarkMode = isDark;
     this.applyTheme(isDark);
