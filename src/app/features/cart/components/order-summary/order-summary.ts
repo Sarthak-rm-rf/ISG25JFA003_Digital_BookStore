@@ -1,17 +1,22 @@
-import { Component, effect, Input, NgZone, signal } from '@angular/core';
+import { Component, effect, inject, Input, NgZone, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IProduct } from 'src/app/states/app.state';
+import { CartService } from 'src/app/core/services/cart.service';
+import { OrdrerService } from 'src/app/core/services/order.service';
+import { OrderRequest } from 'src/app/models/order.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-order-summary',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './order-summary.html',
-  styleUrl: './order-summary.css'
+  styleUrl: './order-summary.css',
 })
-export class OrderSummaryComponent {
-  @Input() products: any[] = [];
+export class OrderSummary {
+  @Input() products!: IProduct[];
   @Input() selectedAddress: any;
 
   couponCode: string = '';
@@ -20,15 +25,16 @@ export class OrderSummaryComponent {
   isLoading: boolean = false; // For place order button
   orderConfirmed = signal(false);
   orderDetails: any = {};
+  private cartService = inject(CartService);
+  private orderService = inject(OrdrerService);
 
   constructor(private zone: NgZone, router: Router) {
     effect(() => {
-      if(this.orderConfirmed()){
+      if (this.orderConfirmed()) {
         setTimeout(() => router.navigate(['/order-confirmed']), 1000);
       }
-    })
+    });
   }
-
 
   subtotal(): number {
     return this.products.reduce((acc, p) => acc + p.price * p.quantity, 0);
@@ -44,7 +50,7 @@ export class OrderSummaryComponent {
 
   applyCoupon() {
     if (this.couponCode.toUpperCase() === 'SALE100' && !this.couponApplied) {
-      this.discount = 100.00;
+      this.discount = 100.0;
       this.couponApplied = true;
     } else {
       alert('Invalid coupon code.');
@@ -55,40 +61,64 @@ export class OrderSummaryComponent {
     return Math.round(this.totalAmount() * 100);
   }
 
+  async createOrderRequest(): Promise<OrderRequest> {
+    // 1. Wait for the cart data
+    const cart = await firstValueFrom(this.cartService.getCart());
+
+    // 2. Check for a valid cart
+    if (!cart || !cart.cartId) {
+      throw new Error('Invalid cart or cartId');
+    }
+
+    return {
+      cartId: cart.cartId,
+      addressId: this.selectedAddress.addressId,
+      items: this.products.map((product) => ({
+        itemId: product.id,
+        quantity: product.quantity,
+      })),
+    };
+  }
+
   placeOrder() {
     this.isLoading = true;
     setTimeout(() => {
-      
       console.log('Placing order with total:', this.totalAmount());
-      setTimeout(() => this.isLoading = false, 1200);
+      setTimeout(() => (this.isLoading = false), 1200);
       const amount = this.getCartTotalPaise();
       const self = this;
       const options = {
         key: 'rzp_test_1DP5mmOlF5G5ag', // Demo key
         amount: amount, // Amount in paise
         currency: 'INR',
-        name: 'Bookstore Demo',
+        name: 'ISG25JFA003 Digital Bookstore',
         description: 'Test Transaction',
         image: 'https://cdn-icons-png.flaticon.com/512/891/891419.png',
         handler: function (response: any) {
-          self.zone.run(() => {
+          self.zone.run(async () => {
+            localStorage.setItem('order', JSON.stringify(self.products));
+            localStorage.setItem('address', JSON.stringify(self.selectedAddress));
             self.products = [];
+            const orderRequest = await self.createOrderRequest();
+            self.orderService.placeOrder(orderRequest).subscribe((item) => {
+              console.log('order placed');
+            });
             self.orderConfirmed.set(true);
             self.orderDetails = {
               paymentId: response.razorpay_payment_id,
               amount: amount / 100,
-              date: new Date().toLocaleString()
+              date: new Date().toLocaleString(),
             };
           });
         },
         prefill: {
           name: 'Demo User',
           email: 'demo.user@example.com',
-          contact: '9999999999'
+          contact: '9999999999',
         },
         theme: {
-          color: '#d76538ff'
-        }
+          color: '#d76538ff',
+        },
       };
       const rzp = new (window as any).Razorpay(options);
       rzp.open();

@@ -18,7 +18,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:0.75rem 2rem;
+    padding: 0.75rem 2rem;
     /* border-radius: 0 0 50px 50px; */
     border-radius: 0;
     transition: border-radius 0.5s ease-in-out;
@@ -75,6 +75,7 @@ body {
 .nav-links a:not(.active):hover {
     color: var(--brand-primary);
 }
+
 .nav-links a:not(.active):hover::before {
     opacity: 0.1;
 }
@@ -82,19 +83,31 @@ body {
 .nav-links a.active {
     color: var(--brand-primary-foreground) !important;
 }
+
 .nav-links a.active::before {
     opacity: 1 !important;
 }
 
 
 /* --- Right Side Actions --- */
-.navbar-actions, .auth-buttons, .theme-switch {
+.navbar-actions,
+.auth-buttons,
+.theme-switch {
     display: flex;
     align-items: center;
 }
-.navbar-actions { gap: 1.5rem; }
-.auth-buttons { gap: 1rem; }
-.theme-switch { cursor: pointer; }
+
+.navbar-actions {
+    gap: 1.5rem;
+}
+
+.auth-buttons {
+    gap: 1rem;
+}
+
+.theme-switch {
+    cursor: pointer;
+}
 
 
 .login-button,
@@ -112,14 +125,16 @@ body {
 .login-button {
     background: transparent;
     border: 2px solid var(--brand-primary);
-    color: var(--brand-primary); /* This ensures the text is orange */
+    color: var(--brand-primary);
+    /* This ensures the text is orange */
 }
 
 /* ✨ FIX: Explicitly set the background and text color for the Sign Up button */
 .signup-button {
     background: var(--brand-primary);
     border: none;
-    color: var(--brand-primary-foreground); /* This ensures the text is white */
+    color: var(--brand-primary-foreground);
+    /* This ensures the text is white */
 }
 
 .login-button:hover,
@@ -132,3 +147,56 @@ body {
     filter: brightness(1.1);
 }
 
+.cart-icon-wrapper {
+    position: relative;
+    /* This lets us position the badge inside it */
+    display: inline-flex;
+    /* Aligns well with your switch and buttons */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* This targets the SVG you just put inside the wrapper */
+.cart-icon-wrapper svg {
+    width: 32px;
+    /* Give the icon a consistent size */
+    height: 32px;
+    fill: currentColor;
+    /* Makes the icon color match the text color */
+}
+
+/* This is the new dynamic badge */
+.cart-badge {
+    position: absolute;
+    top: 0;
+    /* Position at the top-right corner */
+    right: 0;
+
+    /* Colors */
+    background-color: var(--brand-primary);
+    /* Use your brand color */
+    color: var(--brand-primary-foreground);
+    /* Text color for brand */
+
+    /* Sizing and Shape */
+    min-width: 20px;
+    /* Allows it to grow (e.g., for '10') */
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 50%;
+    /* Makes it a circle */
+
+    /* Use your navbar's background for the border to "punch it out" */
+    border: 2px solid var(--card);
+
+    /* Text Styling */
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    /* (20px height - 4px border) */
+    text-align: center;
+
+    /* Prevents the user from selecting the number text */
+    user-select: none;
+}

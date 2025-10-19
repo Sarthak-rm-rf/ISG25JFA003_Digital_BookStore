@@ -14,7 +14,7 @@ interface CartItemResponse {
 interface CartResponse {
   cartItems: CartItemResponse[];
   total: number;
-  // You can add other properties like userId or cartId if they exist in your DTO
+  cartId: number;
 }
 
 interface CartItemRequest {
@@ -23,26 +23,26 @@ interface CartItemRequest {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
-  private apiUrl = 'http://localhost:8080/api/v1/cart/user';
+  private apiUrl = 'http://localhost:8080/api/v1/cart';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
     // Example: retrieving a JWT token from local storage.
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
-        // Handle case where the user is not authenticated
-        console.error('No authentication token found.');
-        return new HttpHeaders({
-            'Content-Type': 'application/json'
-        });
+      // Handle case where the user is not authenticated
+      console.error('No authentication token found.');
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
     }
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 
@@ -53,7 +53,7 @@ export class CartService {
   getCart(): Observable<CartResponse> {
     // console.log(this.getAuthHeaders().get('Authorization'));
     return this.http.get<CartResponse>(`${this.apiUrl}/user`, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 
@@ -64,7 +64,7 @@ export class CartService {
    */
   addToCart(item: CartItemRequest): Observable<CartResponse> {
     return this.http.post<CartResponse>(`${this.apiUrl}/items/user/add`, item, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 
@@ -77,10 +77,14 @@ export class CartService {
   updateCartItem(bookId: number, quantity: number): Observable<CartResponse> {
     const params = new HttpParams().set('quantity', quantity.toString());
     // The PUT request body is empty as the data is sent via params.
-    return this.http.put<CartResponse>(`${this.apiUrl}/items/user/update/${bookId}`, {}, {
-      headers: this.getAuthHeaders(),
-      params: params
-    });
+    return this.http.put<CartResponse>(
+      `${this.apiUrl}/items/user/update/${bookId}`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+        params: params,
+      }
+    );
   }
 
   /**
@@ -91,7 +95,7 @@ export class CartService {
   removeCartItem(bookId: number): Observable<string> {
     return this.http.delete(`${this.apiUrl}/items/user/delete/${bookId}`, {
       headers: this.getAuthHeaders(),
-      responseType: 'text' // The backend returns a plain string message
+      responseType: 'text', // The backend returns a plain string message
     });
   }
 
@@ -101,7 +105,7 @@ export class CartService {
    */
   clearCart(): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/items/user/clear`, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 }
