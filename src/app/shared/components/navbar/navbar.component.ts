@@ -1,8 +1,12 @@
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ZardSwitchComponent } from '../switch/switch.component';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectTotalCartItemCount } from 'src/app/states/cart/cart.selector';
+import { AppState } from 'src/app/states/app.state';
 // import { DarkModeService } from '../../services/darkmode.service';
 
 const getCurrentUser = () => {
@@ -26,19 +30,21 @@ export class NavbarComponent implements OnInit {
 
   currentUser = getCurrentUser();
   isDarkMode: boolean = false;
+  cartItemCount$!: Observable<number>;
 
   @HostListener('window:scroll')
   onWindowScroll() {
     this.isScrolled = window.scrollY > 5;
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark =
       window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialThemeIsDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
+    this.cartItemCount$ = this.store.select(selectTotalCartItemCount);
 
     // ✨ FIX: Corrected the variable name typo here
     this.isDarkMode = initialThemeIsDark;
