@@ -1,5 +1,4 @@
 <app-navbar></app-navbar>
-
 <div class="book-detail-page">
     <div class="book-detail-container" *ngIf="book$ | async as book">
         <button class="back-button" routerLink="/">
@@ -26,7 +25,7 @@
                         </span>
                     </div>
 
-                    <button class="add-to-cart-btn" [disabled]="book.stockQuantity === 0">
+                    <button class="add-to-cart-btn" [disabled]="book.stockQuantity === 0" [routerLink]="['/cart']">
                         Add to Cart
                     </button>
                 </div>
