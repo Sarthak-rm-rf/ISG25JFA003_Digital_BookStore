@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { selectTotalCartItemCount } from 'src/app/states/cart/cart.selector';
 import { AppState } from 'src/app/states/app.state';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/models/user.model';
 // import { DarkModeService } from '../../services/darkmode.service';
 
 const getCurrentUser = () => {
@@ -29,10 +30,11 @@ const getCurrentUser = () => {
 export class NavbarComponent implements OnInit {
   isScrolled = false;
 
-  currentUser = getCurrentUser();
+  // currentUser: User;
   isDarkMode: boolean = false;
   cartItemCount$!: Observable<number>;
   isAuthenticated$: Observable<boolean>;
+  isProfileMenuOpen: boolean = false;
 
   @HostListener('window:scroll')
   onWindowScroll() {
@@ -45,7 +47,7 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService
   ) {
     this.isAuthenticated$ = this.authService.isAuthenticated$;
-    this.currentUser = this.authService.currentUser$;
+    // this.currentUser = this.authService.currentUser$;
   }
 
   ngOnInit(): void {
