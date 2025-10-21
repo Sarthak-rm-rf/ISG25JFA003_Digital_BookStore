@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectTotalCartItemCount } from 'src/app/states/cart/cart.selector';
 import { AppState } from 'src/app/states/app.state';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/models/user.model';
 // import { DarkModeService } from '../../services/darkmode.service';
 
 const getCurrentUser = () => {
@@ -28,16 +30,25 @@ const getCurrentUser = () => {
 export class NavbarComponent implements OnInit {
   isScrolled = false;
 
-  currentUser = getCurrentUser();
+  // currentUser: User;
   isDarkMode: boolean = false;
   cartItemCount$!: Observable<number>;
+  isAuthenticated$: Observable<boolean>;
+  isProfileMenuOpen: boolean = false;
 
   @HostListener('window:scroll')
   onWindowScroll() {
     this.isScrolled = window.scrollY > 5;
   }
 
-  constructor(private router: Router, private store: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private authService: AuthService
+  ) {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+    // this.currentUser = this.authService.currentUser$;
+  }
 
   ngOnInit(): void {
     const savedTheme = localStorage.getItem('theme');
@@ -46,7 +57,6 @@ export class NavbarComponent implements OnInit {
     const initialThemeIsDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
     this.cartItemCount$ = this.store.select(selectTotalCartItemCount);
 
-    // ✨ FIX: Corrected the variable name typo here
     this.isDarkMode = initialThemeIsDark;
     this.applyTheme(initialThemeIsDark);
   }
@@ -62,6 +72,21 @@ export class NavbarComponent implements OnInit {
   toggleTheme(isDark: boolean): void {
     this.isDarkMode = isDark;
     this.applyTheme(isDark);
+  }
+
+  toggleProfileMenu(): void {
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  scrollToContact(): void {
+    const footer = document.getElementById('contact-footer');
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   private applyTheme(isDark: boolean): void {

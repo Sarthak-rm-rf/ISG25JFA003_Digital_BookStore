@@ -1,202 +1,222 @@
-/* General Styling */
 body {
-    padding-top: 100px;
+  padding-top: 100px;
 }
 
+/* Base header */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    padding: 0 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
 }
 
+/* Blur overlay to cover the gap above the floating navbar */
+.header.scrolled::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 13px;
+  /* matches translateY gap below; adjust if needed */
+  background: var(--background);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  z-index: 999;
+  /* below the navbar-container (z-index: 1000 via parent) */
+  pointer-events: none;
+}
+
+/* Dark mode overlay */
+body.dark .header.scrolled::before {
+  background: rgba(20, 20, 20, 0.5);
+}
+
+/* Navbar container - full width initially */
 .navbar-container {
-    max-width: 1440px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 2rem;
-    /* border-radius: 0 0 50px 50px; */
-    border-radius: 0;
-    transition: border-radius 0.5s ease-in-out;
-    background: var(--card);
-    border: 0.5px solid var(--border);
-    box-shadow: 0 8px 32px var(--shadow-color);
-    backdrop-filter: blur(5px);
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
 
+  border-radius: 0;
+  background: var(--background);
+
+  /* Smooth GPU-accelerated transitions */
+  transition: border-radius 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s ease,
+    background 0.35s ease;
+
+  /* Subtle shadow + blur */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+
+  pointer-events: auto;
+  /* re-enable interactions on content */
 }
 
+/* When scrolled: floating, rounded, scaled down */
 .header.scrolled .navbar-container {
-    border-radius: 0 0 50px 50px;
+  border-radius: 40px;
+  transform: scale(0.96) translateY(12px);
+  /* shrink + lift smoothly */
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(100px);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
 }
 
+/* Dark mode adjustment */
+body.dark .header.scrolled .navbar-container {
+  background: rgba(22, 22, 22, 0.65);
+}
+
+/* Logo */
 .logo h1 {
-    margin: 0;
-    color: var(--foreground);
-    font-size: 1.5rem;
-    font-weight: bold;
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 /* --- Nav Links Section --- */
 .nav-links {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .nav-links a {
-    color: var(--foreground);
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    transition: color 0.3s ease;
-    position: relative;
-    z-index: 1;
+  color: var(--foreground);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: color 0.25s ease, opacity 0.25s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .nav-links a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--brand-primary);
-    border-radius: 25px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--brand-primary);
+  border-radius: 25px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .nav-links a:not(.active):hover {
-    color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 
 .nav-links a:not(.active):hover::before {
-    opacity: 0.1;
+  opacity: 0.1;
 }
 
 .nav-links a.active {
-    color: var(--brand-primary-foreground) !important;
+  color: var(--brand-primary-foreground) !important;
 }
 
 .nav-links a.active::before {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
-
 
 /* --- Right Side Actions --- */
 .navbar-actions,
 .auth-buttons,
 .theme-switch {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-actions {
-    gap: 1.5rem;
+  gap: 1.5rem;
 }
 
 .auth-buttons {
-    gap: 1rem;
+  gap: 1rem;
 }
 
 .theme-switch {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
+/* Buttons */
 .login-button,
 .signup-button {
-    padding: 0.6rem 1.2rem;
-    border-radius: 25px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px oklch(from var(--brand-primary) l c h / 20%);
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px oklch(from var(--brand-primary) l c h / 20%);
 }
 
-/* ✨ FIX: Explicitly set the text color for the Login button */
 .login-button {
-    background: transparent;
-    border: 2px solid var(--brand-primary);
-    color: var(--brand-primary);
-    /* This ensures the text is orange */
+  background: transparent;
+  border: 2px solid var(--brand-primary);
+  color: var(--brand-primary);
 }
 
-/* ✨ FIX: Explicitly set the background and text color for the Sign Up button */
 .signup-button {
-    background: var(--brand-primary);
-    border: none;
-    color: var(--brand-primary-foreground);
-    /* This ensures the text is white */
+  background: var(--brand-primary);
+  border: none;
+  color: var(--brand-primary-foreground);
 }
 
 .login-button:hover,
 .signup-button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px oklch(from var(--brand-primary) l c h / 25%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px oklch(from var(--brand-primary) l c h / 25%);
 }
 
 .signup-button:hover {
-    filter: brightness(1.1);
+  filter: brightness(1.08);
 }
 
+/* Cart */
 .cart-icon-wrapper {
-    position: relative;
-    /* This lets us position the badge inside it */
-    display: inline-flex;
-    /* Aligns well with your switch and buttons */
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-/* This targets the SVG you just put inside the wrapper */
 .cart-icon-wrapper svg {
-    width: 32px;
-    /* Give the icon a consistent size */
-    height: 32px;
-    fill: currentColor;
-    /* Makes the icon color match the text color */
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
 }
 
-/* This is the new dynamic badge */
 .cart-badge {
-    position: absolute;
-    top: 0;
-    /* Position at the top-right corner */
-    right: 0;
-
-    /* Colors */
-    background-color: var(--brand-primary);
-    /* Use your brand color */
-    color: var(--brand-primary-foreground);
-    /* Text color for brand */
-
-    /* Sizing and Shape */
-    min-width: 20px;
-    /* Allows it to grow (e.g., for '10') */
-    height: 20px;
-    padding: 0 5px;
-    border-radius: 50%;
-    /* Makes it a circle */
-
-    /* Use your navbar's background for the border to "punch it out" */
-    border: 2px solid var(--card);
-
-    /* Text Styling */
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 16px;
-    /* (20px height - 4px border) */
-    text-align: center;
-
-    /* Prevents the user from selecting the number text */
-    user-select: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--brand-primary);
+  color: var(--brand-primary-foreground);
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  text-align: center;
+  user-select: none;
 }
