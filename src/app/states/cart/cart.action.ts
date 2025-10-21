@@ -14,6 +14,11 @@ export const decrementProduct = createAction(
   props<{ productId: number }>()
 );
 
+export const removeFromCart = createAction(
+  '[Cart Component] removeFromCart',
+  props<{ productId: number }>()
+);
+
 export const clearCart = createAction('[Cart Component] clearCart');
 
 export const loadCart = createAction('[Cart API] Load Cart');

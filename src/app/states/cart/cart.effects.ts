@@ -7,12 +7,11 @@ import * as CartActions from './cart.action';
 import { CartService, CartResponse, CartItemResponse } from 'src/app/core/services/cart.service'; // Adjust path
 import { BookService, Book } from 'src/app/core/services/book.service'; // Adjust path
 import { IProduct } from '../app.state'; // Adjust path
+import { Store } from '@ngrx/store';
+import { clearCart } from './cart.action';
 
 @Injectable()
 export class CartEffects {
-  // --- THIS IS THE FIX ---
-  // We use the modern `inject()` function to get dependencies directly.
-  // This is more robust than constructor injection for property initializers.
   private actions$ = inject(Actions);
   private cartService = inject(CartService);
   private bookService = inject(BookService);
@@ -61,9 +60,7 @@ export class CartEffects {
     )
   );
 
-  /**
-   * The constructor is no longer needed for dependency injection
-   * because we are using the `inject()` function above.
-   */
-  constructor() {}
+  constructor(private store: Store) {
+    this.store.dispatch(clearCart());
+  }
 }

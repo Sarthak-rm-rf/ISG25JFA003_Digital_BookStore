@@ -48,7 +48,7 @@
     height: 2.8em;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    --webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -126,8 +126,9 @@
 .out-of-stock {
     color: #f44336;
 }
+
 /* Example: in your home.component.css */
 .main-content-container {
-  background-color: var(--background);
-  color: var(--foreground);
+    background-color: var(--background);
+    color: var(--foreground);
 }
