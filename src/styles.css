@@ -1,16 +1,17 @@
+@import "primeicons/primeicons.css";
 @import "tailwindcss";
 
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0% 0 0);
-  
+
   /* Brand colors for your orange theme */
   --brand-primary: oklch(0.65 0.23 29.5);
   --brand-primary-foreground: oklch(1 0 0);
-  
+
   /* ✨ FIX: Card background is now semi-transparent */
-  --card: oklch(95.514% 0.00011 271.152 / 0.7); 
+  --card: oklch(95.514% 0.00011 271.152 / 0.7);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -23,9 +24,9 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  
+
   /* ✨ FIX: Border is now more subtle for the glass effect */
-  --border: oklch(0.145 0 0 / 15%); 
+  --border: oklch(0.145 0 0 / 15%);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
 }
@@ -33,7 +34,7 @@
 .dark {
   --background: oklch(0% 0 0);
   --foreground: oklch(99.557% 0.0021 14.222);
-  
+
   /* ✨ FIX: Dark card background is also semi-transparent */
   --card: oklch(37.909% 0.00004 271.152 / 0.6);
   --card-foreground: oklch(0.985 0 0);
@@ -56,9 +57,8 @@
 }
 
 body {
-  padding-top: 100px; 
+  padding-top: 100px;
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-

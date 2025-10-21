@@ -5,7 +5,7 @@
 <ng-template #quantityControl>
   <div class="quantity-stepper">
     <button class="stepper-btn" (click)="decrement(product)">
-      <span *ngIf="quantity === 1">🗑️</span>
+      <span *ngIf="quantity === 1"><i class="pi pi-trash"></i> </span>
       <span *ngIf="quantity > 1">-</span>
     </button>
 
