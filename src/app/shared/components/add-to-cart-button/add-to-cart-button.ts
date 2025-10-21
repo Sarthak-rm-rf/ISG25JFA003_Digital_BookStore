@@ -2,7 +2,11 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState, IProduct } from 'src/app/states/app.state';
-import { decrementProduct, incrementProduct } from 'src/app/states/cart/cart.action';
+import {
+  decrementProduct,
+  incrementProduct,
+  removeFromCart,
+} from 'src/app/states/cart/cart.action';
 import { CartService } from 'src/app/core/services/cart.service';
 import { Subscription } from 'rxjs';
 import { selectProductQuantityInCart } from 'src/app/states/cart/cart.selector';
@@ -42,6 +46,10 @@ export class AddToCartButton {
     if (this.quantitySub) {
       this.quantitySub.unsubscribe();
     }
+  }
+
+  removeFromCart() {
+    this.store.dispatch(removeFromCart({ productId: this.product.id }));
   }
 
   createCartItemRequest() {

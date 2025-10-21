@@ -7,6 +7,7 @@ import {
   loadCart,
   loadCartFailure,
   loadCartSuccess,
+  removeFromCart,
 } from './cart.action';
 import { Book } from 'src/app/core/services/book.service';
 import { IProduct } from '../app.state';
@@ -67,6 +68,13 @@ export const cartReducer = createReducer(
     return {
       ...state,
       products: [],
+    };
+  }),
+  on(removeFromCart, (state, { productId }) => {
+    const updatedProduct = state.products.filter((product) => product.id !== productId);
+    return {
+      ...state,
+      products: updatedProduct,
     };
   })
 );
