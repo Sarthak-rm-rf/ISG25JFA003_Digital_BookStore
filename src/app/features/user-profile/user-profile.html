@@ -7,6 +7,7 @@
   </header>
 
   <main class="profile-content">
+    <!-- Left Column: Password Change -->
     <div class="profile-card password-card">
       <h2>Change Password</h2>
       <form (ngSubmit)="changePassword()" class="password-form">
@@ -45,6 +46,7 @@
       </form>
     </div>
 
+    <!-- Right Column: Tabbed Sections -->
     <div class="profile-card info-card">
       <nav class="tabs">
         <button (click)="setActiveSection('orders')" [class.active]="activeSection === 'orders'">My Orders</button>
@@ -54,6 +56,7 @@
 
       <div class="tab-content" [ngSwitch]="activeSection">
         
+        <!-- Orders Section -->
         <section *ngSwitchCase="'orders'">
           <div *ngIf="user.orders?.length; else noOrders">
             <div *ngFor="let order of user.orders" class="order-item">
@@ -65,9 +68,19 @@
                 <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
                 <strong>Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong>
               </div>
-              <button class="review-btn" (click)="openReviewModal(order)">
-                Write a Review
-              </button>
+              
+              <!-- Conditional Review Button/Badge -->
+              <ng-container *ngIf="!order.isReviewed; else reviewedBadge">
+                <button class="review-btn" (click)="openReviewModal(order)">
+                  Write a Review
+                </button>
+              </ng-container>
+              <ng-template #reviewedBadge>
+                <span class="reviewed-badge">
+                  ✔️ Reviewed
+                </span>
+              </ng-template>
+
             </div>
           </div>
           <ng-template #noOrders>
@@ -75,6 +88,7 @@
           </ng-template>
         </section>
 
+        <!-- Cart Section -->
         <section *ngSwitchCase="'cart'">
           <div *ngIf="user.cart?.cartItems?.length; else emptyCart">
             <div *ngFor="let item of user.cart.cartItems" class="cart-item">
@@ -94,6 +108,7 @@
           </ng-template>
         </section>
 
+        <!-- Address Section -->
         <section *ngSwitchCase="'address'">
           <div class="address-header">
             <h3>Saved Addresses</h3>
@@ -119,10 +134,12 @@
   </main>
 </div>
 
+<!-- Loading Spinner -->
 <div *ngIf="!currentUser" class="loading-spinner">
   <p>Loading your profile...</p>
 </div>
 
+<!-- Add Address Modal -->
 <div class="modal-overlay" *ngIf="isAddressModalOpen" (click)="closeAddressModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <header class="modal-header">
@@ -145,13 +162,13 @@
   </div>
 </div>
 
+<!-- Write a Review Modal -->
 <div class="modal-overlay" *ngIf="isReviewModalOpen" (click)="closeReviewModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <header class="modal-header">
       <h2>Write a Review for {{ currentReviewingBook?.itemName }}</h2>
       <button class="close-btn" (click)="closeReviewModal()">&times;</button>
     </header>
-    
     <form (ngSubmit)="onReviewSubmit()" class="review-form">
       <div class="form-group">
         <label>Your Rating</label>
@@ -163,13 +180,11 @@
           </button>
         </div>
       </div>
-      
       <div class="form-group">
         <label for="reviewComment">Your Review</label>
         <textarea id="reviewComment" name="reviewComment" rows="5" 
                   [(ngModel)]="newReviewComment" required></textarea>
       </div>
-      
       <button type="submit" class="save-btn">Submit Review</button>
     </form>
   </div>

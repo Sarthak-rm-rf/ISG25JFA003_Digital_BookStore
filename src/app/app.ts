@@ -4,10 +4,11 @@ import { HomeComponent } from './features/home/home.component';
 import { Store } from '@ngrx/store';
 import { loadCart } from './states/cart/cart.action';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { ToastComponent } from "@shared/components/toast/toast";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent],
+  imports: [RouterOutlet, FooterComponent, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

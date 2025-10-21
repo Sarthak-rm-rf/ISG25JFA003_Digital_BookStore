@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { BookService, Book } from '../../core/services/book.service';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { ToastComponent } from '@shared/components/toast/toast';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent],
+  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
