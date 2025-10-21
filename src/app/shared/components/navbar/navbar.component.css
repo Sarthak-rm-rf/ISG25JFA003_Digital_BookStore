@@ -12,7 +12,7 @@ body {
   padding: 0;
   display: flex;
   justify-content: center;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 /* Blur overlay to cover the gap above the floating navbar */
@@ -22,11 +22,13 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 13px; /* matches translateY gap below; adjust if needed */
+  height: 13px;
+  /* matches translateY gap below; adjust if needed */
   background: var(--background);
   backdrop-filter: blur(20px) saturate(200%);
   -webkit-backdrop-filter: blur(20px) saturate(200%);
-  z-index: 999; /* below the navbar-container (z-index: 1000 via parent) */
+  z-index: 999;
+  /* below the navbar-container (z-index: 1000 via parent) */
   pointer-events: none;
 }
 
@@ -49,24 +51,27 @@ body.dark .header.scrolled::before {
 
   /* Smooth GPU-accelerated transitions */
   transition: border-radius 0.35s ease,
-              box-shadow 0.35s ease,
-              transform 0.35s ease,
-              background 0.35s ease;
+    box-shadow 0.35s ease,
+    transform 0.35s ease,
+    background 0.35s ease;
 
   /* Subtle shadow + blur */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(8px) saturate(160%);
   -webkit-backdrop-filter: blur(8px) saturate(160%);
 
-  pointer-events: auto; /* re-enable interactions on content */
+  pointer-events: auto;
+  /* re-enable interactions on content */
 }
 
 /* When scrolled: floating, rounded, scaled down */
 .header.scrolled .navbar-container {
   border-radius: 40px;
-  transform: scale(0.96) translateY(12px); /* shrink + lift smoothly */
+  transform: scale(0.96) translateY(12px);
+  /* shrink + lift smoothly */
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
-  background: var(--background);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(100px);
   border: 1px solid var(--border);
   backdrop-filter: blur(20px) saturate(200%);
   -webkit-backdrop-filter: blur(20px) saturate(200%);

@@ -131,6 +131,13 @@
   filter: brightness(0.9);
 }
 
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 /* Tab navigation styling */
 .tabs {
   display: flex;

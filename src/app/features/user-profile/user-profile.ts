@@ -80,9 +80,10 @@ export class UserProfile implements OnInit {
   // --- Form Properties ---
   oldPassword = '';
   newPassword = '';
-  confirmNewPassword = '';
-
-  // Password visibility toggles
+  confirmNewPassword = ''; // ✨ New property for confirmation
+  passwordMismatchError = false;
+  
+  // ✨ Booleans to toggle password visibility
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
@@ -158,7 +159,7 @@ export class UserProfile implements OnInit {
         return;
     }
     if (this.newPassword !== this.confirmNewPassword) {
-      alert('New passwords do not match!');
+      this.passwordMismatchError = true;
       return;
     }
 
@@ -181,6 +182,7 @@ export class UserProfile implements OnInit {
     this.oldPassword = '';
     this.newPassword = '';
     this.confirmNewPassword = '';
+    this.passwordMismatchError = false;
   }
 
   setActiveSection(section: 'orders' | 'cart' | 'address') {

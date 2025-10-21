@@ -1,7 +1,9 @@
 <header class="header" [class.scrolled]="isScrolled">
   <div class="navbar-container">
     <div class="logo">
-      <h1>DBMS</h1>
+      <div class="w-10 h-10 bg-[#ff5722] rounded-full flex items-center justify-center mx-25">
+        <span class="material-icons text-3xl text-white">menu_book</span>
+      </div>
     </div>
 
     <nav class="nav-links">
@@ -11,7 +13,7 @@
       <a routerLink="/our-story" routerLinkActive="active">Our Story</a>
       <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
       <a routerLink="/browse" routerLinkActive="active">Browse</a>
-      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+      <a (click)="scrollToContact()" routerLinkActive="active">Contact</a>
     </nav>
 
     <div class="navbar-actions">
@@ -35,8 +37,8 @@
         class="theme-switch"
       ></z-switch>
       <div class="auth-buttons">
-        <button class="login-button">Login</button>
-        <button class="signup-button">Sign Up</button>
+        <button class="login-button" (click)="loginClick()">Login</button>
+        <button class="signup-button" (click)="signUpClick()">Sign Up</button>
       </div>
     </div>
   </div>
