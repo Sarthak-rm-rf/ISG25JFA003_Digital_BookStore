@@ -4,12 +4,11 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BookService, Book } from '../../core/services/book.service';
 import { ReviewService, Review } from '../../core/services/review.service';
 import { Observable, switchMap } from 'rxjs';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
-
+import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule,NavbarComponent],
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.css']
 })

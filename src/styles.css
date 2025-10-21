@@ -3,14 +3,14 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0% 0 0);
   
   /* Brand colors for your orange theme */
   --brand-primary: oklch(0.65 0.23 29.5);
   --brand-primary-foreground: oklch(1 0 0);
   
   /* ✨ FIX: Card background is now semi-transparent */
-  --card: oklch(1 0 0 / 70%); 
+  --card: oklch(95.514% 0.00011 271.152 / 0.7); 
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -31,11 +31,11 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: oklch(0% 0 0);
+  --foreground: oklch(99.557% 0.0021 14.222);
   
   /* ✨ FIX: Dark card background is also semi-transparent */
-  --card: oklch(0.205 0 0 / 60%);
+  --card: oklch(37.909% 0.00004 271.152 / 0.6);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);

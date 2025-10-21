@@ -46,7 +46,6 @@ export class NavbarComponent implements OnInit {
     const initialThemeIsDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
     this.cartItemCount$ = this.store.select(selectTotalCartItemCount);
 
-    // ✨ FIX: Corrected the variable name typo here
     this.isDarkMode = initialThemeIsDark;
     this.applyTheme(initialThemeIsDark);
   }
