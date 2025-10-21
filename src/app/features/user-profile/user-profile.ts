@@ -7,6 +7,8 @@ import { BookService } from '../../core/services/book.service';
 import { forkJoin, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { SavedAddressesComponent } from '../cart/components/saved-addresses/saved-addresses';
+import { ReviewService, ReviewPayload } from '../../core/services/review.service';
+
 
 // --- Data Interfaces ---
 export interface User {
@@ -105,7 +107,16 @@ export class UserProfile implements OnInit {
     country: ''
   };
 
-  constructor(private userService: UserService) {}
+  isReviewModalOpen = false;
+  currentReviewingBook: Order | null = null;
+  newReviewRating = 0;
+  newReviewComment = '';
+  starRatingArray = [1, 2, 3, 4, 5];
+
+  constructor(
+    private userService: UserService,
+    private reviewService: ReviewService
+  ) {}
 
   ngOnInit() {
     forkJoin({
@@ -191,5 +202,48 @@ export class UserProfile implements OnInit {
 
   get cartTotal(): number {
     return this.currentUser?.cart?.totalAmount ?? 0;
+  }
+
+  openReviewModal(orderItem: Order) {
+    this.currentReviewingBook = orderItem;
+    this.newReviewRating = 0;
+    this.newReviewComment = '';
+    this.isReviewModalOpen = true;
+  }
+
+  closeReviewModal() {
+    this.isReviewModalOpen = false;
+    this.currentReviewingBook = null;
+  }
+
+  setRating(rating: number) {
+    this.newReviewRating = rating;
+  }
+
+  onReviewSubmit() {
+    if (!this.currentReviewingBook) return;
+
+    if (this.newReviewRating === 0 || !this.newReviewComment.trim()) {
+      alert('Please provide a rating and a comment.');
+      return;
+    }
+
+    const payload: ReviewPayload = {
+      rating: this.newReviewRating,
+      comment: this.newReviewComment
+    };
+
+    const bookId = this.currentReviewingBook.itemId;
+
+    this.reviewService.createReview(bookId, payload).subscribe({
+      next: () => {
+        alert('Review submitted successfully! Thank you.');
+        this.closeReviewModal();
+      },
+      error: err => {
+        console.error('Failed to submit review:', err);
+        alert('Failed to submit review. You may have already reviewed this item.');
+      }
+    });
   }
 }

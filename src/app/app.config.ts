@@ -26,5 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: 'cart', reducer: cartReducer }),
     provideStore(),
     provideEffects([CartEffects]),
+
+    
   ],
 };

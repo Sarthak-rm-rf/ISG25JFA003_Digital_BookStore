@@ -387,6 +387,108 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* --- Add these styles to your book-detail.component.css --- */
+
+/* Main Section Header */
+.reviews-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Review Form Card */
+.review-form {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* .review-form h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+} */
+
+/* .review-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.review-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--muted-foreground);
+} */
+
+/* Star Rating Input */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* 
+.review-comment {
+  color: var(--muted-foreground);
+  line-height: 1.6;
+} */
+
+/* Empty State */
+.no-reviews {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--muted-foreground);
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  /* Move controls outside the card for a cleaner look */
+  padding: 0 1rem; 
+  box-sizing: border-box;
+}
+
+.carousel-controls button {
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.carousel-controls button:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
     .book-header {
         flex-direction: column;
@@ -397,4 +499,75 @@
         max-width: 250px;
         margin: 0 auto;
     }
+}
+
+
+
+/* --- Add these styles to book-detail.component.css --- */
+/* Remove any old .review-card, .review-header, .reviewer, etc. styles */
+
+.review-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  margin-right: 2rem;
+  
+  /* ✨ This is the new layout */
+  display: flex;
+  align-items: flex-start; /* Aligns avatar and content to the top */
+  gap: 1rem;
+}
+
+.review-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--muted);
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  border: 3px solid var(--brand-primary);
+  box-sizing: border-box
+}
+
+.review-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.review-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.reviewer-name {
+  font-weight: 600;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.review-rating .stars {
+  color: var(--border);
+  font-size: 0.9rem;
+}
+
+.review-rating .stars .filled {
+  color: var(--brand-primary);
+}
+
+.review-comment {
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin-top: 0.25rem;
 }

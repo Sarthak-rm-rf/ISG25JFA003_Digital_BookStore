@@ -53,22 +53,26 @@
       </nav>
 
       <div class="tab-content" [ngSwitch]="activeSection">
+        
         <section *ngSwitchCase="'orders'">
-            <div *ngIf="user.orders?.length; else noOrders">
+          <div *ngIf="user.orders?.length; else noOrders">
             <div *ngFor="let order of user.orders" class="order-item">
-            <div class="order-details">
-            <strong>{{ order.itemName }}</strong>
-            <span>Quantity: {{ order.quantity }}</span>
-      </div>
-      <div class="order-summary">
-        <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
-        <strong>Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong>
-      </div>
-    </div>
-  </div>
-        <ng-template #noOrders>
-        <p class="empty-state-message">You have no past orders.</p>
-    </ng-template>
+              <div class="order-details">
+                <strong>{{ order.itemName }}</strong>
+                <span>Quantity: {{ order.quantity }}</span>
+              </div>
+              <div class="order-summary">
+                <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
+                <strong>Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong>
+              </div>
+              <button class="review-btn" (click)="openReviewModal(order)">
+                Write a Review
+              </button>
+            </div>
+          </div>
+          <ng-template #noOrders>
+            <p class="empty-state-message">You have no past orders.</p>
+          </ng-template>
         </section>
 
         <section *ngSwitchCase="'cart'">
@@ -98,13 +102,12 @@
               Add New
             </button>
           </div>
-
           <div *ngIf="user.addresses?.length; else noAddresses">
             <div *ngFor="let address of user.addresses" class="address-item">
-                <strong>{{ address.fullName }} ({{ address.phone }})</strong>
-                <p>{{ address.addressLine1 }}{{ address.addressLine2 ? ', ' + address.addressLine2 : '' }}</p>
-                <p>{{ address.city }}, {{ address.state }} {{ address.postalCode }}</p>
-                <p>{{ address.country }}</p>
+              <strong>{{ address.fullName }} ({{ address.phone }})</strong>
+              <p>{{ address.addressLine1 }}{{ address.addressLine2 ? ', ' + address.addressLine2 : '' }}</p>
+              <p>{{ address.city }}, {{ address.state }} {{ address.postalCode }}</p>
+              <p>{{ address.country }}</p>
             </div>
           </div>
           <ng-template #noAddresses>
@@ -138,6 +141,36 @@
       <div class="form-group"><label for="modalPostalCode">Postal Code</label><input type="text" id="modalPostalCode" name="postalCode" [(ngModel)]="newAddress.postalCode" required></div>
       <div class="form-group"><label for="modalCountry">Country</label><input type="text" id="modalCountry" name="country" [(ngModel)]="newAddress.country" required></div>
       <button type="submit" class="save-btn">Save Address</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="isReviewModalOpen" (click)="closeReviewModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h2>Write a Review for {{ currentReviewingBook?.itemName }}</h2>
+      <button class="close-btn" (click)="closeReviewModal()">&times;</button>
+    </header>
+    
+    <form (ngSubmit)="onReviewSubmit()" class="review-form">
+      <div class="form-group">
+        <label>Your Rating</label>
+        <div class="star-rating">
+          <button *ngFor="let star of starRatingArray" type="button"
+                  [class.active]="star <= newReviewRating" 
+                  (click)="setRating(star)">
+            ★
+          </button>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="reviewComment">Your Review</label>
+        <textarea id="reviewComment" name="reviewComment" rows="5" 
+                  [(ngModel)]="newReviewComment" required></textarea>
+      </div>
+      
+      <button type="submit" class="save-btn">Submit Review</button>
     </form>
   </div>
 </div>
