@@ -4,10 +4,12 @@ import { HomeComponent } from './features/home/home.component';
 import { Store } from '@ngrx/store';
 import { loadCart } from './states/cart/cart.action';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { Toast } from 'primeng/toast';
+import { ZardToastComponent } from '@shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent],
+  imports: [RouterOutlet, FooterComponent, ZardToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
