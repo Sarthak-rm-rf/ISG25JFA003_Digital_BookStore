@@ -2,7 +2,14 @@
 
 <div *ngIf="currentUser as user" class="profile-container">
   <header class="profile-header">
-    <img [src]="user.avatarUrl || 'https://placehold.co/150'" alt="User Profile Picture" class="profile-avatar">
+    <img
+      [src]="
+        user.avatarUrl ||
+        'data:image/jpeg;base64,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'
+      "
+      alt="User Profile Picture"
+      class="profile-avatar"
+    />
     <h1 class="welcome-message">Welcome, {{ user.fullName }}!</h1>
   </header>
 
@@ -13,30 +20,156 @@
         <div class="form-group">
           <label for="old-password">Old Password</label>
           <div class="password-input-wrapper">
-            <input [type]="showOldPassword ? 'text' : 'password'" id="old-password" [(ngModel)]="oldPassword" name="oldPassword" required>
-            <button type="button" class="toggle-password" (click)="showOldPassword = !showOldPassword">
-              <svg *ngIf="!showOldPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg *ngIf="showOldPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+            <input
+              [type]="showOldPassword ? 'text' : 'password'"
+              id="old-password"
+              [(ngModel)]="oldPassword"
+              name="oldPassword"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showOldPassword = !showOldPassword"
+            >
+              <svg
+                *ngIf="!showOldPassword"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg
+                *ngIf="showOldPassword"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                <path
+                  d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                />
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" x2="22" y1="2" y2="22" />
+              </svg>
             </button>
           </div>
         </div>
         <div class="form-group">
           <label for="new-password">New Password</label>
           <div class="password-input-wrapper">
-            <input [type]="showNewPassword ? 'text' : 'password'" id="new-password" [(ngModel)]="newPassword" name="newPassword" required>
-            <button type="button" class="toggle-password" (click)="showNewPassword = !showNewPassword">
-              <svg *ngIf="!showNewPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg *ngIf="showNewPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+            <input
+              [type]="showNewPassword ? 'text' : 'password'"
+              id="new-password"
+              [(ngModel)]="newPassword"
+              name="newPassword"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showNewPassword = !showNewPassword"
+            >
+              <svg
+                *ngIf="!showNewPassword"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg
+                *ngIf="showNewPassword"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                <path
+                  d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                />
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" x2="22" y1="2" y2="22" />
+              </svg>
             </button>
           </div>
         </div>
         <div class="form-group">
           <label for="confirm-new-password">Confirm New Password</label>
           <div class="password-input-wrapper">
-            <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirm-new-password" [(ngModel)]="confirmNewPassword" name="confirmNewPassword" required>
-            <button type="button" class="toggle-password" (click)="showConfirmPassword = !showConfirmPassword">
-               <svg *ngIf="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-               <svg *ngIf="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirm-new-password"
+              [(ngModel)]="confirmNewPassword"
+              name="confirmNewPassword"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showConfirmPassword = !showConfirmPassword"
+            >
+              <svg
+                *ngIf="!showConfirmPassword"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg
+                *ngIf="showConfirmPassword"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                <path
+                  d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                />
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" x2="22" y1="2" y2="22" />
+              </svg>
             </button>
           </div>
         </div>
@@ -47,28 +180,36 @@
 
     <div class="profile-card info-card">
       <nav class="tabs">
-        <button (click)="setActiveSection('orders')" [class.active]="activeSection === 'orders'">My Orders</button>
-        <button (click)="setActiveSection('cart')" [class.active]="activeSection === 'cart'">My Cart</button>
-        <button (click)="setActiveSection('address')" [class.active]="activeSection === 'address'">My Addresses</button>
+        <button (click)="setActiveSection('orders')" [class.active]="activeSection === 'orders'">
+          My Orders
+        </button>
+        <button (click)="setActiveSection('cart')" [class.active]="activeSection === 'cart'">
+          My Cart
+        </button>
+        <button (click)="setActiveSection('address')" [class.active]="activeSection === 'address'">
+          My Addresses
+        </button>
       </nav>
 
       <div class="tab-content" [ngSwitch]="activeSection">
         <section *ngSwitchCase="'orders'">
-            <div *ngIf="user.orders?.length; else noOrders">
+          <div *ngIf="user.orders?.length; else noOrders">
             <div *ngFor="let order of user.orders" class="order-item">
-            <div class="order-details">
-            <strong>{{ order.itemName }}</strong>
-            <span>Quantity: {{ order.quantity }}</span>
-      </div>
-      <div class="order-summary">
-        <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
-        <strong>Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong>
-      </div>
-    </div>
-  </div>
-        <ng-template #noOrders>
-        <p class="empty-state-message">You have no past orders.</p>
-    </ng-template>
+              <div class="order-details">
+                <strong>{{ order.itemName }}</strong>
+                <span>Quantity: {{ order.quantity }}</span>
+              </div>
+              <div class="order-summary">
+                <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
+                <strong
+                  >Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong
+                >
+              </div>
+            </div>
+          </div>
+          <ng-template #noOrders>
+            <p class="empty-state-message">You have no past orders.</p>
+          </ng-template>
         </section>
 
         <section *ngSwitchCase="'cart'">
@@ -94,21 +235,39 @@
           <div class="address-header">
             <h3>Saved Addresses</h3>
             <button (click)="openAddressModal()" class="add-address-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
               Add New
             </button>
           </div>
 
           <div *ngIf="user.addresses?.length; else noAddresses">
             <div *ngFor="let address of user.addresses" class="address-item">
-                <strong>{{ address.fullName }} ({{ address.phone }})</strong>
-                <p>{{ address.addressLine1 }}{{ address.addressLine2 ? ', ' + address.addressLine2 : '' }}</p>
-                <p>{{ address.city }}, {{ address.state }} {{ address.postalCode }}</p>
-                <p>{{ address.country }}</p>
+              <strong>{{ address.fullName }} ({{ address.phone }})</strong>
+              <p>
+                {{ address.addressLine1
+                }}{{ address.addressLine2 ? ', ' + address.addressLine2 : '' }}
+              </p>
+              <p>{{ address.city }}, {{ address.state }} {{ address.postalCode }}</p>
+              <p>{{ address.country }}</p>
             </div>
           </div>
           <ng-template #noAddresses>
-            <p class="empty-state-message">You have no saved addresses. Click "Add New" to get started.</p>
+            <p class="empty-state-message">
+              You have no saved addresses. Click "Add New" to get started.
+            </p>
           </ng-template>
         </section>
       </div>
@@ -125,18 +284,84 @@
     <header class="modal-header">
       <h2>Add New Address</h2>
       <button class="close-btn" (click)="closeAddressModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
       </button>
     </header>
     <form (ngSubmit)="onAddressSubmit()" class="address-form">
-      <div class="form-group"><label for="modalFullName">Full Name</label><input type="text" id="modalFullName" name="fullName" [(ngModel)]="newAddress.fullName" required></div>
-      <div class="form-group"><label for="modalPhone">Phone Number</label><input type="text" id="modalPhone" name="phone" [(ngModel)]="newAddress.phone" required></div>
-      <div class="form-group"><label for="modalAddressLine1">Address Line 1</label><input type="text" id="modalAddressLine1" name="addressLine1" [(ngModel)]="newAddress.addressLine1" required></div>
-      <div class="form-group"><label for="modalAddressLine2">Address Line 2 (Optional)</label><input type="text" id="modalAddressLine2" name="addressLine2" [(ngModel)]="newAddress.addressLine2"></div>
-      <div class="form-group"><label for="modalCity">City</label><input type="text" id="modalCity" name="city" [(ngModel)]="newAddress.city" required></div>
-      <div class="form-group"><label for="modalState">State</label><input type="text" id="modalState" name="state" [(ngModel)]="newAddress.state" required></div>
-      <div class="form-group"><label for="modalPostalCode">Postal Code</label><input type="text" id="modalPostalCode" name="postalCode" [(ngModel)]="newAddress.postalCode" required></div>
-      <div class="form-group"><label for="modalCountry">Country</label><input type="text" id="modalCountry" name="country" [(ngModel)]="newAddress.country" required></div>
+      <div class="form-group">
+        <label for="modalFullName">Full Name</label
+        ><input
+          type="text"
+          id="modalFullName"
+          name="fullName"
+          [(ngModel)]="newAddress.fullName"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="modalPhone">Phone Number</label
+        ><input type="text" id="modalPhone" name="phone" [(ngModel)]="newAddress.phone" required />
+      </div>
+      <div class="form-group">
+        <label for="modalAddressLine1">Address Line 1</label
+        ><input
+          type="text"
+          id="modalAddressLine1"
+          name="addressLine1"
+          [(ngModel)]="newAddress.addressLine1"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="modalAddressLine2">Address Line 2 (Optional)</label
+        ><input
+          type="text"
+          id="modalAddressLine2"
+          name="addressLine2"
+          [(ngModel)]="newAddress.addressLine2"
+        />
+      </div>
+      <div class="form-group">
+        <label for="modalCity">City</label
+        ><input type="text" id="modalCity" name="city" [(ngModel)]="newAddress.city" required />
+      </div>
+      <div class="form-group">
+        <label for="modalState">State</label
+        ><input type="text" id="modalState" name="state" [(ngModel)]="newAddress.state" required />
+      </div>
+      <div class="form-group">
+        <label for="modalPostalCode">Postal Code</label
+        ><input
+          type="text"
+          id="modalPostalCode"
+          name="postalCode"
+          [(ngModel)]="newAddress.postalCode"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="modalCountry">Country</label
+        ><input
+          type="text"
+          id="modalCountry"
+          name="country"
+          [(ngModel)]="newAddress.country"
+          required
+        />
+      </div>
       <button type="submit" class="save-btn">Save Address</button>
     </form>
   </div>
