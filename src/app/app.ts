@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { Store } from '@ngrx/store';
 import { loadCart } from './states/cart/cart.action';
@@ -17,9 +17,13 @@ import { ZardToastComponent } from '@shared/components/toast/toast.component';
 export class App {
   protected readonly title = signal('ISG25JFA003_Digital_BookStore');
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit() {
     this.store.dispatch(loadCart());
+  }
+
+  isAdminRoute(): boolean {
+    return this.router.url.includes('/admin');
   }
 }
