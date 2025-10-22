@@ -15,6 +15,12 @@ body {
   pointer-events: none;
 }
 
+.header.fixed {
+  background: var(--background);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border);
+}
+
 /* Blur overlay to cover the gap above the floating navbar */
 .header.scrolled::before {
   content: '';
@@ -45,9 +51,13 @@ body.dark .header.scrolled::before {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 2rem;
-
   border-radius: 0;
   background: var(--background);
+}
+
+.header.fixed .navbar-container {
+  justify-content: flex-end;
+  padding: 0.5rem 2rem;
 
   /* Smooth GPU-accelerated transitions */
   transition: border-radius 0.35s ease,
@@ -65,7 +75,7 @@ body.dark .header.scrolled::before {
 }
 
 /* When scrolled: floating, rounded, scaled down */
-.header.scrolled .navbar-container {
+.header:not(.fixed).scrolled .navbar-container {
   border-radius: 40px;
   transform: scale(0.96) translateY(12px);
   /* shrink + lift smoothly */
@@ -75,6 +85,15 @@ body.dark .header.scrolled::before {
   border: 1px solid var(--border);
   backdrop-filter: blur(20px) saturate(200%);
   -webkit-backdrop-filter: blur(20px) saturate(200%);
+}
+
+.header.fixed .navbar-container {
+  border-radius: 0;
+  transform: none;
+  background: var(--background);
+  box-shadow: none;
+  border: none;
+  height: 60px;
 }
 
 /* Dark mode adjustment */
@@ -147,6 +166,13 @@ body.dark .header.scrolled .navbar-container {
 
 .navbar-actions {
   gap: 1.5rem;
+}
+
+.header.fixed .navbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .auth-buttons {
