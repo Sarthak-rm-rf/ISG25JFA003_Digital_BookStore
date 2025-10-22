@@ -78,7 +78,7 @@ export class AddToCartButton {
     const productId = product.id;
     this.store.dispatch(incrementProduct({ productId }));
     const bookId = this.product.id;
-    const quantity = this.quantity + 1;
+    const quantity = this.quantity;
     this.cartService.updateCartItem(bookId, quantity).subscribe((item) => {
       console.log('item updated on cart');
     });
@@ -89,7 +89,7 @@ export class AddToCartButton {
       const productId = product.id;
       this.store.dispatch(decrementProduct({ productId }));
       const bookId = this.product.id;
-      const quantity = this.quantity - 1;
+      const quantity = this.quantity;
       this.cartService.updateCartItem(bookId, quantity).subscribe((item) => {
         console.log('item updated on cart');
       });
