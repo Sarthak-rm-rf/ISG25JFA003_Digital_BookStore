@@ -30,7 +30,7 @@ export class OrderSummary {
   orderDetails: any = {};
   orderId!: number;
   private cartService = inject(CartService);
-  private orderService = inject(OrdrerService);
+  private orderService = inject(OrderService);
   private paymentService = inject(PaymentService);
 
   constructor(private zone: NgZone, router: Router, private store: Store) {
