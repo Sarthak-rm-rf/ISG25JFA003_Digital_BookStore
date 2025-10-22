@@ -5,7 +5,8 @@ import { catchError, map, exhaustMap, mergeMap } from 'rxjs/operators';
 
 import * as CartActions from './cart.action';
 import { CartService, CartResponse, CartItemResponse } from 'src/app/core/services/cart.service'; // Adjust path
-import { BookService, Book } from 'src/app/core/services/book.service'; // Adjust path
+import { BookService } from 'src/app/core/services/book.service';
+import { Book } from 'src/app/models/book.model'; // Adjust path
 import { IProduct } from '../app.state'; // Adjust path
 import { Store } from '@ngrx/store';
 import { clearCart } from './cart.action';
@@ -37,9 +38,9 @@ export class CartEffects {
                       title: item.bookTitle,
                       price: item.price,
                       quantity: item.quantity,
-                      author: book.authorName,
+                      author: book.author?.name || '',
                       rating: 4.8, // Assuming book has a rating
-                      imageUrl: book.imageUrl,
+                      imageUrl: book.imageUrl || '',
                     };
                   })
                 );

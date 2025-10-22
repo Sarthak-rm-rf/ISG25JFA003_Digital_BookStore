@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
-import { Book } from '../../../core/services/book.service';
+import { Book } from '../../../models/book.model';
 import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button';
 import { Store } from '@ngrx/store';
 import { addToCart } from 'src/app/states/cart/cart.action';
@@ -24,12 +24,12 @@ export class BookCardComponent {
   ngOnInit(): void {
     if (this.book) {
       this.product = {
-        id: this.book.bookId,
-        author: this.book.authorName,
+        id: this.book.bookId || 0,
+        author: this.book.author?.name || '',
         title: this.book.title,
         rating: 4.98,
         quantity: 1,
-        imageUrl: this.book.imageUrl,
+        imageUrl: this.book.imageUrl || '',
         price: this.book.price,
       };
     }

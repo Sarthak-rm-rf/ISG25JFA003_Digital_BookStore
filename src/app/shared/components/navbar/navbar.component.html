@@ -49,7 +49,7 @@
           </button>
 
           <div class="dropdown-menu" [class.open]="isProfileMenuOpen">
-            <a routerLink="/user-profile" class="dropdown-item" (click)="isProfileMenuOpen = false"
+            <a [routerLink]="getProfileRoute()" class="dropdown-item" (click)="isProfileMenuOpen = false"
               >My Profile</a
             >
             <button class="dropdown-item logout-link" (click)="logout()">Logout</button>

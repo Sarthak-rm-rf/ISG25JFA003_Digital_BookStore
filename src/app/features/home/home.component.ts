@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BookService, Book } from '../../core/services/book.service';
+import { BookService } from '../../core/services/book.service';
+import { Book } from '../../models/book.model';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { ToastComponent } from '@shared/components/toast/toast';
 import { ShaderAnimationComponent } from '../../shared/components/shader-animation/shader-animation.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent, ShaderAnimationComponent],
+  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent, ShaderAnimationComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
