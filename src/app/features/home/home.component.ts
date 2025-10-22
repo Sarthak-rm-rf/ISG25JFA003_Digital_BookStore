@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { BookService, Book } from '../../core/services/book.service';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { ShaderAnimationComponent } from '../../shared/components/shader-animation/shader-animation.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent],
+  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent, ShaderAnimationComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

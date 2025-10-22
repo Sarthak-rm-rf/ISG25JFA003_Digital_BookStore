@@ -10,25 +10,38 @@
 }
 
 .hero {
-    /* The gradient now uses the --card variable for a theme-aware overlay */
-    /* background: linear-gradient(oklch(from var(--card) l c h / 100%), oklch(from var(--card) l c h / 100%)), url('/assets/images/hero-bg.jpg'); */
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    height: 650px;
     padding: clamp(2rem, 8vw, 4rem) 2rem;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
 }
 
 .hero-content h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
     color: var(--foreground);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
     line-height: 1.2;
 }
 
 .hero-content p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--muted-foreground);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: var(--foreground);
     margin-bottom: 2rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .search-container {
