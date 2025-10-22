@@ -10,11 +10,15 @@ import {
 import { CartService } from 'src/app/core/services/cart.service';
 import { Subscription } from 'rxjs';
 import { selectProductQuantityInCart } from 'src/app/states/cart/cart.selector';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { toast } from 'ngx-sonner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-to-cart-button',
   standalone: true,
-  imports: [CommonModule], // Import CommonModule for ngIf
+  imports: [CommonModule],
   templateUrl: './add-to-cart-button.html',
   styleUrls: ['./add-to-cart-button.css'],
 })
@@ -30,7 +34,7 @@ export class AddToCartButton {
   private quantitySub!: Subscription;
   private cartService = inject(CartService);
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     if (this.product && this.product.id) {
@@ -66,6 +70,8 @@ export class AddToCartButton {
     this.cartService.addToCart(item).subscribe((item) => {
       console.log('Item added to cart');
     });
+
+    this.showToast(product.title);
   }
 
   increment(product: IProduct) {
@@ -88,5 +94,15 @@ export class AddToCartButton {
         console.log('item updated on cart');
       });
     }
+  }
+
+  showToast(title: string) {
+    toast(`${title} Added to Cart`, {
+      description: `Your item has been added to cart successfully`,
+      action: {
+        label: 'View',
+        onClick: () => this.router.navigate(['/cart']),
+      },
+    });
   }
 }

@@ -5,11 +5,12 @@ import { BookService, Book } from '../../core/services/book.service';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { ToastComponent } from '@shared/components/toast/toast';
+import { ShaderAnimationComponent } from '../../shared/components/shader-animation/shader-animation.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent],
+  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent, ShaderAnimationComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

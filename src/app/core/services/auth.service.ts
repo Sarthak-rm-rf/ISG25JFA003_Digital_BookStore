@@ -5,19 +5,16 @@ import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
-  
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(
-    private apiService: ApiService,
-    private router: Router
-  ) {
+  constructor(private apiService: ApiService, private router: Router) {
     this.loadUserFromStorage();
   }
 
@@ -27,7 +24,7 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.apiService.post<LoginResponse>('/auth/login', request).pipe(
-      tap(response => {
+      tap((response) => {
         this.setSession(response);
       })
     );
@@ -38,7 +35,7 @@ export class AuthService {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
-    this.router.navigate(['/login']);
+    window.location.replace('/');
   }
 
   getToken(): string | null {
@@ -77,16 +74,16 @@ export class AuthService {
 
   private setSession(authResult: LoginResponse): void {
     localStorage.setItem('token', authResult.token);
-    
+
     // Decode JWT to get user info
     const tokenPayload = this.decodeToken(authResult.token);
     const user: User = {
       userId: tokenPayload.userId,
       fullName: tokenPayload.fullName || tokenPayload.sub,
       email: tokenPayload.sub,
-      role: authResult.role as 'USER' | 'ADMIN'
+      role: authResult.role as 'USER' | 'ADMIN',
     };
-    
+
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
@@ -105,7 +102,7 @@ export class AuthService {
   private loadUserFromStorage(): void {
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
-    
+
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
@@ -117,4 +114,3 @@ export class AuthService {
     }
   }
 }
-

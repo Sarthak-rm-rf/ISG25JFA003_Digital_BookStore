@@ -1,16 +1,5 @@
 <div class="summary-container" *ngIf="products.length > 0">
   <!-- Place Order Button -->
-  <button
-    type="button"
-    class="place-order-btn"
-    [disabled]="isLoading || !selectedAddress"
-    (click)="placeOrder()"
-  >
-    <ng-container *ngIf="!isLoading; else loading"> Place Order </ng-container>
-    <ng-template #loading>
-      <span class="spinner"></span>
-    </ng-template>
-  </button>
 
   <!-- Order Summary -->
   <div class="order-summary">
@@ -43,4 +32,15 @@
       <span>₹{{ totalAmount().toFixed(2) }}</span>
     </div>
   </div>
+  <button
+    type="button"
+    class="place-order-btn"
+    [disabled]="isLoading || !selectedAddress"
+    (click)="placeOrder()"
+  >
+    <ng-container *ngIf="!isLoading; else loading"> Place Order </ng-container>
+    <ng-template #loading>
+      <span class="spinner"></span>
+    </ng-template>
+  </button>
 </div>

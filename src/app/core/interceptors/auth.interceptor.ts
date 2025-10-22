@@ -5,10 +5,9 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-
   // Get the auth token from localStorage.
   // Make sure you save the token here after the user logs in.
-  const authToken = localStorage.getItem('authToken');
+  const authToken = localStorage.getItem('token');
 
   // If a token exists, clone the request and add the Authorization header.
   if (authToken) {

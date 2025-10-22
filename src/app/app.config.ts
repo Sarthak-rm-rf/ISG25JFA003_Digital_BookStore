@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-
 import { routes } from './app.routes';
 import { provideState, provideStore } from '@ngrx/store';
 import { cartReducer } from './states/cart/cart.reducer';
@@ -26,7 +25,6 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: 'cart', reducer: cartReducer }),
     provideStore(),
     provideEffects([CartEffects]),
-
-    
+    provideRouter(routes),
   ],
 };

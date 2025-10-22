@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   isScrolled = false;
   isDarkMode: boolean = false;
   isProfileMenuOpen: boolean = false;
-  
+
   cartItemCount$!: Observable<number>;
   isAuthenticated$: Observable<boolean>;
   currentUser$: Observable<User | null>; // ✨ ADDED: To get user data like avatarUrl
@@ -84,7 +84,6 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.authService.logout(); // Call your auth service's logout method
     this.isProfileMenuOpen = false; // Close the menu
-    this.router.navigate(['/login']); // Redirect to login
   }
 
   scrollToTop(): void {
