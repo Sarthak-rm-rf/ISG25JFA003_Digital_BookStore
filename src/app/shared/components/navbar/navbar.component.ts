@@ -86,6 +86,14 @@ export class NavbarComponent implements OnInit {
     this.isProfileMenuOpen = false; // Close the menu
   }
 
+  // ✨ ADDED: Method to get profile route based on user role
+  getProfileRoute(): string {
+    if (this.authService.isAdmin()) {
+      return '/admin/dashboard';
+    }
+    return '/user-profile';
+  }
+
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
