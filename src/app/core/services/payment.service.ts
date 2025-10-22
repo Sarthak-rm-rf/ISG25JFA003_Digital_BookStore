@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface PaymentRequest {
-  type: string;
-  transactionId: string;
+  type: String;
+  transactionId: String;
   amount: number;
-  identifier: string;
   orderId: number;
+  status: String;
 }
 
 export interface PaymentResponse {
   paymentId: number;
-  transactionId: string;
-  status: string;
+  transactionId: String;
+  status: String;
   orderId: number;
 }
 
@@ -21,7 +21,7 @@ export interface PaymentResponse {
   providedIn: 'root',
 })
 export class PaymentService {
-  apiUrl = 'localhost:8080/api/v1/payment';
+  apiUrl = 'http://localhost:8080/api/v1/payment';
 
   constructor(private http: HttpClient) {}
 
@@ -47,9 +47,12 @@ export class PaymentService {
     if (user) {
       userId = JSON.parse(user).userId;
     }
-    return this.http.post<PaymentResponse>(`${this.apiUrl}/user/${userId}/validate`, {
-      headers: this.getAuthHeaders(),
-      params: paymentRequest,
-    });
+    return this.http.post<PaymentResponse>(
+      `${this.apiUrl}/user/${userId}/validate`,
+      paymentRequest,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 }
