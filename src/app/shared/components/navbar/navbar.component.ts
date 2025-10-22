@@ -118,4 +118,8 @@ export class NavbarComponent implements OnInit {
   redirect() {
     this.router.navigate(['/cart']);
   }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
 }
