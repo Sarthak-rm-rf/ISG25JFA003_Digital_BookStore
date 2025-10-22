@@ -9,6 +9,7 @@ import { OrderRequest } from 'src/app/models/order.model';
 import { firstValueFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { clearCart } from 'src/app/states/cart/cart.action';
+import { PaymentRequest, PaymentService } from 'src/app/core/services/payment.service';
 
 @Component({
   selector: 'app-order-summary',
@@ -27,8 +28,10 @@ export class OrderSummary {
   isLoading: boolean = false; // For place order button
   orderConfirmed = signal(false);
   orderDetails: any = {};
+  orderId!: number;
   private cartService = inject(CartService);
-  private orderService = inject(OrderService);
+  private orderService = inject(OrdrerService);
+  private paymentService = inject(PaymentService);
 
   constructor(private zone: NgZone, router: Router, private store: Store) {
     effect(() => {
@@ -87,6 +90,7 @@ export class OrderSummary {
     setTimeout(() => {
       console.log('Placing order with total:', this.totalAmount());
       setTimeout(() => (this.isLoading = false), 1200);
+      const userPayAmount = this.totalAmount();
       const amount = this.getCartTotalPaise();
       const self = this;
       const options = {
@@ -104,14 +108,30 @@ export class OrderSummary {
             const orderRequest = await self.createOrderRequest();
             self.orderService.placeOrder(orderRequest).subscribe((item: any) => {
               console.log('order placed');
+              self.orderId = item.orderId;
+              self.orderConfirmed.set(true);
+              self.store.dispatch(clearCart());
+              self.orderDetails = {
+                paymentId: response.razorpay_payment_id,
+                amount: amount / 100,
+                date: new Date().toLocaleString(),
+              };
+              const paymentReq: PaymentRequest = {
+                type: 'razorpay',
+                transactionId: self.orderDetails.paymentId,
+                amount: userPayAmount,
+                orderId: self.orderId,
+                status: 'Success',
+              };
+              self.paymentService.savePaymentRequest(paymentReq).subscribe(
+                (item) => {
+                  console.log('Payment Saved');
+                },
+                (error) => {
+                  console.log(userPayAmount);
+                }
+              );
             });
-            self.orderConfirmed.set(true);
-            self.store.dispatch(clearCart());
-            self.orderDetails = {
-              paymentId: response.razorpay_payment_id,
-              amount: amount / 100,
-              date: new Date().toLocaleString(),
-            };
           });
         },
         prefill: {
