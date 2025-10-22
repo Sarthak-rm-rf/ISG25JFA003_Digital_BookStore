@@ -182,7 +182,7 @@ export class UsersManagementComponent implements OnInit {
           console.error('Error deleting user:', err);
           
           if (err.status === 401) {
-            this.toastService.showError('Session expired. Please login again to continue.');
+            this.toastService.showError('Cannot delete this user.');
           } else if (err.status === 403) {
             this.toastService.showError('Access denied. Admin privileges required.');
           } else if (err.status === 404) {
