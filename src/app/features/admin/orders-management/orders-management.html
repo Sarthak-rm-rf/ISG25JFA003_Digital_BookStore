@@ -71,7 +71,7 @@
 
                     <!-- Amount -->
                     <td class="px-4 py-3 text-sm font-medium text-[#ff5722]">
-                      ${{ order.totalAmount | number:'1.2-2' }}
+                      ₹{{ order.totalAmount | number:'1.2-2' }}
                     </td>
 
                     <!-- Status -->
@@ -147,7 +147,7 @@
             </div>
             <div class="flex justify-between border-t pt-3">
               <span class="text-gray-600 font-medium">Total Amount:</span>
-              <span class="text-[#ff5722] font-bold">${{ selectedOrder.totalAmount | number:'1.2-2' }}</span>
+              <span class="text-[#ff5722] font-bold">₹{{ selectedOrder.totalAmount | number:'1.2-2' }}</span>
             </div>
           </div>
         </div>
