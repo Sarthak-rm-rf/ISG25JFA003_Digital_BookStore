@@ -1,18 +1,33 @@
 <app-navbar></app-navbar>
 
-<div class="min-h-screen bg-white py-8">
+<div class="min-h-screen bg-background text-foreground py-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-      <p class="text-gray-600">Monitor and manage your digital bookstore</p>
+    <button 
+      (click)="goBack()"
+      class="mb-4 flex items-center text-muted-foreground hover:text-foreground transition-colors">
+      <span class="material-icons mr-1">arrow_back</span>
+      Back
+    </button>
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
+        <p class="text-muted-foreground">Monitor and manage your digital bookstore</p>
+      </div>
+      <button 
+        (click)="loadDashboardData()"
+        [disabled]="loading"
+        class="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2">
+        <span class="material-icons">refresh</span>
+        Refresh Dashboard
+      </button>
     </div>
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-card text-card-foreground border border-border rounded-lg p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-600 text-sm">Total Books</p>
+            <p class="text-muted-foreground text-sm">Total Books</p>
             <p class="text-3xl font-bold text-[#ff5722]">{{totalBooks}}</p>
           </div>
           <span class="material-icons text-4xl text-[#ff5722]">library_books</span>
@@ -22,10 +37,10 @@
         </a>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-card text-card-foreground border border-border rounded-lg p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-600 text-sm">Total Orders</p>
+            <p class="text-muted-foreground text-sm">Total Orders</p>
             <p class="text-3xl font-bold text-[#ff5722]">{{totalOrders}}</p>
           </div>
           <span class="material-icons text-4xl text-[#ff5722]">shopping_bag</span>
@@ -35,10 +50,10 @@
         </a>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-card text-card-foreground border border-border rounded-lg p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-600 text-sm">Total Users</p>
+            <p class="text-muted-foreground text-sm">Total Users</p>
             <p class="text-3xl font-bold text-[#ff5722]">{{totalUsers}}</p>
           </div>
           <span class="material-icons text-4xl text-[#ff5722]">people</span>
@@ -48,10 +63,10 @@
         </a>
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-card text-card-foreground border border-border rounded-lg p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-600 text-sm">Total Revenue</p>
+            <p class="text-muted-foreground text-sm">Total Revenue</p>
             <p class="text-3xl font-bold text-[#ff5722]">₹{{totalRevenue | number:'1.2-2'}}</p>
           </div>
           <span class="material-icons text-4xl text-[#ff5722]">currency_rupee</span>
@@ -61,22 +76,22 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- Low Stock Alerts -->
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-card text-card-foreground border border-border rounded-lg p-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Low Stock Alerts</h2>
+          <h2 class="text-xl font-semibold text-foreground">Low Stock Alerts</h2>
           <a routerLink="/admin/inventory" class="text-[#ff5722] text-sm">View All</a>
         </div>
         
         @if (lowStockAlerts.length === 0) {
-          <p class="text-gray-500 text-center py-4">No low stock alerts</p>
+          <p class="text-muted-foreground text-center py-4">No low stock alerts</p>
         } @else {
           <div class="space-y-3">
             @for (alert of lowStockAlerts.slice(0, 5); track alert.inventoryId) {
-              <div class="flex items-center p-3 bg-red-50 rounded-lg border border-red-200">
-                <span class="material-icons text-red-600 mr-3">warning</span>
+              <div class="flex items-center p-3 bg-destructive/10 rounded-lg border border-destructive/20">
+                <span class="material-icons text-destructive mr-3">warning</span>
                 <div class="flex-grow">
-                  <p class="font-medium text-gray-900">{{alert.book.title}}</p>
-                  <p class="text-xs text-red-600 mt-1">Stock: {{alert.currentStock}} units</p>
+                  <p class="font-medium text-foreground">{{alert.book.title}}</p>
+                  <p class="text-xs text-destructive mt-1">Stock: {{alert.currentStock}} units</p>
                 </div>
               </div>
             }
@@ -85,29 +100,29 @@
       </div>
 
       <!-- Recent Orders -->
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
+      <div class="bg-card text-card-foreground border border-border rounded-lg p-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Recent Orders</h2>
+          <h2 class="text-xl font-semibold text-foreground">Recent Orders</h2>
           <a routerLink="/admin/orders-management" class="text-[#ff5722] text-sm">View All</a>
         </div>
         
         @if (recentOrders.length === 0) {
-          <p class="text-gray-500 text-center py-4">No orders yet</p>
+          <p class="text-muted-foreground text-center py-4">No orders yet</p>
         } @else {
           <div class="overflow-x-auto">
             <table class="min-w-full">
-              <thead class="bg-gray-50">
+              <thead class="bg-muted">
                 <tr>
-                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Order ID</th>
-                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Amount</th>
-                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Status</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Order ID</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Amount</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-muted-foreground">Status</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-200">
+              <tbody class="divide-y divide-border">
                 @for (order of recentOrders.slice(0, 5); track order.orderId) {
                   <tr>
-                    <td class="px-4 py-3 text-sm">#{{order.orderId}}</td>
-                    <td class="px-4 py-3 text-sm">₹{{order.totalAmount | number:'1.2-2'}}</td>
+                    <td class="px-4 py-3 text-sm text-card-foreground">#{{order.orderId}}</td>
+                    <td class="px-4 py-3 text-sm text-card-foreground">₹{{order.totalAmount | number:'1.2-2'}}</td>
                     <td class="px-4 py-3 text-sm">
                       <span [class]="'px-2 py-1 rounded-full text-xs font-semibold ' + getStatusClass(order.orderStatus)">
                         {{order.orderStatus || 'PENDING'}}
@@ -123,31 +138,31 @@
     </div>
 
     <!-- Quick Links -->
-    <div class="mt-8 bg-white border border-gray-200 rounded-lg p-6">
-      <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
+    <div class="mt-8 bg-card text-card-foreground border border-border rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4 text-foreground">Quick Actions</h2>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <a routerLink="/admin/inventory" 
-           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
+           class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
           <span class="material-icons text-3xl text-[#ff5722] mb-2">inventory</span>
           <span class="text-sm font-medium">Inventory</span>
         </a>
         <a routerLink="/admin/books-management" 
-           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
+           class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
           <span class="material-icons text-3xl text-[#ff5722] mb-2">menu_book</span>
           <span class="text-sm font-medium">Books</span>
         </a>
         <a routerLink="/admin/book-form" 
-           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
+           class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
           <span class="material-icons text-3xl text-[#ff5722] mb-2">add_box</span>
           <span class="text-sm font-medium">Add Book</span>
         </a>
         <a routerLink="/admin/authors-management" 
-           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
+           class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
           <span class="material-icons text-3xl text-[#ff5722] mb-2">person</span>
           <span class="text-sm font-medium">Authors</span>
         </a>
         <a routerLink="/admin/categories-management" 
-           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
+           class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
           <span class="material-icons text-3xl text-[#ff5722] mb-2">category</span>
           <span class="text-sm font-medium">Categories</span>
         </a>

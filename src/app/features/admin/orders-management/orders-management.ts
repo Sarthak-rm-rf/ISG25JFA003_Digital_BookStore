@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Order, OrderStatus } from '../../../models/order.model';
 import { OrderService } from '../../../core/services/order.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -23,7 +23,8 @@ export class OrdersManagementComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private authService: AuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -143,5 +144,8 @@ export class OrdersManagementComponent implements OnInit {
     }
   }
 
+  goBack(): void {
+    this.location.back();
+  }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Book } from '../../../models/book.model';
 import { BookService } from '../../../core/services/book.service';
@@ -23,7 +23,8 @@ export class BooksManagementComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +90,9 @@ export class BooksManagementComponent implements OnInit {
     this.bookToDelete = null;
   }
 
-
+  goBack(): void {
+    this.location.back();
+  }
 
   private toBook(bookResponse: any): Book {
     return {

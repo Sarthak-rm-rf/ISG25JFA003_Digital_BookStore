@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { BookService } from '../../../core/services/book.service';
 import { OrderService } from '../../../core/services/order.service';
 import { UserService } from '../../../core/services/user.service';
@@ -29,7 +29,8 @@ export class DashboardComponent implements OnInit {
     private bookService: BookService,
     private orderService: OrderService,
     private userService: UserService,
-    private inventoryService: InventoryService
+    private inventoryService: InventoryService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +39,24 @@ export class DashboardComponent implements OnInit {
 
   loadDashboardData(): void {
     this.loading = true;
+    let completedRequests = 0;
+    const totalRequests = 4;
+
+    const checkCompletion = () => {
+      completedRequests++;
+      if (completedRequests === totalRequests) {
+        this.loading = false;
+      }
+    };
 
     this.bookService.getAllBooks().subscribe({
       next: (books) => {
         this.totalBooks = books.length;
+        checkCompletion();
+      },
+      error: (error) => {
+        console.error('Error loading books:', error);
+        checkCompletion();
       }
     });
 
@@ -50,19 +65,33 @@ export class DashboardComponent implements OnInit {
         this.totalOrders = orders.length;
         this.totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
         this.recentOrders = orders.slice(0, 10);
-        this.loading = false;
+        checkCompletion();
+      },
+      error: (error) => {
+        console.error('Error loading orders:', error);
+        checkCompletion();
       }
     });
 
     this.userService.getAllUsers().subscribe({
       next: (users) => {
         this.totalUsers = users.length;
+        checkCompletion();
+      },
+      error: (error) => {
+        console.error('Error loading users:', error);
+        checkCompletion();
       }
     });
 
     this.inventoryService.getLowStockAlerts().subscribe({
       next: (alerts) => {
         this.lowStockAlerts = alerts;
+        checkCompletion();
+      },
+      error: (error) => {
+        console.error('Error loading stock alerts:', error);
+        checkCompletion();
       }
     });
   }
@@ -75,5 +104,9 @@ export class DashboardComponent implements OnInit {
       case 'CANCELLED': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']); // Navigate to home page
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -9,6 +9,12 @@ import { RouterModule } from '@angular/router';
   template: `
     <div class="min-h-screen bg-gray-50 py-8">
       <div class="max-w-7xl mx-auto px-4">
+        <button 
+          (click)="goBack()"
+          class="mb-4 flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+          <span class="material-icons mr-1">arrow_back</span>
+          Back
+        </button>
         <h1 class="text-3xl font-bold mb-8">Reviews Management</h1>
         <div class="bg-white rounded-lg shadow-md p-8 text-center">
           <span class="material-icons text-6xl text-gray-400 mb-4">rate_review</span>
@@ -18,4 +24,10 @@ import { RouterModule } from '@angular/router';
     </div>
   `
 })
-export class ReviewsManagementComponent {}
+export class ReviewsManagementComponent {
+  constructor(private location: Location) {}
+
+  goBack(): void {
+    this.location.back();
+  }
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Book, Author, Category } from '../../../models/book.model';
@@ -47,7 +47,8 @@ export class BookFormComponent implements OnInit {
     private categoryService: CategoryService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -118,6 +119,10 @@ export class BookFormComponent implements OnInit {
     }
     if (this.book.price && this.book.price < 0) {
       this.errorMessage = 'Price cannot be negative';
+      return false;
+    }
+    if (this.book.stockQuantity === undefined || this.book.stockQuantity < 0) {
+      this.errorMessage = 'Initial stock quantity is required and must be 0 or greater';
       return false;
     }
 
@@ -309,5 +314,9 @@ export class BookFormComponent implements OnInit {
       imageUrl: bookResponse?.imageUrl,
       stockQuantity: bookResponse?.stockQuantity
     } as Book;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
