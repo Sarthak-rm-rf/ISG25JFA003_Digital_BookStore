@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BookService, Book } from '../../core/services/book.service';
+import { BookService } from '../../core/services/book.service';
+import { Book } from '../../models/book.model';
 import { ReviewService, Review } from '../../core/services/review.service';
 import { Observable, switchMap } from 'rxjs';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
