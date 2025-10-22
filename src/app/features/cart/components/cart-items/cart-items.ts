@@ -4,7 +4,11 @@ import { Store } from '@ngrx/store';
 import { selectCartProducts } from 'src/app/states/cart/cart.selector';
 import { AppState, IProduct } from 'src/app/states/app.state';
 import { map, Observable } from 'rxjs';
-import { decrementProduct, incrementProduct } from 'src/app/states/cart/cart.action';
+import {
+  decrementProduct,
+  incrementProduct,
+  removeFromCart,
+} from 'src/app/states/cart/cart.action';
 import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
@@ -20,6 +24,8 @@ export class CartItemsComponent {
 
   constructor(private store: Store<AppState>) {}
 
+  cartService = inject(CartService);
+
   decreaseQuantity(product: IProduct) {
     if (product.quantity > 1) {
       this.store.dispatch(decrementProduct({ productId: product.id }));
@@ -34,9 +40,10 @@ export class CartItemsComponent {
     }
   }
 
-  deleteProduct(index: number) {
-    this.products.subscribe((product) => product.splice(index, 1));
-    this.emitChanges();
+  deleteProduct(product: IProduct) {
+    this.cartService.removeCartItem(product.id).subscribe((response) => {
+      this.store.dispatch(removeFromCart({ productId: product.id }));
+    });
   }
 
   toggleLike(product: any) {

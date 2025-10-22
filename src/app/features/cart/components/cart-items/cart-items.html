@@ -21,8 +21,9 @@
     <div class="total-price">₹{{ product.price * product.quantity }}</div>
     <!-- Actions -->
     <div class="buttons">
-      <span (click)="deleteProduct(i)" class="delete-btn" title="Remove"></span>
-      <span class="like-btn" [class.is-active]="" (click)="toggleLike(product)"></span>
+      <span (click)="deleteProduct(product)" class="delete-btn" title="Remove"
+        ><i class="pi pi-trash"></i
+      ></span>
     </div>
   </div>
   } @empty {

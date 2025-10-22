@@ -14,3 +14,9 @@ export const selectTotalCartItemCount = createSelector(
     return products.reduce((total, product) => total + product.quantity, 0);
   }
 );
+
+export const selectProductQuantityInCart = (props: { productId: number }) =>
+  createSelector(selectCartProducts, (items: IProduct[]) => {
+    const item = items.find((i) => i.id === props.productId);
+    return item ? item.quantity : 0;
+  });
