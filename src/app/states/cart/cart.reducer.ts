@@ -9,7 +9,7 @@ import {
   loadCartSuccess,
   removeFromCart,
 } from './cart.action';
-import { Book } from 'src/app/core/services/book.service';
+import { Book } from 'src/app/models/book.model';
 import { IProduct } from '../app.state';
 
 export interface CartState {

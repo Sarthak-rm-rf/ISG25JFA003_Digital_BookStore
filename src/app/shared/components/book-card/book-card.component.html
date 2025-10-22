@@ -8,8 +8,8 @@
   </div>
   <div class="book-info">
     <h3 class="book-title">{{ book.title }}</h3>
-    <p class="book-author">{{ book.authorName }}</p>
-    <p class="book-category">{{ book.categoryName }}</p>
+    <p class="book-author">{{ book.author?.name }}</p>
+    <p class="book-category">{{ book.category?.name }}</p>
     <div class="price-section">
       <span class="book-price">&#8377;{{ book.price.toFixed(2) }}</span>
 

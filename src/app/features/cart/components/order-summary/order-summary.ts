@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IProduct } from 'src/app/states/app.state';
 import { CartService } from 'src/app/core/services/cart.service';
-import { OrdrerService } from 'src/app/core/services/order.service';
+import { OrderService } from 'src/app/core/services/order.service';
 import { OrderRequest } from 'src/app/models/order.model';
 import { firstValueFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -28,7 +28,7 @@ export class OrderSummary {
   orderConfirmed = signal(false);
   orderDetails: any = {};
   private cartService = inject(CartService);
-  private orderService = inject(OrdrerService);
+  private orderService = inject(OrderService);
 
   constructor(private zone: NgZone, router: Router, private store: Store) {
     effect(() => {
@@ -102,7 +102,7 @@ export class OrderSummary {
             localStorage.setItem('address', JSON.stringify(self.selectedAddress));
             self.products = [];
             const orderRequest = await self.createOrderRequest();
-            self.orderService.placeOrder(orderRequest).subscribe((item) => {
+            self.orderService.placeOrder(orderRequest).subscribe((item: any) => {
               console.log('order placed');
             });
             self.orderConfirmed.set(true);

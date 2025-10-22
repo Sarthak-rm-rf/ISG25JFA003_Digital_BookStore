@@ -1,25 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Order } from 'src/app/features/user-profile/user-profile';
-import { OrderRequest, OrderResponse } from 'src/app/models/order.model';
-import { Cart } from 'src/app/features/user-profile/user-profile';
-import { Address } from 'src/app/models/address.model';
+import { map } from 'rxjs/operators';
 
+import { Order } from 'src/app/features/user-profile/user-profile';
+import { Cart } from 'src/app/features/user-profile/user-profile';
+
+import {
+  OrderRequest,
+  OrderResponse,
+  Order as ModelOrder,
+  BuyNowRequest,
+  OrderStatus,
+} from 'src/app/models/order.model';
+import { Address } from 'src/app/models/address.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrdrerService {
+export class OrderService {
   private apiUrl = 'http://localhost:8080/api/v1/orders';
 
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
-    // Example: retrieving a JWT token from local storage.
     const token = localStorage.getItem('token');
     if (!token) {
-      // Handle case where the user is not authenticated
       console.error('No authentication token found.');
       return new HttpHeaders({
         'Content-Type': 'application/json',
@@ -36,10 +42,45 @@ export class OrdrerService {
       headers: this.getAuthHeaders(),
     });
   }
-  // This is used by your user-profile page
+
   getUserOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/orders/user`, {
       headers: this.getAuthHeaders(),
     });
-}
+  }
+
+  buyNow(request: BuyNowRequest): Observable<ModelOrder> {
+    return this.http.post<ModelOrder>(`${this.apiUrl}/buy-now`, request, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getAllOrders(): Observable<ModelOrder[]> {
+    return this.http
+      .get<any[]>(`${this.apiUrl}/getAllOrders`, {
+        headers: this.getAuthHeaders(),
+      })
+      .pipe(
+        map((apiOrders) => {
+          console.log('Raw API response for orders:', apiOrders);
+          return apiOrders.map((apiOrder) => {
+            console.log('Processing order:', apiOrder);
+
+            const orderStatus =
+              apiOrder.orderStatus || apiOrder.status || 'PENDING';
+
+            return {
+              orderId: apiOrder.orderId || apiOrder.id,
+              userId: apiOrder.userId,
+              orderItems: apiOrder.orderItems || [],
+              totalAmount: apiOrder.totalAmount || 0,
+              orderStatus: orderStatus as OrderStatus,
+              orderDate: apiOrder.orderDate,
+              shippingAddress: apiOrder.shippingAddress || {},
+              paymentId: apiOrder.paymentId,
+            } as ModelOrder;
+          });
+        })
+      );
+  }
 }

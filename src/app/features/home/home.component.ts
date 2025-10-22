@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BookService, Book } from '../../core/services/book.service';
+import { BookService } from '../../core/services/book.service';
+import { Book } from '../../models/book.model';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { ToastComponent } from '@shared/components/toast/toast';
