@@ -79,6 +79,9 @@ export class UserService {
   }
 
   updateUserProfile(payload: UpdateUserPayload): Observable<any> {
-    return this.http.put(`${this.baseUrl}/users/profile/update`, payload, { responseType: 'text' });
+    return this.http.put(`${this.baseUrl}/users/profile/update`, payload, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 }

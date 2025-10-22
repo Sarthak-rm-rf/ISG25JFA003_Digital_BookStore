@@ -137,7 +137,7 @@ user: any;
       },
       error: err => {
         console.error('Failed to load user profile data:', err);
-        this.toastService.showError('Failed to load your profile! Please try again.');      }
+        this.toastService.showError('Failed to load your profile! Please login again.');      }
     });
   }
 
