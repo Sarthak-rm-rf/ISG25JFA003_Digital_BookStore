@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Order } from 'src/app/features/user-profile/user-profile';
 import { OrderRequest, OrderResponse } from 'src/app/models/order.model';
+import { Cart } from 'src/app/features/user-profile/user-profile';
+import { Address } from 'src/app/models/address.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -32,4 +36,10 @@ export class OrdrerService {
       headers: this.getAuthHeaders(),
     });
   }
+  // This is used by your user-profile page
+  getUserOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}/orders/user`, {
+      headers: this.getAuthHeaders(),
+    });
+}
 }

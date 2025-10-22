@@ -7,6 +7,9 @@ import { BookService } from '../../core/services/book.service';
 import { forkJoin, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { SavedAddressesComponent } from '../cart/components/saved-addresses/saved-addresses';
+import { ReviewService, ReviewPayload } from '../../core/services/review.service';
+import { ToastService } from 'src/app/core/services/toast.service';
+
 
 // --- Data Interfaces ---
 export interface User {
@@ -31,6 +34,7 @@ export interface Order {
   itemName: string;
   quantity: number;
   price: number;
+  isReviewed?: boolean;
 }
 
 
@@ -105,7 +109,18 @@ export class UserProfile implements OnInit {
     country: ''
   };
 
-  constructor(private userService: UserService) {}
+  isReviewModalOpen = false;
+  currentReviewingBook: Order | null = null;
+  newReviewRating = 0;
+  newReviewComment = '';
+  starRatingArray = [1, 2, 3, 4, 5];
+user: any;
+
+  constructor(
+    private userService: UserService,
+    private reviewService: ReviewService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit() {
     forkJoin({
@@ -122,8 +137,7 @@ export class UserProfile implements OnInit {
       },
       error: err => {
         console.error('Failed to load user profile data:', err);
-        alert('Failed to load your profile! Please try again.');
-      }
+        this.toastService.showError('Failed to load your profile! Please login again.');      }
     });
   }
 
@@ -140,22 +154,21 @@ export class UserProfile implements OnInit {
     this.userService.addUserAddress(this.newAddress).subscribe({
       next: (savedAddress) => {
         this.currentUser?.addresses.push(savedAddress);
-        alert('Address added successfully!');
-        this.closeAddressModal();
+        this.toastService.showSuccess('Address added successfully!'); // ✨ Replaced alert        this.closeAddressModal();
       },
       error: (err) => {
-        alert('Failed to add address.');
+        this.toastService.showError('Failed to add address.'); // ✨ Replaced alert
       }
     });
   }
 
   changePassword() {
     if (!this.currentUser) {
-      alert('User data not loaded yet. Please try again.');
+      this.toastService.showError('User data not loaded yet. Please try again.');
       return;
     }
     if (!this.oldPassword || !this.newPassword) {
-        alert('Please fill in both the old and new password fields.');
+        this.toastService.showError('Please fill in both the old and new password fields.');
         return;
     }
     if (this.newPassword !== this.confirmNewPassword) {
@@ -171,10 +184,10 @@ export class UserProfile implements OnInit {
 
     this.userService.updateUserProfile(payload).subscribe({
       next: () => {
-        alert('Password changed successfully!');
+        this.toastService.showSuccess('Password changed successfully!');
       },
       error: err => {
-        alert('Password change failed! Please check your old password.');
+        this.toastService.showSuccess('Password change failed! Please check your old password.');
         console.error(err);
       }
     });
@@ -191,5 +204,49 @@ export class UserProfile implements OnInit {
 
   get cartTotal(): number {
     return this.currentUser?.cart?.totalAmount ?? 0;
+  }
+
+  openReviewModal(orderItem: Order) {
+    this.currentReviewingBook = orderItem;
+    this.newReviewRating = 0;
+    this.newReviewComment = '';
+    this.isReviewModalOpen = true;
+  }
+
+  closeReviewModal() {
+    this.isReviewModalOpen = false;
+    this.currentReviewingBook = null;
+  }
+
+  setRating(rating: number) {
+    this.newReviewRating = rating;
+  }
+
+  onReviewSubmit() {
+    if (!this.currentReviewingBook) return;
+
+    if (this.newReviewRating === 0 || !this.newReviewComment.trim()) {
+      this.toastService.showError('Please provide a rating and a comment.');
+      return;
+    }
+
+    const payload: ReviewPayload = {
+      rating: this.newReviewRating,
+      comment: this.newReviewComment
+    };
+
+    const bookId = this.currentReviewingBook.itemId;
+
+    this.reviewService.createReview(bookId, payload).subscribe({
+      next: () => {
+        this.toastService.showSuccess('Review submitted successfully! Thank you.');
+        this.currentReviewingBook!.isReviewed = true;
+        this.closeReviewModal();
+      },
+      error: err => {
+        console.error('Failed to submit review:', err);
+        this.toastService.showError('Failed to submit review. You may have already reviewed this item.');
+      }
+    });
   }
 }

@@ -1,400 +1,447 @@
+/* --- Page Layout --- */
 .book-detail-page {
-    min-height: 100vh;
-    background: #f8fafc;
-    padding-top: 20px;
-    padding-bottom: 4rem;
+  min-height: 100vh;
+  background: var(--background);
+  padding-bottom: 4rem;
 }
 
 .book-detail-container {
-    max-width: 1000px;
-    width: 75%;
-    margin: 0 auto;
-    padding: 2.5rem;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    position: relative;
+  max-width: 1000px;
+  width: 90%; /* More responsive than a fixed 75% */
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 .back-button {
-    position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: #f8fafc;
-    border: none;
-    border-radius: 9999px;
-    color: #4a5568;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .back-button:hover {
-    background: #f1f5f9;
-    transform: translateX(-2px);
+  background: var(--accent);
+  transform: translateX(-2px);
 }
 
 .back-button svg {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
+/* --- Book Info Section --- */
 .main-content {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.book-image {
-    flex: 1;
-}
-
-.book-info {
-    flex: 2;
-}
-
-.book-image {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2.5rem;
+  margin-top: 3rem; /* Space for back button */
+  margin-bottom: 3rem;
 }
 
 .book-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    transition: transform 0.3s ease;
-    margin: 90px 10px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius, 12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
 }
 
 .book-image img:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .book-info {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    padding: 80px 10px;
-}
-
-.purchase-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .book-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-    background: linear-gradient(to right, #2d3748, #4a5568);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
 }
 
 .book-author {
-    font-size: 1.25rem;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
+  font-size: 1.25rem;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .book-category {
-    font-size: 0.875rem;
-    color: #718096;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 2rem;
-    padding: 0.5rem 1.5rem;
-    background: #f8fafc;
-    border-radius: 9999px;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  padding: 0.3rem 1rem;
+  background: var(--accent);
+  border-radius: 9999px;
+  display: inline-block;
+  align-self: flex-start;
+}
+
+/* Purchase Section (Pushed to bottom) */
+.purchase-section {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
 .book-price-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom:2rem;
-    margin-top: 2.3rem;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .book-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #f97316;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--brand-primary);
 }
 
 .stock-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .stock-status.in-stock {
-    background-color: #f0fff4;
-    color: #38a169;
+  background-color: #f0fff4;
+  color: #38a169;
 }
-
 .stock-status:not(.in-stock) {
-    background-color: #fff5f5;
-    color: #e53e3e;
+  background-color: #fff5f5;
+  color: #e53e3e;
 }
+/* Dark mode overrides for stock status */
+.dark .stock-status.in-stock { background-color: oklch(0.4 0.1 140 / 30%); color: oklch(0.8 0.1 140); }
+.dark .stock-status:not(.in-stock) { background-color: oklch(0.4 0.15 20 / 30%); color: oklch(0.8 0.15 20); }
+
 
 .add-to-cart-btn {
-    width: 20rem;
-    padding: 0.75rem 2rem;
-    background: linear-gradient(to right, #f97316, #ec4899);
-    color: white;
-    border: none;
-    border-radius: 9999px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 0.9rem 2rem;
+  background: var(--brand-primary);
+  color: var(--brand-primary-foreground);
+  border: none;
+  border-radius: var(--radius, 8px);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .add-to-cart-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px oklch(from var(--brand-primary) l c h / 30%);
 }
 
 .add-to-cart-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
-.book-description {
-    margin-top: 5rem;
-    margin-bottom: 3rem;
+/* --- Description & Reviews --- */
+.book-description,
+.reviews-section {
+  margin-top: 3rem;
 }
 
-.book-description h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 1rem;
+.book-description h2,
+.reviews-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .book-description p {
-    color: #4a5568;
-    line-height: 1.6;
+  color: var(--muted-foreground);
+  line-height: 1.7;
 }
 
-.reviews-section {
-    margin-bottom: 3rem;
-}
-
-.reviews-section h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 1.5rem;
-}
-
+/* Review Form */
 .review-form {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    margin: 0 auto 2rem;
-    max-width: 600px;
+  background: var(--card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin: 0 auto 2rem;
+  max-width: 700px;
 }
 
 .review-form h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 1.5rem 0;
+  text-align: center;
 }
 
-.rating-input, .comment-input {
-    margin-bottom: 1rem;
+.review-form .form-group {
+  margin-bottom: 1.5rem;
 }
 
-.rating-input label, .comment-input label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #4a5568;
+.review-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--muted-foreground);
 }
 
 .star-rating {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .star-btn {
-    background: none;
-    border: none;
-    font-size: 1.75rem;
-    color: #cbd5e0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 0.25rem;
-    line-height: 1;
+  background: none;
+  border: none;
+  font-size: 2.25rem;
+  color: var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
 }
 
-.star-btn:hover,
-.star-btn.active {
-    color: #f97316;
-    transform: scale(1.05);
+.star-btn.active,
+.star-btn:hover {
+  color: var(--brand-primary);
+  transform: scale(1.1);
 }
 
-.star-btn:hover ~ .star-btn {
-    color: #f97316;
+.star-rating:hover .star-btn {
+   color: var(--brand-primary);
+}
+
+.star-rating .star-btn:hover ~ .star-btn {
+   color: var(--border);
 }
 
 .comment-input textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    resize: vertical;
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--input);
+  color: var(--foreground);
+  resize: vertical;
+  font-size: 1rem;
 }
 
-.error-message {
-    color: #e53e3e;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+.review-form button[type="submit"] {
+  padding: 0.75rem 1.5rem;
+  background: var(--brand-primary);
+  color: var(--brand-primary-foreground);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
 }
 
-.review-form button {
-    padding: 0.75rem 1.5rem;
-    background: #f97316;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.review-form button:hover:not(:disabled) {
-    background: #ea580c;
-}
-
-.review-form button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
+/* --- Carousel & Review Cards --- */
 .reviews-carousel {
-    position: relative;
-    overflow: hidden;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.carousel-container {
-    width: 100%;
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow: hidden; /* Fixes overflow */
 }
 
 .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
 }
 
+/* YouTube-style Review Card */
 .review-card {
-    flex: 0 0 100%;
-    box-sizing: border-box;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
-.carousel-controls {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
+.review-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--muted);
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  border: 3px solid var(--brand-primary);
+  box-sizing: border-box;
 }
 
-.carousel-controls button {
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 1rem;
-    cursor: pointer;
+.review-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
-.review-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.review-author-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
-.review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
+.reviewer-name {
+  font-weight: 600;
+  color: var(--foreground);
+  font-size: 1rem;
 }
 
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.review-rating .stars {
+  color: var(--border);
+  font-size: 0.9rem;
 }
 
-.stars {
-    color: #cbd5e0;
-}
-
-.stars .filled {
-    color: #f97316;
-}
-
-.rating-value {
-    font-weight: 600;
-    color: #2d3748;
-}
-
-.review-date {
-    font-size: 0.875rem;
-    color: #718096;
-}
-
-.reviewer {
-    font-weight: 500;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
+.review-rating .stars .filled {
+  color: var(--brand-primary);
 }
 
 .review-comment {
-    color: #2d3748;
-    line-height: 1.6;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin-top: 0.25rem;
+  word-break: break-word; /* Prevents long words from overflowing */
 }
 
 .no-reviews {
-    text-align: center;
-    padding: 2rem;
-    color: #718096;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--muted-foreground);
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-    .book-header {
-        flex-direction: column;
-    }
+/* Carousel Controls */
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    .book-image {
-        flex: none;
-        max-width: 250px;
-        margin: 0 auto;
-    }
+.carousel-controls button {
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+/* Position controls slightly outside */
+.carousel-controls button:first-child { transform: translateX(-50%); }
+.carousel-controls button:last-child { transform: translateX(50%); }
+
+.carousel-controls button:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+}
+
+/* --- Responsive Media Queries --- */
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .book-image {
+    max-width: 300px;
+    margin: 0 auto 1.5rem auto;
+  }
+  .book-info {
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .book-detail-container {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1.5rem;
+    border-radius: 0;
+  }
+  .back-button {
+    top: 1rem;
+    left: 1rem;
+  }
+  .main-content {
+    margin-top: 4rem;
+  }
+  .book-title {
+    font-size: 1.5rem;
+  }
+  .book-author {
+    font-size: 1rem;
+  }
+  .book-price {
+    font-size: 1.3rem;
+  }
+  .carousel-controls {
+    padding: 0;
+  }
+  .carousel-controls button:first-child { transform: translateX(5%); }
+  .carousel-controls button:last-child { transform: translateX(-5%); }
 }
