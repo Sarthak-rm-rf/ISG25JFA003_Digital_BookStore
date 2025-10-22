@@ -83,7 +83,7 @@ export class OrdersManagementComponent implements OnInit {
       case 'CANCELLED':
         return OrderStatus.CANCELLED;
       default:
-        return OrderStatus.PENDING;
+        return OrderStatus.CONFIRMED;
     }
   }
 
