@@ -200,10 +200,8 @@
                 <span>Quantity: {{ order.quantity }}</span>
               </div>
               <div class="order-summary">
-                <span>Unit Price: ${{ (order.price ?? 0).toFixed(2) }}</span>
-                <strong
-                  >Total: ${{ ((order.quantity ?? 0) * (order.price ?? 0)).toFixed(2) }}</strong
-                >
+                <span>Unit Price: ${{ order.price.toFixed(2) }}</span>
+                <strong>Total: ${{ (order.quantity * order.price).toFixed(2) }}</strong>
               </div>
             </div>
           </div>
@@ -219,7 +217,7 @@
                 <strong>{{ item.bookTitle }}</strong>
                 <span>Quantity: {{ item.quantity }}</span>
               </div>
-              <span class="item-price">${{ (item.subtotal ?? 0).toFixed(2) }}</span>
+              <span class="item-price">${{ item.subtotal.toFixed(2) }}</span>
             </div>
             <div class="cart-total">
               <strong>Total:</strong>
