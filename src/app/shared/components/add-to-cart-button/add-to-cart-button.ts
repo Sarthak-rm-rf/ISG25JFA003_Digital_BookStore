@@ -101,7 +101,7 @@ export class AddToCartButton {
       description: `Your item has been added to cart successfully`,
       action: {
         label: 'View',
-        onClick: () => this.router.navigate(['/cart']),
+        onClick: () => this.router.navigate(['/user/cart']),
       },
     });
   }

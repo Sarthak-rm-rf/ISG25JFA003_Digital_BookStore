@@ -36,7 +36,7 @@ export class OrderSummary {
   constructor(private zone: NgZone, router: Router, private store: Store) {
     effect(() => {
       if (this.orderConfirmed()) {
-        setTimeout(() => router.navigate(['/order-confirmed']), 1000);
+        setTimeout(() => router.navigate(['/user/order-confirmed']), 1000);
       }
     });
   }
