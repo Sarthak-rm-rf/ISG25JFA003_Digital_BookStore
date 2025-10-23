@@ -1,0 +1,126 @@
+/* * Use :host to style the component's host element.
+ * This ensures it takes up the full height for centering.
+ */
+:host {
+    display: block;
+    width: 100%;
+    /* Assuming your root layout allows this, 
+     use 80vh or 90vh if you have a persistent header */
+    min-height: 90vh;
+    font-family: "Inter", "system-ui", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* You can define these colors in your global styles.css */
+    --bg-color: #ffffff;
+    --text-primary: #111827;
+    /* Tailwind gray-900 */
+    --text-secondary: #6b7280;
+    /* Tailwind gray-500 */
+    --primary-color: #ff5722;
+    /* Tailwind indigo-600 */
+    --primary-hover: #ff7a52;
+    /* Tailwind indigo-700 */
+    --border-color: #e5e7eb;
+    /* Tailwind gray-200 */
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    :host {
+        --bg-color: #111827;
+        /* Dark background */
+        --text-primary: #f9fafb;
+        /* Light text */
+        --text-secondary: #9ca3af;
+        /* Lighter gray */
+        --primary-color: #ff5722;
+        /* Lighter indigo */
+        --primary-hover: #ff7a52;
+        /* Even lighter indigo */
+        --border-color: #374151;
+        /* Darker border */
+    }
+}
+
+.container-404 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    min-height: inherit;
+    /* Takes height from :host */
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.content-wrapper {
+    max-width: 400px;
+    width: 100%;
+}
+
+.status-code {
+    font-size: 6rem;
+    /* 96px */
+    font-weight: 800;
+    line-height: 1;
+    color: var(--primary-color);
+    letter-spacing: -0.025em;
+}
+
+.title {
+    font-size: 2.25rem;
+    /* 36px */
+    font-weight: 700;
+    margin-top: 1rem;
+    letter-spacing: -0.01em;
+}
+
+.description {
+    font-size: 1rem;
+    /* 16px */
+    color: var(--text-secondary);
+    margin-top: 0.75rem;
+    line-height: 1.6;
+}
+
+.explore-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    /* 8px */
+
+    margin-top: 2rem;
+    /* 32px */
+    padding: 0.75rem 1.5rem;
+    /* 12px 24px */
+
+    background-color: var(--primary-color);
+    color: #ffffff;
+
+    font-size: 0.875rem;
+    /* 14px */
+    font-weight: 600;
+    text-decoration: none;
+
+    border: none;
+    border-radius: 0.5rem;
+    /* 8px */
+
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.explore-button:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.explore-button svg {
+    /* Aligns icon with text */
+    margin-top: -1px;
+}

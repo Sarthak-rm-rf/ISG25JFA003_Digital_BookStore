@@ -16,6 +16,7 @@ import { UsersManagementComponent } from './features/admin/users-management/user
 import { ReviewsManagementComponent } from './features/admin/reviews-management/reviews-management';
 import { adminGuard } from './core/guards/role.guard';
 import { authGuard } from './core/guards/auth.guard';
+import { ErrorPage } from '@shared/error-page/error-page';
 
 export const routes: Routes = [
   // ---------------------------------
@@ -96,6 +97,6 @@ export const routes: Routes = [
   // ---------------------------------
   {
     path: '**',
-    redirectTo: '/home', // Or a dedicated 404 page
+    component: ErrorPage,
   },
 ];

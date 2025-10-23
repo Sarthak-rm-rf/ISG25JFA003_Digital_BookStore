@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-register',
@@ -49,6 +50,7 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register({ fullName, email, password }).subscribe({
       next: (response) => {
+        this.showToast();
         this.success = true;
         let userResponse: any = response;
         // If response is a string, parse it to object
@@ -68,6 +70,7 @@ export class RegisterComponent implements OnInit {
         }, 2000);
       },
       error: (error) => {
+        this.showErrorToast();
         this.error = error.message || 'Registration failed. Please try again.';
         this.loading = false;
       },
@@ -76,5 +79,24 @@ export class RegisterComponent implements OnInit {
 
   get f() {
     return this.registerForm.controls;
+  }
+
+  showToast() {
+    const promise = () =>
+      new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
+
+    toast.promise(promise, {
+      loading: 'Loading...',
+      success: (data: any) => {
+        return `Account has been created`;
+      },
+      error: 'Error',
+    });
+  }
+
+  showErrorToast() {
+    toast.error('Something went wrong', {
+      description: 'There was a problem with your request.',
+    });
   }
 }
