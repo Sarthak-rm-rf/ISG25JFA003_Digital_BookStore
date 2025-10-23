@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast.html',
-  styleUrls: ['./toast.css']
+  styleUrls: ['./toast.css'],
 })
 export class ToastComponent implements OnInit, OnDestroy {
   showSuccess(arg0: string) {
@@ -25,11 +25,9 @@ export class ToastComponent implements OnInit, OnDestroy {
   constructor(private toastService: ToastService) {}
 
   ngOnInit() {
-    this.toastSubscription = this.toastService.toastState.subscribe(
-      (toast) => {
-        this.addToast(toast);
-      }
-    );
+    this.toastSubscription = this.toastService.toastState.subscribe((toast) => {
+      this.addToast(toast);
+    });
   }
 
   ngOnDestroy() {
@@ -43,14 +41,17 @@ export class ToastComponent implements OnInit, OnDestroy {
   }
 
   removeToast(id: number) {
-    this.toasts = this.toasts.filter(t => t.id !== id);
+    this.toasts = this.toasts.filter((t) => t.id !== id);
   }
 
   getIcon(type: 'success' | 'error' | 'info'): string {
     switch (type) {
-      case 'success': return '✔️';
-      case 'error': return '✖️';
-      case 'info': return 'ℹ️';
+      case 'success':
+        return '✔️';
+      case 'error':
+        return '✖️';
+      case 'info':
+        return 'ℹ️';
     }
   }
 }

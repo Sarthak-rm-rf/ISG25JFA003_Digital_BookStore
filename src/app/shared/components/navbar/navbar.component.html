@@ -49,7 +49,10 @@
           </button>
 
           <div class="dropdown-menu" [class.open]="isProfileMenuOpen">
-            <a [routerLink]="getProfileRoute()" class="dropdown-item" (click)="isProfileMenuOpen = false"
+            <a
+              [routerLink]="getProfileRoute()"
+              class="dropdown-item"
+              (click)="isProfileMenuOpen = false"
               >My Profile</a
             >
             <button class="dropdown-item logout-link" (click)="logout()">Logout</button>
@@ -59,8 +62,8 @@
 
       <ng-template #guestView>
         <div class="auth-buttons">
-          <a routerLink="/login" class="login-button">Login</a>
-          <a routerLink="/register" class="signup-button">Sign Up</a>
+          <a routerLink="/auth/login" class="login-button">Login</a>
+          <a routerLink="/auth/register" class="signup-button">Sign Up</a>
         </div>
       </ng-template>
     </div>
