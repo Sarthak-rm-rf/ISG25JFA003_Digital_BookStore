@@ -28,7 +28,6 @@ export class ReviewService {
 
   // ✨ FIX: Add the getAuthHeaders method
   private getAuthHeaders(): HttpHeaders {
-    // Make sure this matches where you save your token on login
     const token = localStorage.getItem('authToken'); 
     if (!token) {
       return new HttpHeaders({ 'Content-Type': 'application/json' });

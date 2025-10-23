@@ -31,6 +31,17 @@ export interface AddressPayload {
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private baseUrl = 'http://localhost:8080/api/v1';
+  token = localStorage.getItem('authToken');
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Authorization': `Bearer ${this.token}`
+    }),
+
+    
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -62,9 +73,10 @@ export class UserService {
   }
 
   getUserOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/orders/user`, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.get<Order[]>(`${this.baseUrl}/orders/my-order-items` ,{
+      withCredentials: true,
+    }
+    );
   }
 
 
