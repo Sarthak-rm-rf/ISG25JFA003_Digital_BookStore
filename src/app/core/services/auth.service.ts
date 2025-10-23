@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User, LoginRequest, LoginResponse, RegisterRequest } from '../../models/user.model';
 import { ApiService } from './api.service';
@@ -14,7 +14,7 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private apiService: ApiService, private router: Router) {
+  constructor(private apiService: ApiService, private router: Router, private ngZone: NgZone) {
     this.loadUserFromStorage();
   }
 
@@ -25,17 +25,27 @@ export class AuthService {
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.apiService.post<LoginResponse>('/auth/login', request).pipe(
       tap((response) => {
-        this.setSession(response);
+        this.ngZone.run(() => {
+          this.setSession(response);
+        });
       })
     );
   }
 
+  // --- FIX 1: Public logout (for user clicks) ---
+  // This version clears state AND navigates.
   logout(): void {
+    this.clearSession();
+    this.router.navigate(['/home']); // Use '/home' or '/'
+  }
+
+  // --- FIX 2: Private session clear (for internal checks) ---
+  // This version ONLY clears state. NO navigation.
+  private clearSession(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
-    this.router.navigate(['/']);
   }
 
   getToken(): string | null {
@@ -46,16 +56,16 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+  // --- FIX 3: Use clearSession() here ---
   isAuthenticated(): boolean {
     const token = this.getToken();
 
     if (!token) {
       return false;
-    }
+    } // If the token is expired, log out silently and return false
 
-    // If the token is expired, log out immediately and return false
     if (this.isTokenExpired(token)) {
-      this.logout();
+      this.clearSession(); // Use the silent clearSession
       return false;
     }
     return this.isAuthenticatedSubject.value;
@@ -84,9 +94,8 @@ export class AuthService {
   }
 
   private setSession(authResult: LoginResponse): void {
-    localStorage.setItem('token', authResult.token);
+    localStorage.setItem('token', authResult.token); // Decode JWT to get user info
 
-    // Decode JWT to get user info
     const tokenPayload = this.decodeToken(authResult.token);
     const user: User = {
       userId: tokenPayload.userId,
@@ -110,6 +119,7 @@ export class AuthService {
     }
   }
 
+  // --- FIX 4: Use clearSession() here ---
   private loadUserFromStorage(): void {
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
@@ -120,17 +130,25 @@ export class AuthService {
         this.currentUserSubject.next(user);
         this.isAuthenticatedSubject.next(true);
       } catch (error) {
-        this.logout();
+        this.clearSession(); // Use the silent clearSession
       }
     } else {
-      this.logout();
+      this.clearSession(); // Use the silent clearSession
     }
   }
 
+  // --- FIX 5: Correct token expiration logic ---
   private isTokenExpired(token: string): boolean {
     try {
-      const payLoad = JSON.parse(token);
-      const expiryTime = payLoad.expiryTime * 1000;
+      // Use the decodeToken method to get the payload
+      const payload = this.decodeToken(token);
+
+      // The standard JWT claim is 'exp', not 'expiryTime'
+      if (!payload.exp) {
+        return true; // No expiration claim, treat as invalid
+      }
+
+      const expiryTime = payload.exp * 1000; // 'exp' is in seconds
       return Date.now() >= expiryTime;
     } catch (error) {
       return true;
