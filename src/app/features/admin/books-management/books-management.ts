@@ -4,7 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { Book } from '../../../models/book.model';
 import { BookService } from '../../../core/services/book.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { ZardToastComponent } from 'src/app/shared/components/toast/toast.component';
 @Component({

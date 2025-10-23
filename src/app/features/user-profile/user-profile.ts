@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../shared/components/navbar/navbar';
 import { UserService, UpdateUserPayload, AddressPayload } from '../../core/services/user.service';
 import { BookService } from '../../core/services/book.service';
 import { forkJoin, of } from 'rxjs';

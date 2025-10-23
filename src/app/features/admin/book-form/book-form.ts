@@ -7,7 +7,7 @@ import { BookService, BookRequest } from '../../../core/services/book.service';
 import { AuthorService } from '../../../core/services/author.service';
 import { CategoryService } from '../../../core/services/category.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { ToastService  } from 'src/app/core/services/toast.service';
 
 @Component({

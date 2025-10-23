@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
+import { HomeComponent } from './features/home/home';
 import { Store } from '@ngrx/store';
 import { loadCart } from './states/cart/cart.action';
 import { FooterComponent } from './shared/components/footer/footer.component';

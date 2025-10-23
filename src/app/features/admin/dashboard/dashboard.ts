@@ -7,7 +7,7 @@ import { UserService } from '../../../core/services/user.service';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { LowStockAlert } from '../../../models/inventory.model';
 import { Order } from '../../../models/order.model';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CartPage } from './features/cart/cart-page/cart-page';;
-import { HomeComponent } from './features/home/home.component';
+import { HomeComponent } from './features/home/home';
 import { NgModule } from '@angular/core';
 import { RegisterComponent } from './features/auth/register/register';
 import { LoginComponent } from './features/auth/login/login';
@@ -34,7 +34,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'order-confirmed', component: OrderConfirmCardPage },
     { path: '', loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule) },
-    { path: 'book/:id', loadComponent: () => import('./features/book-detail/book-detail.component').then(m => m.BookDetailComponent) },
+    { path: 'book/:id', loadComponent: () => import('./features/book-detail/book-detail').then(m => m.BookDetailComponent) },
     {
         path: 'user-profile',
         loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)

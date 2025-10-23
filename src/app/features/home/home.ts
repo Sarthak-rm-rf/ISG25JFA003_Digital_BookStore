@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookService } from '../../core/services/book.service';
 import { Book } from '../../models/book.model';
-import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { BookCardComponent } from '../../shared/components/book-card/book-card';
+import { NavbarComponent } from '../../shared/components/navbar/navbar';
 import { ToastComponent } from '@shared/components/toast/toast';
 import { ShaderAnimationComponent } from '../../shared/components/shader-animation/shader-animation.component';
 
@@ -12,8 +12,8 @@ import { ShaderAnimationComponent } from '../../shared/components/shader-animati
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent, ShaderAnimationComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.html',
+  styleUrls: ['./home.css']
 })
 export class HomeComponent implements OnInit {
   books: Book[] = [];

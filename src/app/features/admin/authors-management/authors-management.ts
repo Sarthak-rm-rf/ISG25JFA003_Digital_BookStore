@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Author } from '../../../models/book.model';
 import { AuthorService } from '../../../core/services/author.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { ToastService } from '../../../core/services/toast.service';
 import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
 

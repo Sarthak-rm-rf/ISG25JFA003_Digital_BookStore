@@ -11,8 +11,8 @@ import { IProduct } from 'src/app/states/app.state';
   selector: 'app-book-card',
   standalone: true,
   imports: [CommonModule, AddToCartButton, RouterLink],
-  templateUrl: './book-card.component.html',
-  styleUrls: ['./book-card.component.css'],
+  templateUrl: './book-card.html',
+  styleUrls: ['./book-card.css'],
 })
 export class BookCardComponent {
   @Input() book!: Book;

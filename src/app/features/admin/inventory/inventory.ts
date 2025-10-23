@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Inventory, UpdateStockRequest } from '../../../models/inventory.model';
 import { InventoryService } from '../../../core/services/inventory.service';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { ToastService } from '../../../core/services/toast.service';
 import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
 
