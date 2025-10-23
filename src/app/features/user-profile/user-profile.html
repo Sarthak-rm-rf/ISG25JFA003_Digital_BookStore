@@ -105,7 +105,7 @@
                 <strong>{{ item.bookTitle }}</strong>
                 <span>Quantity: {{ item.quantity }}</span>
               </div>
-              <span class="item-price">${{ (item.subtotal ?? 0).toFixed(2) }}</span>
+              <span class="item-price">${{ item.subtotal.toFixed(2) }}</span>
             </div>
             <div class="cart-total">
               <strong>Total:</strong>
