@@ -47,7 +47,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
             <div class="flex items-start justify-between mb-4">
               <div class="flex items-center">
                 <div
-                  class="w-12 h-12 bg-gradient-to-br from-[#ff5722] to-[#ff7043] rounded-full flex items-center justify-center mr-4"
+                  class="w-12 h-12 bg-linear-to-br from-[#ff5722] to-[#ff7043] rounded-full flex items-center justify-center mr-4"
                 >
                   <span class="material-icons text-white text-xl">category</span>
                 </div>
@@ -89,7 +89,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
       <!-- Add Category Modal -->
       @if (showAddModal) {
       <div
-        class="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-[9999] flex items-center justify-center p-4"
+        class="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-9999 flex items-center justify-center p-4"
       >
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
           <div class="p-6">
