@@ -35,7 +35,7 @@ export class AuthService {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
-    window.location.replace('/');
+    this.router.navigate(['/']);
   }
 
   getToken(): string | null {
@@ -47,6 +47,17 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
+    const token = this.getToken();
+
+    if (!token) {
+      return false;
+    }
+
+    // If the token is expired, log out immediately and return false
+    if (this.isTokenExpired(token)) {
+      this.logout();
+      return false;
+    }
     return this.isAuthenticatedSubject.value;
   }
 
@@ -103,7 +114,7 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
 
-    if (token && userStr) {
+    if (token && userStr && !this.isTokenExpired(token)) {
       try {
         const user = JSON.parse(userStr);
         this.currentUserSubject.next(user);
@@ -111,6 +122,18 @@ export class AuthService {
       } catch (error) {
         this.logout();
       }
+    } else {
+      this.logout();
+    }
+  }
+
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payLoad = JSON.parse(token);
+      const expiryTime = payLoad.expiryTime * 1000;
+      return Date.now() >= expiryTime;
+    } catch (error) {
+      return true;
     }
   }
 }
