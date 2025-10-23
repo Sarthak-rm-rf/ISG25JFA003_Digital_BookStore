@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BookService } from '../../core/services/book.service';
 import { Book } from '../../models/book.model';
 import { ReviewService, Review } from '../../core/services/review.service';
 import { Observable, switchMap } from 'rxjs';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
+import { AddToCartButton } from '@shared/components/add-to-cart-button/add-to-cart-button';
+import { Store } from '@ngrx/store';
+import { incrementProduct } from 'src/app/states/cart/cart.action';
+import { CartItemRequest, CartService } from 'src/app/core/services/cart.service';
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, AddToCartButton],
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.css'],
 })
@@ -19,10 +23,14 @@ export class BookDetailComponent implements OnInit {
   reviews: Review[] = [];
   currentSlide = 0;
 
+  cartService = inject(CartService);
+
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private store: Store,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,5 +53,18 @@ export class BookDetailComponent implements OnInit {
 
   nextSlide(): void {
     this.currentSlide = this.currentSlide < this.reviews.length - 1 ? this.currentSlide + 1 : 0;
+  }
+
+  goToCart(bookId: number): void {
+    this.store.dispatch(incrementProduct({ productId: bookId }));
+    const quantity = 1;
+    const cart: CartItemRequest = {
+      bookId: bookId,
+      quantity: quantity,
+    };
+    this.cartService.addToCart(cart).subscribe((item) => {
+      console.log('added to cart');
+      this.router.navigate(['/user/cart']);
+    });
   }
 }

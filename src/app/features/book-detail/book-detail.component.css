@@ -7,7 +7,8 @@
 
 .book-detail-container {
   max-width: 1000px;
-  width: 90%; /* More responsive than a fixed 75% */
+  width: 90%;
+  /* More responsive than a fixed 75% */
   margin: 2rem auto;
   padding: 2.5rem;
   background: var(--card);
@@ -49,7 +50,8 @@
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 2.5rem;
-  margin-top: 3rem; /* Space for back button */
+  margin-top: 3rem;
+  /* Space for back button */
   margin-bottom: 3rem;
 }
 
@@ -133,13 +135,22 @@
   background-color: #f0fff4;
   color: #38a169;
 }
+
 .stock-status:not(.in-stock) {
   background-color: #fff5f5;
   color: #e53e3e;
 }
+
 /* Dark mode overrides for stock status */
-.dark .stock-status.in-stock { background-color: oklch(0.4 0.1 140 / 30%); color: oklch(0.8 0.1 140); }
-.dark .stock-status:not(.in-stock) { background-color: oklch(0.4 0.15 20 / 30%); color: oklch(0.8 0.15 20); }
+.dark .stock-status.in-stock {
+  background-color: oklch(0.4 0.1 140 / 30%);
+  color: oklch(0.8 0.1 140);
+}
+
+.dark .stock-status:not(.in-stock) {
+  background-color: oklch(0.4 0.15 20 / 30%);
+  color: oklch(0.8 0.15 20);
+}
 
 
 .add-to-cart-btn {
@@ -242,11 +253,11 @@
 }
 
 .star-rating:hover .star-btn {
-   color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 
-.star-rating .star-btn:hover ~ .star-btn {
-   color: var(--border);
+.star-rating .star-btn:hover~.star-btn {
+  color: var(--border);
 }
 
 .comment-input textarea {
@@ -279,7 +290,8 @@
   position: relative;
   max-width: 700px;
   margin: 0 auto;
-  overflow: hidden; /* Fixes overflow */
+  overflow: hidden;
+  /* Fixes overflow */
 }
 
 .carousel-track {
@@ -350,7 +362,8 @@
   color: var(--muted-foreground);
   line-height: 1.6;
   margin-top: 0.25rem;
-  word-break: break-word; /* Prevents long words from overflowing */
+  word-break: break-word;
+  /* Prevents long words from overflowing */
 }
 
 .no-reviews {
@@ -392,9 +405,15 @@
   transition: all 0.2s ease;
   z-index: 10;
 }
+
 /* Position controls slightly outside */
-.carousel-controls button:first-child { transform: translateX(-50%); }
-.carousel-controls button:last-child { transform: translateX(50%); }
+.carousel-controls button:first-child {
+  transform: translateX(-50%);
+}
+
+.carousel-controls button:last-child {
+  transform: translateX(50%);
+}
 
 .carousel-controls button:hover {
   background: var(--accent);
@@ -407,10 +426,12 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+
   .book-image {
     max-width: 300px;
     margin: 0 auto 1.5rem auto;
   }
+
   .book-info {
     padding: 0;
   }
@@ -423,25 +444,37 @@
     padding: 1.5rem;
     border-radius: 0;
   }
+
   .back-button {
     top: 1rem;
     left: 1rem;
   }
+
   .main-content {
     margin-top: 4rem;
   }
+
   .book-title {
     font-size: 1.5rem;
   }
+
   .book-author {
     font-size: 1rem;
   }
+
   .book-price {
     font-size: 1.3rem;
   }
+
   .carousel-controls {
     padding: 0;
   }
-  .carousel-controls button:first-child { transform: translateX(5%); }
-  .carousel-controls button:last-child { transform: translateX(-5%); }
+
+  .carousel-controls button:first-child {
+    transform: translateX(5%);
+  }
+
+  .carousel-controls button:last-child {
+    transform: translateX(-5%);
+  }
 }
