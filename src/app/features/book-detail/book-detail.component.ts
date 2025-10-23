@@ -8,7 +8,7 @@ import { Observable, switchMap } from 'rxjs';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 import { AddToCartButton } from '@shared/components/add-to-cart-button/add-to-cart-button';
 import { Store } from '@ngrx/store';
-import { incrementProduct } from 'src/app/states/cart/cart.action';
+import { incrementProduct, loadCart } from 'src/app/states/cart/cart.action';
 import { CartItemRequest, CartService } from 'src/app/core/services/cart.service';
 @Component({
   selector: 'app-book-detail',
@@ -56,13 +56,13 @@ export class BookDetailComponent implements OnInit {
   }
 
   goToCart(bookId: number): void {
-    this.store.dispatch(incrementProduct({ productId: bookId }));
-    const quantity = 1;
     const cart: CartItemRequest = {
       bookId: bookId,
-      quantity: quantity,
+      quantity: 1,
     };
     this.cartService.addToCart(cart).subscribe((item) => {
+      this.store.dispatch(incrementProduct({ productId: bookId }));
+      this.store.dispatch(loadCart());
       console.log('added to cart');
       this.router.navigate(['/user/cart']);
     });
