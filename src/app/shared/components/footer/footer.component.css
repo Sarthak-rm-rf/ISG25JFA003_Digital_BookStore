@@ -1,42 +1,222 @@
-.footer {
-  background-color: #333;
-  color: white;
-  padding: 2rem 0;
+/*
+ * :host provides component-scoped styles.
+ * We define CSS variables here for a modern, dark footer theme,
+ * consistent with your not-found.component.css.
+ */
+:host {
+  /* Dark theme by default for the footer */
+  --footer-bg: #111827;
+  /* Tailwind gray-900 */
+  --footer-text: #9ca3af;
+  /* Tailwind gray-400 */
+  --footer-heading: #f9fafb;
+  /* Tailwind gray-50 */
+  --footer-link-hover: #ffffff;
+  --footer-border: #374151;
+  /* Tailwind gray-700 */
+  --primary-color: #6366f1;
+  /* Tailwind indigo-500 */
+  --primary-hover: #4f46e5;
+  /* Tailwind indigo-600 */
+
+  font-family: "Inter", "system-ui", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-.footer-container {
-  display: flex;
-  justify-content: space-around;
+/* Visually hidden class for labels */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.site-footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  /* Changed top padding from 4rem to 2rem to match previous size */
+  padding: 2rem 2rem 0;
+  /* No bottom padding, handled by bottom-bar */
+}
+
+.footer-content {
+  display: grid;
+  /* Responsive grid: 4 columns on large, 2 on medium, 1 on small */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
 }
 
-.footer-section {
-  flex: 1;
-  margin: 0 1rem;
+.footer-column {
+  display: flex;
+  flex-direction: column;
 }
 
-.footer-section h3 {
-  border-bottom: 2px solid #ff5722;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+.footer-logo {
+  font-size: 1.5rem;
+  /* 24px */
+  font-weight: 700;
+  color: var(--footer-heading);
+  margin: 0 0 1rem 0;
 }
 
-.social-links a {
-  display: block;
-  color: white;
+.footer-heading {
+  font-size: 0.875rem;
+  /* 14px */
+  font-weight: 600;
+  color: var(--footer-heading);
+  margin: 0 0 1.25rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-column p {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  /* 12px */
+}
+
+.footer-links a {
+  color: var(--footer-text);
   text-decoration: none;
-  margin-bottom: 0.5rem;
+  transition: color 0.2s ease-in-out;
 }
 
-.social-links a:hover {
+.footer-links a:hover {
+  color: var(--footer-link-hover);
   text-decoration: underline;
 }
 
-.footer-bottom {
-  text-align: center;
+/* Social Icons */
+.social-icon-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  /* 16px */
+}
+
+.social-icon-list a {
+  display: block;
+  color: var(--footer-text);
+  transition: color 0.2s ease-in-out;
+}
+
+.social-icon-list a:hover {
+  color: var(--footer-link-hover);
+}
+
+.social-icon-list svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Newsletter */
+.newsletter-heading {
   margin-top: 2rem;
-  border-top: 1px solid #444;
-  padding-top: 1rem;
+}
+
+.newsletter-form {
+  display: flex;
+  border-radius: 0.375rem;
+  /* 6px */
+  overflow: hidden;
+  max-width: 320px;
+}
+
+.newsletter-input {
+  flex-grow: 1;
+  padding: 0.75rem;
+  /* 12px */
+  border: 1px solid var(--footer-border);
+  background-color: #1f2937;
+  /* Tailwind gray-800 */
+  color: var(--footer-heading);
+  outline: none;
+  min-width: 0;
+}
+
+.newsletter-input::placeholder {
+  color: var(--footer-text);
+}
+
+.newsletter-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.newsletter-button {
+  padding: 0.75rem 1rem;
+  /* 12px 16px */
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+  white-space: nowrap;
+}
+
+.newsletter-button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Bottom Bar */
+.footer-bottom-bar {
+  display: flex;
+  flex-wrap: wrap;
+  /* Allows stacking on small screens */
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  /* 24px */
+  max-width: 1200px;
+  /* Changed margin-top from 3rem to 2rem */
+  margin: 2rem auto 0;
+  /* Changed padding from 1.5rem to 1rem */
+  padding: 1rem 0;
+  /* Vertical padding */
+  border-top: 1px solid var(--footer-border);
+  font-size: 0.875rem;
+  /* 14px */
+}
+
+.footer-bottom-bar p {
+  margin: 0;
+}
+
+.footer-bottom-links ul {
+  display: flex;
+  gap: 1.5rem;
+  /* 24px */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-bottom-links a {
+  color: var(--footer-text);
+  text-decoration: none;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--footer-link-hover);
+  text-decoration: underline;
 }

@@ -13,6 +13,7 @@ import { selectCartProducts } from 'src/app/states/cart/cart.selector';
 import { Observable, Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { Address } from 'src/app/models/address.model';
+import { toast } from 'ngx-sonner';
 
 // Import the new child components
 
@@ -83,12 +84,24 @@ export class CartCard implements OnInit {
 
         // 3. Close the modal
         this.isAddressModalVisible = false;
+        this.showToast();
       },
       (error) => {
+        this.showErrorToast();
         console.error('Error saving address:', error);
         // Optionally, show an error message to the user
       }
     );
+  }
+
+  showToast() {
+    toast.success('Address added successfully');
+  }
+
+  showErrorToast() {
+    toast.error('Something went wrong', {
+      description: 'There was a problem with your request.',
+    });
   }
 
   // loadCart() {

@@ -34,7 +34,7 @@ export interface Order {
   itemName: string;
   quantity: number;
   price: number;
-  isReviewed?: boolean;
+  isReviewed: boolean;
 }
 
 

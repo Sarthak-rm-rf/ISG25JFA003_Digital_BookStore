@@ -12,7 +12,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
   standalone: true,
   imports: [CommonModule, NavbarComponent, ZardToastComponent],
   templateUrl: './orders-management.html',
-  styleUrls: ['./orders-management.css']
+  styleUrls: ['./orders-management.css'],
 })
 export class OrdersManagementComponent implements OnInit {
   orders: Order[] = [];
@@ -32,16 +32,16 @@ export class OrdersManagementComponent implements OnInit {
 
   loadOrders(): void {
     this.loading = true;
-    
+
     this.orderService.getAllOrders().subscribe({
       next: (data) => {
         // Transform API response to match frontend Order interface
-        this.orders = (data || []).map(apiOrder => this.transformApiOrderToOrder(apiOrder));
+        this.orders = (data || []).map((apiOrder) => this.transformApiOrderToOrder(apiOrder));
         this.loading = false;
       },
       error: (err) => {
         console.error('Error loading orders:', err);
-        
+
         if (err.status === 401) {
           this.toastService.showError('Authentication required. Please login as admin.');
         } else if (err.status === 403) {
@@ -51,9 +51,9 @@ export class OrdersManagementComponent implements OnInit {
         } else {
           this.toastService.showError('Error loading orders: ' + (err.message || 'Unknown error'));
         }
-        
+
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -66,7 +66,7 @@ export class OrdersManagementComponent implements OnInit {
       orderStatus: this.mapApiStatusToOrderStatus(apiOrder.status),
       orderDate: apiOrder.orderDate || new Date().toISOString(),
       shippingAddress: apiOrder.shippingAddress || this.getDefaultShippingAddress(),
-      paymentId: apiOrder.paymentId
+      paymentId: apiOrder.paymentId,
     };
   }
 
@@ -95,7 +95,7 @@ export class OrdersManagementComponent implements OnInit {
       city: 'N/A',
       state: 'N/A',
       pincode: 'N/A',
-      country: 'N/A'
+      country: 'N/A',
     };
   }
 
@@ -110,7 +110,7 @@ export class OrdersManagementComponent implements OnInit {
   }
 
   getStatusClass(status: OrderStatus): string {
-    switch(status) {
+    switch (status) {
       case OrderStatus.PENDING:
         return 'bg-yellow-100 text-yellow-800';
       case OrderStatus.CONFIRMED:
@@ -127,7 +127,7 @@ export class OrdersManagementComponent implements OnInit {
   }
 
   getStatusIcon(status: OrderStatus): string {
-    switch(status) {
+    switch (status) {
       case OrderStatus.PENDING:
         return 'pending';
       case OrderStatus.CONFIRMED:
@@ -142,6 +142,4 @@ export class OrdersManagementComponent implements OnInit {
         return 'help';
     }
   }
-
-
 }

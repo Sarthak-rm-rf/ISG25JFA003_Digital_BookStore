@@ -1,24 +1,109 @@
-<footer id="contact-footer" class="footer">
-  <div class="footer-container">
-    <div class="footer-section">
-      <h3>About Us</h3>
+<footer class="site-footer">
+  <div class="footer-content">
+    <!-- Column 1: Brand & About -->
+    <div class="footer-column">
+      <h3 class="footer-logo">Bookstore</h3>
+      <span class="w-10 h-10 bg-[#ff5722] rounded-full flex items-center justify-center">
+        <span class="material-icons text-3xl text-white">menu_book</span>
+      </span>
       <p>Your one-stop shop for all the books you love. We believe in the power of reading.</p>
     </div>
-    <div class="footer-section">
-      <h3>Contact Us</h3>
-      <p>Email: support@digitalbookstore.com</p>
-      <p>Phone: (123) 456-7890</p>
+
+    <!-- Column 2: Book Categories -->
+    <div class="footer-column">
+      <h4 class="footer-heading">Categories</h4>
+      <ul class="footer-links">
+        <li><a routerLink="/books/fiction">Fiction</a></li>
+        <li><a routerLink="/books/non-fiction">Non-Fiction</a></li>
+        <li><a routerLink="/books/sci-fi">Science Fiction</a></li>
+        <li><a routerLink="/books/childrens">Children's</a></li>
+        <li><a routerLink="/books/bestsellers">Bestsellers</a></li>
+      </ul>
     </div>
-    <div class="footer-section">
-      <h3>Follow Us</h3>
-      <div class="social-links">
-        <a href="#" class="social-link">Facebook</a>
-        <a href="#" class="social-link">Twitter</a>
-        <a href="#" class="social-link">Instagram</a>
-      </div>
+
+    <!-- Column 3: Quick Links -->
+    <div class="footer-column">
+      <h4 class="footer-heading">Quick Links</h4>
+      <ul class="footer-links">
+        <li><a routerLink="/about">About Us</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+        <li><a routerLink="/user/profile">My Account</a></li>
+        <li><a routerLink="/faq">FAQs</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Stay Connected -->
+    <div class="footer-column">
+      <h4 class="footer-heading">Stay Connected</h4>
+      <!-- Social Icons -->
+      <ul class="social-icon-list">
+        <li>
+          <a href="#" aria-label="Facebook" title="Facebook">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="#" aria-label="Twitter / X" title="Twitter / X">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              ></path>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="#" aria-label="Instagram" title="Instagram">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.644-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-2.163C8.74 0 8.333.012 7.053.072 2.695.272.273 2.69.073 7.052.012 8.333 0 8.74 0 12s.012 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.988 8.74 24 12 24s3.667-.012 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.06-1.28.072-1.687.072-4.947s-.012-3.667-.072-4.947C21.727 2.69 19.302.273 14.947.073 13.667.012 13.26 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 1 0 2.88 1.44 1.44 0 0 1 0-2.88z"
+              ></path>
+            </svg>
+          </a>
+        </li>
+      </ul>
+      <!-- Newsletter Signup -->
+      <h4 class="footer-heading newsletter-heading">Join Our Newsletter</h4>
+      <form class="newsletter-form" (submit)="$event.preventDefault()">
+        <label for="email-signup" class="sr-only">Email address</label>
+        <input
+          type="email"
+          id="email-signup"
+          class="newsletter-input"
+          placeholder="your@email.com"
+        />
+        <button type="submit" class="newsletter-button">Subscribe</button>
+      </form>
     </div>
   </div>
-  <div class="footer-bottom">
+
+  <!-- Bottom Bar: Copyright & Legal Links -->
+  <div class="footer-bottom-bar">
     <p>&copy; 2025 Digital Bookstore. All Rights Reserved.</p>
+    <nav class="footer-bottom-links">
+      <ul>
+        <li><a routerLink="/privacy">Privacy Policy</a></li>
+        <li><a routerLink="/terms">Terms of Service</a></li>
+      </ul>
+    </nav>
   </div>
 </footer>

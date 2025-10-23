@@ -1,11 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
-import { CartPage } from './features/cart/cart-page/cart-page';;
+import { CartPage } from './features/cart/cart-page/cart-page';
 import { HomeComponent } from './features/home/home';
 import { NgModule } from '@angular/core';
 import { RegisterComponent } from './features/auth/register/register';
 import { LoginComponent } from './features/auth/login/login';
 import { OrderConfirmCardPage } from './features/order-confirmed/order-confirmed-page/order-confirmed-page';
-//import { BookListComponent } from './features/books/book-list/book-list.component';
 import { DashboardComponent as AdminDashboardComponent } from './features/admin/dashboard/dashboard';
 import { InventoryComponent } from './features/admin/inventory/inventory';
 import { BooksManagementComponent } from './features/admin/books-management/books-management';
@@ -17,32 +16,69 @@ import { UsersManagementComponent } from './features/admin/users-management/user
 import { ReviewsManagementComponent } from './features/admin/reviews-management/reviews-management';
 import { adminGuard } from './core/guards/role.guard';
 import { authGuard } from './core/guards/auth.guard';
+import { ErrorPage } from '@shared/error-page/error-page';
 
 export const routes: Routes = [
-    {
-        path: '',
-        redirectTo: '/home',
-        pathMatch: 'full'
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
-    // {path: 'books', component: BookListComponent },
-    { path: 'cart', component: CartPage },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'order-confirmed', component: OrderConfirmCardPage },
-    { path: '', loadChildren: () => import('./features/home/home.routes').then(m => m.ProductsRoutingModule) },
-    { path: 'book/:id', loadComponent: () => import('./features/book-detail/book-detail').then(m => m.BookDetailComponent) },
-    {
-        path: 'user-profile',
-        loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)
-    },
-    {
-    path: 'admin',
-    canActivate: [authGuard, adminGuard],
+  // ---------------------------------
+  // PUBLIC ROUTES
+  // ---------------------------------
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
+    path: 'books',
+    loadChildren: () => import('./features/home/home.routes').then((m) => m.ProductsRoutingModule),
+  },
+  {
+    path: 'book/:id',
+    loadComponent: () =>
+      import('./features/book-detail/book-detail').then((m) => m.BookDetailComponent),
+  },
+
+  // ---------------------------------
+  // AUTH ROUTES
+  // ---------------------------------
+  {
+    path: 'auth',
     children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent }, // As requested
+    ],
+  },
+
+  // ---------------------------------
+  // PROTECTED USER ROUTES
+  // ---------------------------------
+  {
+    path: 'user',
+    canActivate: [authGuard], // Guard is applied to all child routes
+    children: [
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      { path: 'cart', component: CartPage },
+      { path: 'order-confirmed', component: OrderConfirmCardPage },
+      {
+        path: 'profile', // Path is now /user/profile
+        loadComponent: () =>
+          import('./features/user-profile/user-profile').then((m) => m.UserProfile),
+      },
+    ],
+  },
+
+  // ---------------------------------
+  // PROTECTED ADMIN ROUTES
+  // ---------------------------------
+  {
+    path: 'admin',
+    canActivate: [authGuard, adminGuard], // Kept as requested
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'inventory', component: InventoryComponent },
       { path: 'books-management', component: BooksManagementComponent },
@@ -52,7 +88,15 @@ export const routes: Routes = [
       { path: 'categories-management', component: CategoriesManagementComponent },
       { path: 'orders-management', component: OrdersManagementComponent },
       { path: 'users-management', component: UsersManagementComponent },
-      { path: 'reviews-management', component: ReviewsManagementComponent }
-    ]
+      { path: 'reviews-management', component: ReviewsManagementComponent },
+    ],
+  },
+
+  // ---------------------------------
+  // WILDCARD ROUTE
+  // ---------------------------------
+  {
+    path: '**',
+    component: ErrorPage,
   },
 ];

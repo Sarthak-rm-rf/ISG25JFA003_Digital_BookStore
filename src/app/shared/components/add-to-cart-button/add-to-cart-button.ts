@@ -10,10 +10,11 @@ import {
 import { CartService } from 'src/app/core/services/cart.service';
 import { Subscription } from 'rxjs';
 import { selectProductQuantityInCart } from 'src/app/states/cart/cart.selector';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { toast } from 'ngx-sonner';
+// import { MessageService } from 'primeng/api';
+// import { ToastModule } from 'primeng/toast';
+import { ToastService } from 'src/app/core/services/toast.service';
 import { Router } from '@angular/router';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -34,7 +35,11 @@ export class AddToCartButton {
   private quantitySub!: Subscription;
   private cartService = inject(CartService);
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private toast: ToastService
+  ) {}
 
   ngOnInit() {
     if (this.product && this.product.id) {
@@ -78,7 +83,7 @@ export class AddToCartButton {
     const productId = product.id;
     this.store.dispatch(incrementProduct({ productId }));
     const bookId = this.product.id;
-    const quantity = this.quantity + 1;
+    const quantity = this.quantity;
     this.cartService.updateCartItem(bookId, quantity).subscribe((item) => {
       console.log('item updated on cart');
     });
@@ -89,19 +94,29 @@ export class AddToCartButton {
       const productId = product.id;
       this.store.dispatch(decrementProduct({ productId }));
       const bookId = this.product.id;
-      const quantity = this.quantity - 1;
+      const quantity = this.quantity;
       this.cartService.updateCartItem(bookId, quantity).subscribe((item) => {
         console.log('item updated on cart');
       });
     }
   }
 
+  // showToast(title: string) {
+  //   toast(`${title} Added to Cart`, {
+  //     description: `Your item has been added to cart successfully`,
+  //     action: {
+  //       label: 'View',
+  //       onClick: () => this.router.navigate(['/cart']),
+  //     },
+  //   });
+  // }
+
   showToast(title: string) {
     toast(`${title} Added to Cart`, {
       description: `Your item has been added to cart successfully`,
       action: {
         label: 'View',
-        onClick: () => this.router.navigate(['/cart']),
+        onClick: () => this.router.navigate(['/user/cart']),
       },
     });
   }

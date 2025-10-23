@@ -9,9 +9,9 @@ import { NavbarComponent } from '@shared/components/navbar/navbar';
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule,NavbarComponent],
-  templateUrl: './book-detail.component.html',
-  styleUrls: ['./book-detail.component.css']
+  imports: [CommonModule, RouterModule, NavbarComponent],
+  templateUrl: './book-detail.html',
+  styleUrls: ['./book-detail.css'],
 })
 export class BookDetailComponent implements OnInit {
   book$!: Observable<Book>;
@@ -27,23 +27,23 @@ export class BookDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.book$ = this.route.params.pipe(
-      switchMap(params => this.bookService.getBookById(+params['id']))
+      switchMap((params) => this.bookService.getBookById(+params['id']))
     );
 
     this.reviews$ = this.route.params.pipe(
-      switchMap(params => this.reviewService.getBookReviews(+params['id']))
+      switchMap((params) => this.reviewService.getBookReviews(+params['id']))
     );
 
-    this.reviews$.subscribe(reviews => {
+    this.reviews$.subscribe((reviews) => {
       this.reviews = reviews;
     });
   }
 
   prevSlide(): void {
-    this.currentSlide = (this.currentSlide > 0) ? this.currentSlide - 1 : this.reviews.length - 1;
+    this.currentSlide = this.currentSlide > 0 ? this.currentSlide - 1 : this.reviews.length - 1;
   }
 
   nextSlide(): void {
-    this.currentSlide = (this.currentSlide < this.reviews.length - 1) ? this.currentSlide + 1 : 0;
+    this.currentSlide = this.currentSlide < this.reviews.length - 1 ? this.currentSlide + 1 : 0;
   }
 }
