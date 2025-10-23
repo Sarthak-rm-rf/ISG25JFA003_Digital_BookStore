@@ -91,7 +91,7 @@ export class NavbarComponent implements OnInit {
     if (this.authService.isAdmin()) {
       return '/admin/dashboard';
     }
-    return '/user/profile';
+    return '/user-profile';
   }
 
   scrollToTop(): void {
