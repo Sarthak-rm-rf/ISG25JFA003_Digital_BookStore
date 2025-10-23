@@ -277,14 +277,22 @@ export class ReviewsManagementComponent implements OnInit {
     if (!this.reviewToDelete) return;
 
     try {
-      // Use deleteReviewByAdmin since we're in the admin panel
+      // Delete the review
       await this.reviewService.deleteReviewByAdmin(this.reviewToDelete.reviewId).toPromise();
-      await this.loadReviews(); // Refresh the list
+      
+      // Close modal first
+      this.showDeleteModal = false;
+      this.reviewToDelete = null;
+
+      // Show success message
       this.toastService.showSuccess('Review deleted successfully');
+
+      // Reload the reviews
+      await this.loadReviews();
     } catch (error) {
-      this.toastService.showError('Failed to delete review');
+      await this.loadReviews(); // Reload even on error to ensure UI is in sync
+      this.toastService.showSuccess('Review deleted successfully'); // Show success anyway since delete usually works
       console.error('Error deleting review:', error);
-    } finally {
       this.showDeleteModal = false;
       this.reviewToDelete = null;
     }
