@@ -11,9 +11,15 @@ import { ShaderAnimationComponent } from '../../shared/components/shader-animati
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent, ShaderAnimationComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    BookCardComponent,
+    NavbarComponent,
+    ShaderAnimationComponent,
+  ],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   books: Book[] = [];
@@ -21,7 +27,7 @@ export class HomeComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
     this.loadBooks();
@@ -39,7 +45,7 @@ export class HomeComponent implements OnInit {
         this.error = 'Failed to load books. Please try again later.';
         this.loading = false;
         console.error('Error loading books:', error);
-      }
+      },
     });
   }
 
@@ -55,7 +61,7 @@ export class HomeComponent implements OnInit {
           this.error = 'Failed to search books. Please try again later.';
           this.loading = false;
           console.error('Error searching books:', error);
-        }
+        },
       });
     } else {
       this.loadBooks();
