@@ -11,7 +11,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
 @Component({
   selector: 'app-users-management',
   standalone: true,
-  imports: [CommonModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, ConfirmationModalComponent, NavbarComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="min-h-screen bg-white py-8">

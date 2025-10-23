@@ -10,7 +10,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
 @Component({
   selector: 'app-orders-management',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './orders-management.html',
   styleUrls: ['./orders-management.css'],
 })

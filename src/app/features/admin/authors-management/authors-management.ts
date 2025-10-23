@@ -11,13 +11,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
 @Component({
   selector: 'app-authors-management',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ConfirmationModalComponent,
-    NavbarComponent,
-    ZardToastComponent,
-  ],
+  imports: [CommonModule, FormsModule, ConfirmationModalComponent, NavbarComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="min-h-screen bg-white py-8">
@@ -53,7 +47,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
             <div class="flex items-start justify-between mb-4">
               <div class="flex items-center">
                 <div
-                  class="w-12 h-12 bg-gradient-to-br from-[#ff5722] to-[#ff7043] rounded-full flex items-center justify-center mr-4"
+                  class="w-12 h-12 bg-linear-to-br from-[#ff5722] to-[#ff7043] rounded-full flex items-center justify-center mr-4"
                 >
                   <span class="material-icons text-white text-xl">person</span>
                 </div>

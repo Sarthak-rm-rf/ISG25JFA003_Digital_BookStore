@@ -10,7 +10,7 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="min-h-screen bg-white py-8">

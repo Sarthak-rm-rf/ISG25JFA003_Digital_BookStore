@@ -13,7 +13,7 @@ import { CartItemRequest, CartService } from 'src/app/core/services/cart.service
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent, AddToCartButton],
+  imports: [CommonModule, RouterModule, NavbarComponent],
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.css'],
 })

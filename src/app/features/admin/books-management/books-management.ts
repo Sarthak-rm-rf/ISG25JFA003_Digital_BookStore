@@ -10,9 +10,9 @@ import { ZardToastComponent } from 'src/app/shared/components/toast/toast.compon
 @Component({
   selector: 'app-books-management',
   standalone: true,
-  imports: [CommonModule, RouterModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, RouterModule, ConfirmationModalComponent, NavbarComponent],
   templateUrl: './books-management.html',
-  styleUrls: ['./books-management.css']
+  styleUrls: ['./books-management.css'],
 })
 export class BooksManagementComponent implements OnInit {
   books: Book[] = [];
@@ -41,7 +41,7 @@ export class BooksManagementComponent implements OnInit {
       error: (err) => {
         this.toastService.showError('Error loading books: ' + (err.message || 'Unknown error'));
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -80,7 +80,7 @@ export class BooksManagementComponent implements OnInit {
         this.loading = false;
         this.showDeleteModal = false;
         this.bookToDelete = null;
-      }
+      },
     });
   }
 
@@ -88,8 +88,6 @@ export class BooksManagementComponent implements OnInit {
     this.showDeleteModal = false;
     this.bookToDelete = null;
   }
-
-
 
   private toBook(bookResponse: any): Book {
     return {
@@ -103,7 +101,7 @@ export class BooksManagementComponent implements OnInit {
       publicationDate: bookResponse.publicationDate || '',
       publisher: bookResponse.publisher || '',
       imageUrl: bookResponse.imageUrl,
-      stockQuantity: bookResponse.stockQuantity
+      stockQuantity: bookResponse.stockQuantity,
     };
   }
 }
