@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { User } from '../../../models/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
@@ -7,13 +8,14 @@ import { AuthService } from '../../../core/services/auth.service';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ToastService } from '../../../core/services/toast.service';
 import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-management',
   standalone: true,
-  imports: [CommonModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, FormsModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent, ZardSwitchComponent],
   template: `
-    <app-navbar></app-navbar>
     <div class="min-h-screen bg-background py-8">
       <div class="max-w-7xl mx-auto px-4">
         <button 
@@ -27,13 +29,39 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
             <h1 class="text-3xl font-bold text-foreground mb-2">Users Management</h1>
             <p class="text-muted-foreground">Manage user accounts and permissions</p>
           </div>
-          <button 
-            (click)="loadUsers()"
-            [disabled]="loading"
-            class="bg-primary text-primary-foreground px-6 py-3 rounded-lg disabled:opacity-50 flex items-center">
-            <span class="material-icons mr-2">refresh</span>
-            Refresh Users
-          </button>
+          <div class="flex items-center gap-4">
+            <button 
+              (click)="loadUsers()"
+              [disabled]="loading"
+              class="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2">
+              <span class="material-icons">refresh</span>
+              Refresh Users
+            </button>
+
+            <z-switch
+              [ngModel]="isDarkMode"
+              (ngModelChange)="toggleTheme($event)"
+              class="theme-switch"
+            ></z-switch>
+
+            <div class="relative">
+              <button
+                (click)="toggleProfileMenu($event)"
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors">
+                <span class="material-icons">person</span>
+              </button>
+
+              <div *ngIf="isProfileMenuOpen" 
+                  class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg overflow-hidden">
+                <button
+                  (click)="logout()"
+                  class="w-full px-4 py-2 text-sm text-left hover:bg-accent/50 transition-colors flex items-center">
+                  <span class="material-icons text-base mr-2">logout</span>
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         
 
@@ -130,12 +158,15 @@ export class UsersManagementComponent implements OnInit {
   loading = false;
   showDeleteModal = false;
   userToDelete: User | null = null;
+  isDarkMode: boolean = document.documentElement.classList.contains('dark');
+  isProfileMenuOpen = false;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private toastService: ToastService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -217,6 +248,38 @@ export class UsersManagementComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    const html = document.documentElement;
+    const theme = isDark ? 'dark' : 'light';
+    
+    html.classList.toggle('dark', isDark);
+    html.setAttribute('data-theme', theme);
+    html.style.colorScheme = theme;
+    localStorage.setItem('dark', theme);
+  }
+
+  toggleProfileMenu(event: Event): void {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    
+    // Close menu when clicking outside
+    if (this.isProfileMenuOpen) {
+      setTimeout(() => {
+        window.addEventListener('click', this.closeProfileMenu.bind(this), { once: true });
+      });
+    }
+  }
+
+  closeProfileMenu(): void {
+    this.isProfileMenuOpen = false;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
   }
 
 }

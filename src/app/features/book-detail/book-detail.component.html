@@ -49,11 +49,11 @@
         <div class="carousel-track" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
           <div class="review-card" *ngFor="let review of reviews">
             <div class="review-avatar">
-              {{ review.reviewerName.slice(0,1) }}
+              {{ review.userName.slice(0,1) }}
             </div>
             <div class="review-content">
               <div class="review-author-info">
-                <span class="reviewer-name">{{ review.reviewerName }}</span>
+                <span class="reviewer-name">{{ review.userName }}</span>
                 <span class="review-rating">
                   <span class="stars">
                     <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= review.rating">★</span>

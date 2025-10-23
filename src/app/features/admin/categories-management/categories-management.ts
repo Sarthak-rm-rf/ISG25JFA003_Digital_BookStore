@@ -7,13 +7,15 @@ import { ConfirmationModalComponent } from '../../../shared/components/confirmat
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ToastService } from '../../../core/services/toast.service';
 import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, FormsModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent, ZardSwitchComponent],
   template: `
-    <app-navbar></app-navbar>
     <div class="min-h-screen bg-background py-8">
       <div class="max-w-7xl mx-auto px-4">
         <button 
@@ -27,12 +29,38 @@ import { ZardToastComponent } from '../../../shared/components/toast/toast.compo
             <h1 class="text-3xl font-bold text-foreground mb-2">Categories Management</h1>
             <p class="text-muted-foreground">Organize your library with categories and genres</p>
           </div>
-          <button 
-            (click)="onAddCategory()"
-            class="bg-primary text-primary-foreground px-6 py-3 rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-            <span class="material-icons mr-2">category</span>
-            Add Category
-          </button>
+          <div class="flex items-center gap-4">
+            <button 
+              (click)="onAddCategory()"
+              class="bg-primary text-primary-foreground px-6 py-3 rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+              <span class="material-icons mr-2">category</span>
+              Add Category
+            </button>
+
+            <z-switch
+              [ngModel]="isDarkMode"
+              (ngModelChange)="toggleTheme($event)"
+              class="theme-switch"
+            ></z-switch>
+
+            <div class="relative">
+              <button
+                (click)="toggleProfileMenu($event)"
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors">
+                <span class="material-icons">person</span>
+              </button>
+
+              <div *ngIf="isProfileMenuOpen" 
+                  class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg overflow-hidden">
+                <button
+                  (click)="logout()"
+                  class="w-full px-4 py-2 text-sm text-left hover:bg-accent/50 transition-colors flex items-center">
+                  <span class="material-icons text-base mr-2">logout</span>
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Loading State -->
@@ -222,11 +250,15 @@ export class CategoriesManagementComponent implements OnInit {
   newCategoryDescription = '';
   editCategoryName = '';
   editCategoryDescription = '';
+  isDarkMode: boolean = document.documentElement.classList.contains('dark');
+  isProfileMenuOpen = false;
 
   constructor(
     private categoryService: CategoryService,
     private toastService: ToastService,
-    private location: Location
+    private location: Location,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -357,4 +389,35 @@ export class CategoriesManagementComponent implements OnInit {
     this.location.back();
   }
 
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    const html = document.documentElement;
+    const theme = isDark ? 'dark' : 'light';
+    
+    html.classList.toggle('dark', isDark);
+    html.setAttribute('data-theme', theme);
+    html.style.colorScheme = theme;
+    localStorage.setItem('dark', theme);
+  }
+
+  toggleProfileMenu(event: Event): void {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    
+    // Close menu when clicking outside
+    if (this.isProfileMenuOpen) {
+      setTimeout(() => {
+        window.addEventListener('click', this.closeProfileMenu.bind(this), { once: true });
+      });
+    }
+  }
+
+  closeProfileMenu(): void {
+    this.isProfileMenuOpen = false;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
 }

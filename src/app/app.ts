@@ -17,7 +17,16 @@ import { ZardToastComponent } from '@shared/components/toast/toast.component';
 export class App {
   protected readonly title = signal('ISG25JFA003_Digital_BookStore');
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store, private router: Router) {
+    // Subscribe to router events to update body class
+    this.router.events.subscribe(() => {
+      if (this.isAdminRoute()) {
+        document.body.classList.add('admin-route');
+      } else {
+        document.body.classList.remove('admin-route');
+      }
+    });
+  }
 
   ngOnInit() {
     this.store.dispatch(loadCart());

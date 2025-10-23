@@ -7,12 +7,14 @@ import { UserService } from '../../../core/services/user.service';
 import { InventoryService } from '../../../core/services/inventory.service';
 import { LowStockAlert } from '../../../models/inventory.model';
 import { Order } from '../../../models/order.model';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, ZardSwitchComponent, FormsModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
@@ -21,6 +23,8 @@ export class DashboardComponent implements OnInit {
   totalOrders = 0;
   totalUsers = 0;
   totalRevenue = 0;
+  isDarkMode = false;
+  isProfileMenuOpen = false;
   lowStockAlerts: LowStockAlert[] = [];
   recentOrders: Order[] = [];
   loading = false;
@@ -30,8 +34,13 @@ export class DashboardComponent implements OnInit {
     private orderService: OrderService,
     private userService: UserService,
     private inventoryService: InventoryService,
+    private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.isDarkMode = savedTheme === 'dark' || (savedTheme === null && prefersDark);
+  }
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -108,5 +117,30 @@ export class DashboardComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/']); // Navigate to home page
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.body.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  toggleProfileMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

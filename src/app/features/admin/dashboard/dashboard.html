@@ -1,19 +1,43 @@
-<app-navbar></app-navbar>
-
-<div class="min-h-screen bg-background text-foreground py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-background text-foreground">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[10px]">
     <div class="flex justify-between items-center mb-8">
       <div>
         <h1 class="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
         <p class="text-muted-foreground">Monitor and manage your digital bookstore</p>
       </div>
-      <button 
-        (click)="loadDashboardData()"
-        [disabled]="loading"
-        class="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2">
-        <span class="material-icons">refresh</span>
-        Refresh Dashboard
-      </button>
+      <div class="flex items-center gap-4">
+        <button 
+          (click)="loadDashboardData()"
+          [disabled]="loading"
+          class="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2">
+          <span class="material-icons">refresh</span>
+          Refresh Dashboard
+        </button>
+
+        <z-switch
+          [ngModel]="isDarkMode"
+          (ngModelChange)="toggleTheme($event)"
+          class="theme-switch"
+        ></z-switch>
+
+        <div class="relative">
+          <button 
+            (click)="toggleProfileMenu($event)"
+            class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors">
+            <span class="material-icons">person</span>
+          </button>
+
+          <div *ngIf="isProfileMenuOpen" 
+               class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg overflow-hidden">
+            <button
+              (click)="logout()"
+              class="w-full px-4 py-2 text-sm text-left hover:bg-accent/50 transition-colors flex items-center">
+              <span class="material-icons text-base mr-2">logout</span>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Stats Cards -->
@@ -140,10 +164,10 @@
           <span class="material-icons text-3xl text-[#ff5722] mb-2">inventory</span>
           <span class="text-sm font-medium">Inventory</span>
         </a>
-        <a routerLink="/admin/books-management" 
+        <a routerLink="/admin/reviews-management" 
            class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">
-          <span class="material-icons text-3xl text-[#ff5722] mb-2">menu_book</span>
-          <span class="text-sm font-medium">Books</span>
+          <span class="material-icons text-3xl text-[#ff5722] mb-2">rate_review</span>
+          <span class="text-sm font-medium">Reviews</span>
         </a>
         <a routerLink="/admin/book-form" 
            class="flex flex-col items-center p-4 border border-border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors">

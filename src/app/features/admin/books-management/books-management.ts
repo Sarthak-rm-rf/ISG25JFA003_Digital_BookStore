@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Book } from '../../../models/book.model';
 import { BookService } from '../../../core/services/book.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
-import { ToastService } from 'src/app/core/services/toast.service';
-import { ZardToastComponent } from 'src/app/shared/components/toast/toast.component';
+import { ToastService } from '../../../core/services/toast.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
 @Component({
   selector: 'app-books-management',
   standalone: true,
-  imports: [CommonModule, RouterModule, ConfirmationModalComponent, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, RouterModule, FormsModule, ConfirmationModalComponent, ZardSwitchComponent],
   templateUrl: './books-management.html',
   styleUrls: ['./books-management.css']
 })
@@ -20,12 +21,14 @@ export class BooksManagementComponent implements OnInit {
   showDeleteModal = false;
   bookToDelete: Book | null = null;
 
-  constructor(
-    private bookService: BookService,
-    private router: Router,
-    private toastService: ToastService,
-    private location: Location
-  ) {}
+  private bookService = inject(BookService);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private location = inject(Location);
+
+  isProfileMenuOpen = false;
+  isDarkMode = document.documentElement.classList.contains('dark');
 
   ngOnInit(): void {
     this.loadBooks();
@@ -88,6 +91,47 @@ export class BooksManagementComponent implements OnInit {
   cancelDelete(): void {
     this.showDeleteModal = false;
     this.bookToDelete = null;
+  }
+
+  toggleProfileMenu(event: Event): void {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    
+    // Close menu when clicking outside
+    if (this.isProfileMenuOpen) {
+      setTimeout(() => {
+        window.addEventListener('click', this.closeProfileMenu);
+      });
+    }
+  }
+
+  private closeProfileMenu = (): void => {
+    this.isProfileMenuOpen = false;
+    window.removeEventListener('click', this.closeProfileMenu);
+  };
+
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/auth/login']);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   goBack(): void {
