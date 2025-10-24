@@ -1,25 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../../models/book.model';
 import { CategoryService } from '../../../core/services/category.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { ToastService } from '../../../core/services/toast.service';
 import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories-management',
   standalone: true,
   imports: [CommonModule, FormsModule, ConfirmationModalComponent, NavbarComponent],
   template: `
-    <app-navbar></app-navbar>
-    <div class="min-h-screen bg-white py-8">
+    <div class="min-h-screen bg-background py-8">
       <div class="max-w-7xl mx-auto px-4">
+        <button 
+          (click)="goBack()"
+          class="mb-4 flex items-center text-muted-foreground hover:text-foreground transition-colors">
+          <span class="material-icons mr-1">arrow_back</span>
+          Back
+        </button>
         <div class="flex justify-between items-center mb-8">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Categories Management</h1>
-            <p class="text-gray-600">Organize your library with categories and genres</p>
+            <h1 class="text-3xl font-bold text-foreground mb-2">Categories Management</h1>
+            <p class="text-muted-foreground">Organize your library with categories and genres</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <button 
+              (click)="onAddCategory()"
+              class="bg-primary text-primary-foreground px-6 py-3 rounded-xl hover:bg-primary/90 transition-all duration-200 flex items-center font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+              <span class="material-icons mr-2">category</span>
+              Add Category
+            </button>
+
+            <z-switch
+              [ngModel]="isDarkMode"
+              (ngModelChange)="toggleTheme($event)"
+              class="theme-switch"
+            ></z-switch>
+
+            <button
+              (click)="goToProfile()"
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors"
+              title="My Profile">
+              <span class="material-icons">home</span>
+            </button>
+
+            <div class="relative">
+              <button
+                (click)="toggleProfileMenu($event)"
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors">
+                <span class="material-icons">person</span>
+              </button>
+
+              <div *ngIf="isProfileMenuOpen" 
+                  class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg overflow-hidden">
+                <button
+                  (click)="logout()"
+                  class="w-full px-4 py-2 text-sm text-left hover:bg-accent/50 transition-colors flex items-center">
+                  <span class="material-icons text-base mr-2">logout</span>
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
           <button
             (click)="onAddCategory()"
@@ -247,11 +293,35 @@ export class CategoriesManagementComponent implements OnInit {
   newCategoryDescription = '';
   editCategoryName = '';
   editCategoryDescription = '';
+  isDarkMode: boolean = document.documentElement.classList.contains('dark');
+  isProfileMenuOpen = false;
 
   constructor(private categoryService: CategoryService, private toastService: ToastService) {}
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadCategories();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   loadCategories(): void {
