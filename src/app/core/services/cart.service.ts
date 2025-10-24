@@ -17,7 +17,7 @@ export interface CartResponse {
   cartId: number;
 }
 
-interface CartItemRequest {
+export interface CartItemRequest {
   bookId: number;
   quantity: number;
 }

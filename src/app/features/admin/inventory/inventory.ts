@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, FormsModule, ZardToastComponent, ZardSwitchComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   template: `
     <div class="min-h-screen bg-background text-foreground py-8">
       <div class="max-w-7xl mx-auto px-4">

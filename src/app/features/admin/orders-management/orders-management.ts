@@ -11,7 +11,7 @@ import { ZardSwitchComponent } from '../../../shared/components/switch/switch.co
 @Component({
   selector: 'app-orders-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ZardSwitchComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './orders-management.html',
   styleUrls: ['./orders-management.css']
 })

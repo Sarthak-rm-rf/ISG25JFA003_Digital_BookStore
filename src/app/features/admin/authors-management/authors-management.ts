@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-authors-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationModalComponent, ZardToastComponent, ZardSwitchComponent],
+  imports: [CommonModule, FormsModule, ConfirmationModalComponent, NavbarComponent],
   template: `
     <div class="min-h-screen bg-background text-foreground py-8">
       <div class="max-w-7xl mx-auto px-4">
@@ -76,19 +76,17 @@ import { Router } from '@angular/router';
             <p class="mt-4 text-muted-foreground text-lg">Loading authors...</p>
           </div>
         } @else {
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @for (author of authors; track author.authorId) {
-              <div class="bg-card text-card-foreground border border-border p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                <div class="flex items-start justify-between mb-4">
-                  <div class="flex items-center">
-                    <div class="w-12 h-12 bg-gradient-to-br from-brand-primary to-[#ff7043] rounded-full flex items-center justify-center mr-4">
-                      <span class="material-icons text-brand-primary-foreground text-xl">person</span>
-                    </div>
-                    <div>
-                      <h3 class="text-xl font-bold text-foreground">{{ author.name }}</h3>
-                      <p class="text-muted-foreground text-sm">Author</p>
-                    </div>
-                  </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (author of authors; track author.authorId) {
+          <div
+            class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+          >
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center">
+                <div
+                  class="w-12 h-12 bg-linear-to-br from-[#ff5722] to-[#ff7043] rounded-full flex items-center justify-center mr-4"
+                >
+                  <span class="material-icons text-white text-xl">person</span>
                 </div>
                 
                 <div class="mb-6">

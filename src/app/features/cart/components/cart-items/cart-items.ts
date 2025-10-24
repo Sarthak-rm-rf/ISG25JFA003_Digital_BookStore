@@ -29,6 +29,11 @@ export class CartItemsComponent {
   decreaseQuantity(product: IProduct) {
     if (product.quantity > 1) {
       this.store.dispatch(decrementProduct({ productId: product.id }));
+      const bookId = product.id;
+      const quantity = product.quantity;
+      this.cartService.updateCartItem(bookId, quantity).subscribe((item) => {
+        console.log('item added to cart');
+      });
       this.emitChanges();
     }
   }
@@ -36,6 +41,11 @@ export class CartItemsComponent {
   increaseQuantity(product: IProduct) {
     if (product.quantity < 100) {
       this.store.dispatch(incrementProduct({ productId: product.id }));
+      const bookId = product.id;
+      const quantity = product.quantity;
+      this.cartService.updateCartItem(bookId, quantity).subscribe((item) => {
+        console.log('item added to cart');
+      });
       this.emitChanges();
     }
   }

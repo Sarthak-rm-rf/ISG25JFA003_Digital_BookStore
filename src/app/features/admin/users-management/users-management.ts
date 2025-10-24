@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-users-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationModalComponent, ZardToastComponent, ZardSwitchComponent],
+  imports: [CommonModule, ConfirmationModalComponent, NavbarComponent],
   template: `
     <div class="min-h-screen bg-background py-8">
       <div class="max-w-7xl mx-auto px-4">
