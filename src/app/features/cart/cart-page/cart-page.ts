@@ -1,6 +1,6 @@
 import { Component, signal } from "@angular/core";
 import { CartCard } from "../components/cart-card/cart-card";
-import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
+import { NavbarComponent } from "../../../shared/components/navbar/navbar";
 
 @Component({
   selector: 'cart-page',

@@ -14,8 +14,8 @@ import { User } from 'src/app/models/user.model';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, ZardSwitchComponent],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  templateUrl: './navbar.html',
+  styleUrls: ['./navbar.css'],
 })
 export class NavbarComponent implements OnInit {
   isScrolled = false;

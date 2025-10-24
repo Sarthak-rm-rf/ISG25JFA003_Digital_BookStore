@@ -4,7 +4,7 @@ import { User } from '../../../models/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
 import { AuthService } from '../../../core/services/auth.service';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { ToastService } from '../../../core/services/toast.service';
 import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
 

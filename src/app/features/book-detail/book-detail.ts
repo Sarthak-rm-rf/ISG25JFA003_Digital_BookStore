@@ -5,7 +5,7 @@ import { BookService } from '../../core/services/book.service';
 import { Book } from '../../models/book.model';
 import { ReviewService, Review } from '../../core/services/review.service';
 import { Observable, switchMap } from 'rxjs';
-import { NavbarComponent } from '@shared/components/navbar/navbar.component';
+import { NavbarComponent } from '@shared/components/navbar/navbar';
 import { AddToCartButton } from '@shared/components/add-to-cart-button/add-to-cart-button';
 import { Store } from '@ngrx/store';
 import { incrementProduct, loadCart } from 'src/app/states/cart/cart.action';
@@ -14,8 +14,8 @@ import { CartItemRequest, CartService } from 'src/app/core/services/cart.service
   selector: 'app-book-detail',
   standalone: true,
   imports: [CommonModule, RouterModule, NavbarComponent],
-  templateUrl: './book-detail.component.html',
-  styleUrls: ['./book-detail.component.css'],
+  templateUrl: './book-detail.html',
+  styleUrls: ['./book-detail.css'],
 })
 export class BookDetailComponent implements OnInit {
   book$!: Observable<Book>;

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar';
 import { OrderConfirmCard } from '../components/order-confirm-card/order-confirm-card';
 import { ProgressBar } from '@shared/components/progress-bar/progress-bar';
 

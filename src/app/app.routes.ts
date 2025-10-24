@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CartPage } from './features/cart/cart-page/cart-page';
-import { HomeComponent } from './features/home/home.component';
+import { HomeComponent } from './features/home/home';
 import { NgModule } from '@angular/core';
 import { RegisterComponent } from './features/auth/register/register';
 import { LoginComponent } from './features/auth/login/login';
@@ -38,7 +38,7 @@ export const routes: Routes = [
   {
     path: 'book/:id',
     loadComponent: () =>
-      import('./features/book-detail/book-detail.component').then((m) => m.BookDetailComponent),
+      import('./features/book-detail/book-detail').then((m) => m.BookDetailComponent),
   },
 
   // ---------------------------------
