@@ -11,7 +11,7 @@ import { ShaderAnimationComponent } from '../../shared/components/shader-animati
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent , ToastComponent, ShaderAnimationComponent],
+  imports: [CommonModule, FormsModule, BookCardComponent, NavbarComponent ,  ShaderAnimationComponent],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
