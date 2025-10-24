@@ -36,14 +36,17 @@ export class DashboardComponent implements OnInit {
     private inventoryService: InventoryService,
     private authService: AuthService,
     private router: Router
-  ) {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.isDarkMode = savedTheme === 'dark' || (savedTheme === null && prefersDark);
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadDashboardData();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   loadDashboardData(): void {
@@ -115,8 +118,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  goBack(): void {
-    this.router.navigate(['/']); // Navigate to home page
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 
   toggleTheme(isDark: boolean): void {
@@ -126,10 +129,10 @@ export class DashboardComponent implements OnInit {
 
   private applyTheme(isDark: boolean): void {
     if (isDark) {
-      document.body.classList.add('dark');
+      document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.body.classList.remove('dark');
+      document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
   }
@@ -139,8 +142,13 @@ export class DashboardComponent implements OnInit {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
+    }
   }
 }

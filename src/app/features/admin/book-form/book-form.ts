@@ -55,13 +55,19 @@ export class BookFormComponent implements OnInit {
   isDarkMode = document.documentElement.classList.contains('dark');
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadAuthorsAndCategories();
-    
     const bookId = this.route.snapshot.paramMap.get('id');
     if (bookId) {
       this.isEditMode = true;
       this.loadBook(parseInt(bookId));
     }
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   loadAuthorsAndCategories(): void {
@@ -120,7 +126,11 @@ export class BookFormComponent implements OnInit {
       this.errorMessage = 'Title is required';
       return false;
     }
-    if (this.book.price && this.book.price < 0) {
+    if (this.book.price === undefined || this.book.price === null || isNaN(this.book.price)) {
+      this.errorMessage = 'Price is required';
+      return false;
+    }
+    if (this.book.price < 0) {
       this.errorMessage = 'Price cannot be negative';
       return false;
     }
@@ -141,7 +151,18 @@ export class BookFormComponent implements OnInit {
         this.toastService.showSuccess('Book created successfully');
       },
       error: (err: HttpErrorResponse) => {
-       this.toastService.showError('Error creating book');
+        let errorMsg = 'Error creating book';
+        if (err.error && typeof err.error === 'object') {
+          if (err.error.message) {
+            errorMsg += ': ' + err.error.message;
+          } else if (err.error.errors) {
+            errorMsg += ': ' + Object.values(err.error.errors).join(', ');
+          }
+        } else if (err.error && typeof err.error === 'string') {
+          errorMsg += ': ' + err.error;
+        }
+        this.toastService.showError(errorMsg);
+        this.errorMessage = errorMsg;
         this.loading = false;
       }
     });
@@ -339,9 +360,10 @@ export class BookFormComponent implements OnInit {
   async logout(): Promise<void> {
     try {
       await this.authService.logout();
-      this.router.navigate(['/auth/login']);
     } catch (error) {
       console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
     }
   }
 
@@ -362,5 +384,9 @@ export class BookFormComponent implements OnInit {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 }

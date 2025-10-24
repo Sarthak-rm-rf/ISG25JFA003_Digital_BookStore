@@ -31,7 +31,14 @@ export class BooksManagementComponent implements OnInit {
   isDarkMode = document.documentElement.classList.contains('dark');
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadBooks();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   loadBooks(): void {
@@ -113,9 +120,10 @@ export class BooksManagementComponent implements OnInit {
   async logout(): Promise<void> {
     try {
       await this.authService.logout();
-      this.router.navigate(['/auth/login']);
     } catch (error) {
       console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
     }
   }
 
@@ -152,5 +160,13 @@ export class BooksManagementComponent implements OnInit {
       imageUrl: bookResponse.imageUrl,
       stockQuantity: bookResponse.stockQuantity
     };
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/admin/dashboard']);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 }

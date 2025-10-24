@@ -8,6 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { BookService } from '../../../core/services/book.service';
 import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
+import { UserService } from '../../../core/services/user.service';
 import { Book } from '../../../models/book.model';
 
 interface BookReviews {
@@ -43,6 +44,13 @@ interface BookReviews {
               (ngModelChange)="toggleTheme($event)"
               class="theme-switch"
             ></z-switch>
+
+            <!-- My Profile Button moved outside -->
+            <button
+              (click)="goToProfile()"
+              class="flex items-center justify-center px-4 py-2 rounded-lg bg-accent hover:bg-accent/80 text-foreground transition-colors text-sm font-medium">
+              <span class="material-icons mr-2">home</span>
+            </button>
 
             <div class="relative">
               <button
@@ -137,8 +145,6 @@ interface BookReviews {
                                     </span>
                                   }
                                 </div>
-                                <span class="text-sm font-medium text-foreground">{{ review.userName }}</span>
-                                <span class="text-xs text-muted-foreground">{{ formatDate(review.createdAt) }}</span>
                               </div>
                               <p class="text-sm text-foreground">{{ review.comment }}</p>
                             </div>
@@ -186,6 +192,7 @@ export class ReviewsManagementComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private location = inject(Location);
+  private userService = inject(UserService);
 
   isDarkMode = document.documentElement.classList.contains('dark');
 
@@ -194,26 +201,64 @@ export class ReviewsManagementComponent implements OnInit {
   showDeleteModal = false;
   reviewToDelete: any = null;
   isProfileMenuOpen = false;
+  reviewerNames: { [userId: number]: string } = {};
 
   private bookDetails: Map<number, Book> = new Map();
 
   ngOnInit(): void {
-    // First load all books to get their details
-    this.bookService.getAllBooks().subscribe({
-      next: (books) => {
-        books.forEach(book => {
-          if (book.bookId) {
-            this.bookDetails.set(book.bookId, book);
+    this.syncTheme();
+    // First load all users to get their names
+    this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        users.forEach(user => {
+          if (user.userId) {
+            this.reviewerNames[user.userId] = user.fullName;
           }
         });
-        this.loadReviews();
+        // Now load books and reviews
+        this.bookService.getAllBooks().subscribe({
+          next: (books) => {
+            books.forEach(book => {
+              if (book.bookId) {
+                this.bookDetails.set(book.bookId, book);
+              }
+            });
+            this.loadReviews();
+          },
+          error: (error) => {
+            console.error('Error loading books:', error);
+            this.toastService.showError('Failed to load book details');
+            this.loadReviews();
+          }
+        });
       },
       error: (error) => {
-        console.error('Error loading books:', error);
-        this.toastService.showError('Failed to load book details');
-        this.loadReviews();
+        console.error('Error loading users:', error);
+        this.toastService.showError('Failed to load user details');
+        // Still try to load books/reviews
+        this.bookService.getAllBooks().subscribe({
+          next: (books) => {
+            books.forEach(book => {
+              if (book.bookId) {
+                this.bookDetails.set(book.bookId, book);
+              }
+            });
+            this.loadReviews();
+          },
+          error: (error) => {
+            console.error('Error loading books:', error);
+            this.toastService.showError('Failed to load book details');
+            this.loadReviews();
+          }
+        });
       }
     });
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   async loadReviews(): Promise<void> {
@@ -260,12 +305,9 @@ export class ReviewsManagementComponent implements OnInit {
     }
   }
 
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+  formatDate(date: string): string {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString();
   }
 
   onDeleteReview(review: any): void {
@@ -338,9 +380,10 @@ export class ReviewsManagementComponent implements OnInit {
   async logout(): Promise<void> {
     try {
       await this.authService.logout();
-      this.router.navigate(['/auth/login']);
     } catch (error) {
       console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
     }
   }
 
@@ -356,5 +399,9 @@ export class ReviewsManagementComponent implements OnInit {
     if (!reviews || reviews.length === 0) return '0.0';
     const average = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
     return average.toFixed(1);
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 }
