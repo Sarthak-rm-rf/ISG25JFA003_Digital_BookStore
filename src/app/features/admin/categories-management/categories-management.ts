@@ -42,6 +42,13 @@ import { Router } from '@angular/router';
               class="theme-switch"
             ></z-switch>
 
+            <button
+              (click)="goToProfile()"
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors"
+              title="My Profile">
+              <span class="material-icons">home</span>
+            </button>
+
             <div class="relative">
               <button
                 (click)="toggleProfileMenu($event)"
@@ -261,7 +268,29 @@ export class CategoriesManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadCategories();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   loadCategories(): void {
@@ -388,17 +417,6 @@ export class CategoriesManagementComponent implements OnInit {
     this.location.back();
   }
 
-  toggleTheme(isDark: boolean): void {
-    this.isDarkMode = isDark;
-    const html = document.documentElement;
-    const theme = isDark ? 'dark' : 'light';
-    
-    html.classList.toggle('dark', isDark);
-    html.setAttribute('data-theme', theme);
-    html.style.colorScheme = theme;
-    localStorage.setItem('dark', theme);
-  }
-
   toggleProfileMenu(event: Event): void {
     event.stopPropagation();
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
@@ -415,8 +433,17 @@ export class CategoriesManagementComponent implements OnInit {
     this.isProfileMenuOpen = false;
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
+    }
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 }
