@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Book } from '../../../models/book.model';
 import { BookService } from '../../../core/services/book.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar';
-import { ToastService } from 'src/app/core/services/toast.service';
-import { ZardToastComponent } from 'src/app/shared/components/toast/toast.component';
+import { ToastService } from '../../../core/services/toast.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
 @Component({
   selector: 'app-books-management',
   standalone: true,
@@ -20,14 +21,24 @@ export class BooksManagementComponent implements OnInit {
   showDeleteModal = false;
   bookToDelete: Book | null = null;
 
-  constructor(
-    private bookService: BookService,
-    private router: Router,
-    private toastService: ToastService
-  ) {}
+  private bookService = inject(BookService);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private location = inject(Location);
+
+  isProfileMenuOpen = false;
+  isDarkMode = document.documentElement.classList.contains('dark');
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadBooks();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   loadBooks(): void {
@@ -103,5 +114,13 @@ export class BooksManagementComponent implements OnInit {
       imageUrl: bookResponse.imageUrl,
       stockQuantity: bookResponse.stockQuantity,
     };
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/admin/dashboard']);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 }
