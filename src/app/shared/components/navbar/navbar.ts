@@ -14,8 +14,8 @@ import { User } from 'src/app/models/user.model';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, ZardSwitchComponent],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  templateUrl: './navbar.html',
+  styleUrls: ['./navbar.css'],
 })
 export class NavbarComponent implements OnInit {
   isScrolled = false;
@@ -62,11 +62,11 @@ export class NavbarComponent implements OnInit {
   }
 
   loginClick() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   signUpClick() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/auth/register']);
   }
 
   toggleTheme(isDark: boolean): void {
@@ -91,7 +91,7 @@ export class NavbarComponent implements OnInit {
     if (this.authService.isAdmin()) {
       return '/admin/dashboard';
     }
-    return '/user-profile';
+    return '/user/profile';
   }
 
   scrollToTop(): void {
@@ -116,6 +116,6 @@ export class NavbarComponent implements OnInit {
   }
 
   redirect() {
-    this.router.navigate(['/cart']);
+    this.router.navigate(['/user/cart']);
   }
 }

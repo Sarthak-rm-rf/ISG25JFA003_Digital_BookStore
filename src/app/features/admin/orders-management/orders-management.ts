@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Order, OrderStatus } from '../../../models/order.model';
 import { OrderService } from '../../../core/services/order.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ToastService } from '../../../core/services/toast.service';
-import { ZardToastComponent } from '../../../shared/components/toast/toast.component';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
 
 @Component({
   selector: 'app-orders-management',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, ZardToastComponent],
+  imports: [CommonModule, FormsModule, ZardSwitchComponent],
   templateUrl: './orders-management.html',
   styleUrls: ['./orders-management.css']
 })
@@ -19,12 +20,15 @@ export class OrdersManagementComponent implements OnInit {
   loading = false;
   selectedOrder: Order | null = null;
   showOrderDetails = false;
+  isDarkMode = document.documentElement.classList.contains('dark');
 
-  constructor(
-    private orderService: OrderService,
-    private authService: AuthService,
-    private toastService: ToastService
-  ) {}
+  private orderService = inject(OrderService);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private location = inject(Location);
+
+  isProfileMenuOpen = false;
 
   ngOnInit(): void {
     this.loadOrders();
@@ -143,5 +147,49 @@ export class OrdersManagementComponent implements OnInit {
     }
   }
 
+  toggleProfileMenu(event: Event): void {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    
+    // Close menu when clicking outside
+    if (this.isProfileMenuOpen) {
+      setTimeout(() => {
+        window.addEventListener('click', this.closeProfileMenu);
+      });
+    }
+  }
+
+  private closeProfileMenu = (): void => {
+    this.isProfileMenuOpen = false;
+    window.removeEventListener('click', this.closeProfileMenu);
+  };
+
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/auth/login']);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }
 
 }
