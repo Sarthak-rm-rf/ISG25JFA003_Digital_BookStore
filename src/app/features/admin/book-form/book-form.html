@@ -1,5 +1,3 @@
-
-
 <div class="min-h-screen bg-background">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-[10px]">
     <div class="flex justify-between items-center mb-4">
@@ -15,6 +13,14 @@
           (ngModelChange)="toggleTheme($event)"
           class="theme-switch"
         ></z-switch>
+
+        <!-- Home Button -->
+        <button
+          (click)="goToHome()"
+          class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors"
+        >
+          <span class="material-icons">home</span>
+        </button>
 
         <div class="relative">
           <button

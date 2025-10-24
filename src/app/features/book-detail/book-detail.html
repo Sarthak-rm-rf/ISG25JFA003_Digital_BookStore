@@ -40,7 +40,7 @@
           <button
             class="add-to-cart-btn"
             [disabled]="book.stockQuantity === 0"
-            [routerLink]="['/cart']"
+            (click)="goToCart(book.bookId!)"
           >
             Add to Cart
           </button>

@@ -11,7 +11,7 @@ import { ZardSwitchComponent } from '../../../shared/components/switch/switch.co
 @Component({
   selector: 'app-orders-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ZardSwitchComponent],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './orders-management.html',
   styleUrls: ['./orders-management.css']
 })
@@ -20,6 +20,7 @@ export class OrdersManagementComponent implements OnInit {
   loading = false;
   selectedOrder: Order | null = null;
   showOrderDetails = false;
+  isProfileMenuOpen = false;
   isDarkMode = document.documentElement.classList.contains('dark');
 
   private orderService = inject(OrderService);
@@ -28,10 +29,15 @@ export class OrdersManagementComponent implements OnInit {
   private router = inject(Router);
   private location = inject(Location);
 
-  isProfileMenuOpen = false;
-
   ngOnInit(): void {
+    this.syncTheme();
     this.loadOrders();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   loadOrders(): void {
@@ -167,9 +173,10 @@ export class OrdersManagementComponent implements OnInit {
   async logout(): Promise<void> {
     try {
       await this.authService.logout();
-      this.router.navigate(['/auth/login']);
     } catch (error) {
       console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
     }
   }
 
@@ -190,6 +197,10 @@ export class OrdersManagementComponent implements OnInit {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 
 }

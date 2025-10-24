@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-users-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationModalComponent, ZardToastComponent, ZardSwitchComponent],
+  imports: [CommonModule, ConfirmationModalComponent, NavbarComponent],
   template: `
     <div class="min-h-screen bg-background py-8">
       <div class="max-w-7xl mx-auto px-4">
@@ -42,6 +42,14 @@ import { Router } from '@angular/router';
               (ngModelChange)="toggleTheme($event)"
               class="theme-switch"
             ></z-switch>
+
+            <!-- Home Button -->
+            <button
+              (click)="goToHome()"
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-accent hover:bg-accent/80 transition-colors"
+            >
+              <span class="material-icons">home</span>
+            </button>
 
             <div class="relative">
               <button
@@ -169,7 +177,29 @@ export class UsersManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadUsers();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   loadUsers(): void {
@@ -249,17 +279,6 @@ export class UsersManagementComponent implements OnInit {
     this.location.back();
   }
 
-  toggleTheme(isDark: boolean): void {
-    this.isDarkMode = isDark;
-    const html = document.documentElement;
-    const theme = isDark ? 'dark' : 'light';
-    
-    html.classList.toggle('dark', isDark);
-    html.setAttribute('data-theme', theme);
-    html.style.colorScheme = theme;
-    localStorage.setItem('dark', theme);
-  }
-
   toggleProfileMenu(event: Event): void {
     event.stopPropagation();
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
@@ -276,9 +295,18 @@ export class UsersManagementComponent implements OnInit {
     this.isProfileMenuOpen = false;
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      this.router.navigate(['/auth/login']);
+    }
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 
 }

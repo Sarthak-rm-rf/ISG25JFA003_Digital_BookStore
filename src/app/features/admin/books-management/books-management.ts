@@ -11,9 +11,9 @@ import { ZardSwitchComponent } from '../../../shared/components/switch/switch.co
 @Component({
   selector: 'app-books-management',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ConfirmationModalComponent, ZardSwitchComponent],
+  imports: [CommonModule, RouterModule, ConfirmationModalComponent, NavbarComponent],
   templateUrl: './books-management.html',
-  styleUrls: ['./books-management.css']
+  styleUrls: ['./books-management.css'],
 })
 export class BooksManagementComponent implements OnInit {
   books: Book[] = [];
@@ -31,7 +31,14 @@ export class BooksManagementComponent implements OnInit {
   isDarkMode = document.documentElement.classList.contains('dark');
 
   ngOnInit(): void {
+    this.syncTheme();
     this.loadBooks();
+  }
+
+  syncTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme(this.isDarkMode);
   }
 
   loadBooks(): void {
@@ -45,7 +52,7 @@ export class BooksManagementComponent implements OnInit {
       error: (err) => {
         this.toastService.showError('Error loading books: ' + (err.message || 'Unknown error'));
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -84,58 +91,13 @@ export class BooksManagementComponent implements OnInit {
         this.loading = false;
         this.showDeleteModal = false;
         this.bookToDelete = null;
-      }
+      },
     });
   }
 
   cancelDelete(): void {
     this.showDeleteModal = false;
     this.bookToDelete = null;
-  }
-
-  toggleProfileMenu(event: Event): void {
-    event.stopPropagation();
-    this.isProfileMenuOpen = !this.isProfileMenuOpen;
-    
-    // Close menu when clicking outside
-    if (this.isProfileMenuOpen) {
-      setTimeout(() => {
-        window.addEventListener('click', this.closeProfileMenu);
-      });
-    }
-  }
-
-  private closeProfileMenu = (): void => {
-    this.isProfileMenuOpen = false;
-    window.removeEventListener('click', this.closeProfileMenu);
-  };
-
-  async logout(): Promise<void> {
-    try {
-      await this.authService.logout();
-      this.router.navigate(['/auth/login']);
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  }
-
-  toggleTheme(isDark: boolean): void {
-    this.isDarkMode = isDark;
-    this.applyTheme(isDark);
-  }
-
-  private applyTheme(isDark: boolean): void {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   private toBook(bookResponse: any): Book {
@@ -150,7 +112,15 @@ export class BooksManagementComponent implements OnInit {
       publicationDate: bookResponse.publicationDate || '',
       publisher: bookResponse.publisher || '',
       imageUrl: bookResponse.imageUrl,
-      stockQuantity: bookResponse.stockQuantity
+      stockQuantity: bookResponse.stockQuantity,
     };
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/admin/dashboard']);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/admin/dashboard']);
   }
 }
