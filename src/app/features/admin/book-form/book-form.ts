@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Book, Author, Category } from '../../../models/book.model';
@@ -7,13 +7,14 @@ import { BookService, BookRequest } from '../../../core/services/book.service';
 import { AuthorService } from '../../../core/services/author.service';
 import { CategoryService } from '../../../core/services/category.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar';
-import { ToastService  } from 'src/app/core/services/toast.service';
+import { ToastService  } from '../../../core/services/toast.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { ZardSwitchComponent } from '../../../shared/components/switch/switch.component';
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, ZardSwitchComponent],
   templateUrl: './book-form.html',
   styleUrls: ['./book-form.css']
 })
@@ -41,14 +42,17 @@ export class BookFormComponent implements OnInit {
   newCategoryName = '';
   newCategoryDescription = '';
 
-  constructor(
-    private bookService: BookService,
-    private authorService: AuthorService,
-    private categoryService: CategoryService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastService: ToastService
-  ) {}
+  private bookService = inject(BookService);
+  private authorService = inject(AuthorService);
+  private categoryService = inject(CategoryService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+  private location = inject(Location);
+
+  isProfileMenuOpen = false;
+  isDarkMode = document.documentElement.classList.contains('dark');
 
   ngOnInit(): void {
     this.loadAuthorsAndCategories();
@@ -118,6 +122,10 @@ export class BookFormComponent implements OnInit {
     }
     if (this.book.price && this.book.price < 0) {
       this.errorMessage = 'Price cannot be negative';
+      return false;
+    }
+    if (this.book.stockQuantity === undefined || this.book.stockQuantity < 0) {
+      this.errorMessage = 'Initial stock quantity is required and must be 0 or greater';
       return false;
     }
 
@@ -309,5 +317,50 @@ export class BookFormComponent implements OnInit {
       imageUrl: bookResponse?.imageUrl,
       stockQuantity: bookResponse?.stockQuantity
     } as Book;
+  }
+
+  toggleProfileMenu(event: Event): void {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    
+    // Close menu when clicking outside
+    if (this.isProfileMenuOpen) {
+      setTimeout(() => {
+        window.addEventListener('click', this.closeProfileMenu);
+      });
+    }
+  }
+
+  private closeProfileMenu = (): void => {
+    this.isProfileMenuOpen = false;
+    window.removeEventListener('click', this.closeProfileMenu);
+  };
+
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+      this.router.navigate(['/auth/login']);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  toggleTheme(isDark: boolean): void {
+    this.isDarkMode = isDark;
+    this.applyTheme(isDark);
+  }
+
+  private applyTheme(isDark: boolean): void {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }
 }
