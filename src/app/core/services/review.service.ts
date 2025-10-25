@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export interface Review {
   reviewId: number;
   userId: number;
-  userName: string;
+  reviewerName: string;
   comment: string;
   rating: number;
   bookId: number;

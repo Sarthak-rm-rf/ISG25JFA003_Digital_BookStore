@@ -355,7 +355,10 @@ export class ReviewsManagementComponent implements OnInit {
         .map((book) => ({
           bookId: book.bookId,
           bookTitle: book.bookTitle,
-          reviews: book.reviews,
+          reviews: book.reviews.map(review => ({
+            ...review,
+            userName: review.reviewerName // Map reviewerName to userName
+          })),
         }));
 
       this.loading = false;
