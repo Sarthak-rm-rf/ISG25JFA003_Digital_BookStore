@@ -1,13 +1,58 @@
-<app-navbar></app-navbar>
+<div class="min-h-screen bg-white text-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+        <p class="text-gray-600">Monitor and manage your digital bookstore</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          (click)="loadDashboardData()"
+          [disabled]="loading"
+          class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200 hover:bg-gray-100 transition-colors"
+        >
+          <span class="material-icons" [class.animate-spin]="loading"
+            >refresh</span
+          >
+        </button>
 
-<div class="min-h-screen bg-white py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-      <p class="text-gray-600">Monitor and manage your digital bookstore</p>
+        <z-switch
+          [ngModel]="isDarkMode"
+          (ngModelChange)="toggleTheme($event)"
+          class="theme-switch"
+        ></z-switch>
+
+        <button
+          (click)="goToHome()"
+          class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+        >
+          <span class="material-icons">home</span>
+        </button>
+
+        <div class="relative">
+          <button
+            (click)="toggleProfileMenu($event)"
+            class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+          >
+            <span class="material-icons">person</span>
+          </button>
+
+          <div
+            *ngIf="isProfileMenuOpen"
+            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
+          >
+            <button
+              (click)="logout()"
+              class="w-full px-4 py-2 text-sm text-left hover:bg-gray-100 transition-colors flex items-center"
+            >
+              <span class="material-icons text-base mr-2">logout</span>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-white border border-gray-200 rounded-lg p-6">
         <div class="flex items-center justify-between">
@@ -15,9 +60,14 @@
             <p class="text-gray-600 text-sm">Total Books</p>
             <p class="text-3xl font-bold text-[#ff5722]">{{ totalBooks }}</p>
           </div>
-          <span class="material-icons text-4xl text-[#ff5722]">library_books</span>
+          <span class="material-icons text-4xl text-[#ff5722]"
+            >library_books</span
+          >
         </div>
-        <a routerLink="/admin/books-management" class="text-[#ff5722] text-sm mt-2 inline-block">
+        <a
+          routerLink="/admin/books-management"
+          class="text-[#ff5722] text-sm mt-2 inline-block"
+        >
           Manage Books →
         </a>
       </div>
@@ -28,9 +78,14 @@
             <p class="text-gray-600 text-sm">Total Orders</p>
             <p class="text-3xl font-bold text-[#ff5722]">{{ totalOrders }}</p>
           </div>
-          <span class="material-icons text-4xl text-[#ff5722]">shopping_bag</span>
+          <span class="material-icons text-4xl text-[#ff5722]"
+            >shopping_bag</span
+          >
         </div>
-        <a routerLink="/admin/orders-management" class="text-[#ff5722] text-sm mt-2 inline-block">
+        <a
+          routerLink="/admin/orders-management"
+          class="text-[#ff5722] text-sm mt-2 inline-block"
+        >
           View Orders →
         </a>
       </div>
@@ -43,7 +98,10 @@
           </div>
           <span class="material-icons text-4xl text-[#ff5722]">people</span>
         </div>
-        <a routerLink="/admin/users-management" class="text-[#ff5722] text-sm mt-2 inline-block">
+        <a
+          routerLink="/admin/users-management"
+          class="text-[#ff5722] text-sm mt-2 inline-block"
+        >
           Manage Users →
         </a>
       </div>
@@ -52,19 +110,24 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-600 text-sm">Total Revenue</p>
-            <p class="text-3xl font-bold text-[#ff5722]">₹{{ totalRevenue | number : '1.2-2' }}</p>
+            <p class="text-3xl font-bold text-[#ff5722]">
+              ₹{{ totalRevenue | number : "1.2-2" }}
+            </p>
           </div>
-          <span class="material-icons text-4xl text-[#ff5722]">currency_rupee</span>
+          <span class="material-icons text-4xl text-[#ff5722]"
+            >currency_rupee</span
+          >
         </div>
       </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Low Stock Alerts -->
       <div class="bg-white border border-gray-200 rounded-lg p-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Low Stock Alerts</h2>
-          <a routerLink="/admin/inventory" class="text-[#ff5722] text-sm">View All</a>
+          <h2 class="text-xl font-semibold text-gray-900">Low Stock Alerts</h2>
+          <a routerLink="/admin/inventory" class="text-[#ff5722] text-sm"
+            >View All</a
+          >
         </div>
 
         @if (lowStockAlerts.length === 0) {
@@ -72,11 +135,17 @@
         } @else {
         <div class="space-y-3">
           @for (alert of lowStockAlerts.slice(0, 5); track alert.inventoryId) {
-          <div class="flex items-center p-3 bg-red-50 rounded-lg border border-red-200">
+          <div
+            class="flex items-center p-3 bg-red-50 rounded-lg border border-red-200"
+          >
             <span class="material-icons text-red-600 mr-3">warning</span>
-            <div class="grow">
-              <p class="font-medium text-gray-900">{{ alert.book.title }}</p>
-              <p class="text-xs text-red-600 mt-1">Stock: {{ alert.currentStock }} units</p>
+            <div class="flex-grow">
+              <p class="font-medium text-gray-900">
+                {{ alert.book.title }}
+              </p>
+              <p class="text-xs text-red-600 mt-1">
+                Stock: {{ alert.currentStock }} units
+              </p>
             </div>
           </div>
           }
@@ -84,11 +153,14 @@
         }
       </div>
 
-      <!-- Recent Orders -->
       <div class="bg-white border border-gray-200 rounded-lg p-6">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Recent Orders</h2>
-          <a routerLink="/admin/orders-management" class="text-[#ff5722] text-sm">View All</a>
+          <h2 class="text-xl font-semibold text-gray-900">Recent Orders</h2>
+          <a
+            routerLink="/admin/orders-management"
+            class="text-[#ff5722] text-sm"
+            >View All</a
+          >
         </div>
 
         @if (recentOrders.length === 0) {
@@ -98,16 +170,30 @@
           <table class="min-w-full">
             <thead class="bg-gray-50">
               <tr>
-                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Order ID</th>
-                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Amount</th>
-                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">Status</th>
+                <th
+                  class="px-4 py-2 text-left text-xs font-medium text-gray-500"
+                >
+                  Order ID
+                </th>
+                <th
+                  class="px-4 py-2 text-left text-xs font-medium text-gray-500"
+                >
+                  Amount
+                </th>
+                <th
+                  class="px-4 py-2 text-left text-xs font-medium text-gray-500"
+                >
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
               @for (order of recentOrders.slice(0, 5); track order.orderId) {
               <tr>
                 <td class="px-4 py-3 text-sm">#{{ order.orderId }}</td>
-                <td class="px-4 py-3 text-sm">₹{{ order.totalAmount | number : '1.2-2' }}</td>
+                <td class="px-4 py-3 text-sm">
+                  ₹{{ order.totalAmount | number : "1.2-2" }}
+                </td>
                 <td class="px-4 py-3 text-sm">
                   <span
                     [class]="
@@ -115,7 +201,7 @@
                       getStatusClass(order.orderStatus)
                     "
                   >
-                    {{ order.orderStatus || 'PENDING' }}
+                    {{ order.orderStatus || "PENDING" }}
                   </span>
                 </td>
               </tr>
@@ -127,43 +213,52 @@
       </div>
     </div>
 
-    <!-- Quick Links -->
     <div class="mt-8 bg-white border border-gray-200 rounded-lg p-6">
-      <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
+      <h2 class="text-xl font-semibold mb-4 text-gray-900">Quick Actions</h2>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <a
           routerLink="/admin/inventory"
           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg"
         >
-          <span class="material-icons text-3xl text-[#ff5722] mb-2">inventory</span>
+          <span class="material-icons text-3xl text-[#ff5722] mb-2"
+            >inventory</span
+          >
           <span class="text-sm font-medium">Inventory</span>
         </a>
         <a
-          routerLink="/admin/books-management"
+          routerLink="/admin/reviews-management"
           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg"
         >
-          <span class="material-icons text-3xl text-[#ff5722] mb-2">menu_book</span>
-          <span class="text-sm font-medium">Books</span>
+          <span class="material-icons text-3xl text-[#ff5722] mb-2"
+            >rate_review</span
+          >
+          <span class="text-sm font-medium">Reviews</span>
         </a>
         <a
           routerLink="/admin/book-form"
           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg"
         >
-          <span class="material-icons text-3xl text-[#ff5722] mb-2">add_box</span>
+          <span class="material-icons text-3xl text-[#ff5722] mb-2"
+            >add_box</span
+          >
           <span class="text-sm font-medium">Add Book</span>
         </a>
         <a
           routerLink="/admin/authors-management"
           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg"
         >
-          <span class="material-icons text-3xl text-[#ff5722] mb-2">person</span>
+          <span class="material-icons text-3xl text-[#ff5722] mb-2"
+            >person</span
+          >
           <span class="text-sm font-medium">Authors</span>
         </a>
         <a
           routerLink="/admin/categories-management"
           class="flex flex-col items-center p-4 border border-gray-200 rounded-lg"
         >
-          <span class="material-icons text-3xl text-[#ff5722] mb-2">category</span>
+          <span class="material-icons text-3xl text-[#ff5722] mb-2"
+            >category</span
+          >
           <span class="text-sm font-medium">Categories</span>
         </a>
       </div>

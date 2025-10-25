@@ -28,5 +28,9 @@ export class CategoryService {
   deleteCategory(id: number): Observable<any> {
     return this.apiService.delete(`/categories/delete/${id}`);
   }
+
+  getBooksByCategory(categoryId: number) {
+    return this.apiService.get<any[]>(`/books/category/${categoryId}`);
+  }
 }
 

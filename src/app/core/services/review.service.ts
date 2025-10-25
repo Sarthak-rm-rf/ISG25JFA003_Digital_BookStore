@@ -5,11 +5,12 @@ import { Observable } from 'rxjs';
 
 export interface Review {
   reviewId: number;
-  title: string;
-  reviewerName: string;
+  userId: number;
+  userName: string;
   comment: string;
   rating: number;
   bookId: number;
+  createdAt: string;
 }
 
 // This DTO matches the ReviewRequestDTO in your backend
@@ -55,6 +56,16 @@ export class ReviewService {
     // ✨ FIX: Pass the authentication headers with the request
     return this.http.post(`${this.apiUrl}/createReview/${bookId}`, payload, { // ✅ Corrected
       headers: this.getAuthHeaders() 
+    });
+  }
+
+  /**
+   * Deletes a review by its ID (Admin only endpoint)
+   * @param reviewId The ID of the review to delete
+   */
+  deleteReviewByAdmin(reviewId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/admin/${reviewId}`, {
+      headers: this.getAuthHeaders()
     });
   }
 

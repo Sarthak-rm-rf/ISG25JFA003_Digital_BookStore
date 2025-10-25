@@ -32,5 +32,9 @@ export class AuthorService {
   deleteAuthor(id: number): Observable<any> {
     return this.apiService.delete(`/authors/delete/${id}`);
   }
+
+  getBooksByAuthor(authorId: number) {
+    return this.apiService.get<any[]>(`/books/author/${authorId}`);
+  }
 }
 
